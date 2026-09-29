@@ -1,0 +1,971 @@
+/* ==========================================================================
+   Fisio Hub Lugano — Static Website Stylesheet
+   Replaces WordPress + Semplice 7 with clean, maintainable Vanilla CSS.
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. Self-Hosted Fonts
+   -------------------------------------------------------------------------- */
+@font-face {
+  font-family: "Regular";
+  src: url("../assets/fonts/Regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Medium";
+  src: url("../assets/fonts/Medium.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Bold";
+  src: url("../assets/fonts/Bold.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Inter";
+  src: url("../assets/fonts/inter.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Satoshi-Variable";
+  src: url("../assets/fonts/satoshi.woff2") format("woff2");
+  font-weight: 300 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* --------------------------------------------------------------------------
+   2. Design Tokens & Theme Variables
+   -------------------------------------------------------------------------- */
+:root {
+  /* Core Brand Palette */
+  --color-navy: #1A428A;
+  --color-rose: #DA9189;
+  --color-amber: #FD9D0D;
+  --color-orange-bg: #D67314;
+  --color-teal: #3C7C6F;
+  --color-white: #FFFFFF;
+  --color-black: #000000;
+
+  /* Layout & Typography Tokens (1rem = 18px as in original design) */
+  --base-font-size: 18px;
+  --grid-max-width: 1230px;
+  --grid-gutter: 1.66667rem;
+  --ease-out-expo: cubic-bezier(0.19, 1, 0.22, 1);
+
+  /* Default Theme Tokens (overridden per page theme) */
+  --page-bg-color: var(--color-navy);
+  --page-bg-image: none;
+  --nav-text-color: var(--color-white);
+  --nav-hover-color: var(--color-rose);
+  --nav-arrow-color: var(--color-rose);
+  --accent-color: var(--color-rose);
+  --footer-brand-color: var(--color-rose);
+  --footer-text-color: var(--color-navy);
+  --hamburger-color: var(--color-black);
+}
+
+/* Page Theme 1: Home (White + Video Cover, Blue/Rose accents) */
+body.theme-home {
+  --page-bg-color: var(--color-white);
+  --nav-text-color: var(--color-navy);
+  --nav-hover-color: var(--color-rose);
+  --nav-arrow-color: var(--color-rose);
+  --accent-color: var(--color-rose);
+  --footer-brand-color: var(--color-rose);
+  --footer-text-color: var(--color-navy);
+  --hamburger-color: var(--color-navy);
+}
+
+/* Page Theme 2: HUB / Insta / Dove (Navy background + Rose accents) */
+body.theme-hub {
+  --page-bg-color: var(--color-navy);
+  --page-bg-image: url("../assets/images/hub-scaled.jpg");
+  --nav-text-color: var(--color-white);
+  --nav-hover-color: var(--color-rose);
+  --nav-arrow-color: var(--color-rose);
+  --accent-color: var(--color-rose);
+  --footer-brand-color: var(--color-rose);
+  --footer-text-color: var(--color-navy);
+}
+
+body.theme-insta {
+  --page-bg-color: var(--color-navy);
+  --page-bg-image: url("../assets/images/insta-scaled.jpg");
+  --nav-text-color: var(--color-white);
+  --nav-hover-color: var(--color-rose);
+  --nav-arrow-color: var(--color-rose);
+  --accent-color: var(--color-rose);
+  --footer-brand-color: var(--color-rose);
+  --footer-text-color: var(--color-navy);
+}
+
+body.theme-dove {
+  --page-bg-color: var(--color-navy);
+  --page-bg-image: url("../assets/images/dove-scaled.jpg");
+  --nav-text-color: var(--color-white);
+  --nav-hover-color: var(--color-rose);
+  --nav-arrow-color: var(--color-rose);
+  --accent-color: var(--color-rose);
+  --footer-brand-color: var(--color-rose);
+  --footer-text-color: var(--color-navy);
+}
+
+/* Page Theme 3: Terapie Index (Teal background + Amber/Yellow accents) */
+body.theme-terapie {
+  --page-bg-color: var(--color-navy);
+  --page-bg-image: url("../assets/images/Terapie-scaled.jpg");
+  --nav-text-color: var(--color-white);
+  --nav-hover-color: var(--color-amber);
+  --nav-arrow-color: var(--color-amber);
+  --accent-color: var(--color-amber);
+  --footer-brand-color: var(--color-amber);
+  --footer-text-color: var(--color-teal);
+}
+
+/* Page Theme 4: Team & Bio Pages (Rose/Coral background + Navy Blue accents) */
+body.theme-team {
+  --page-bg-color: var(--color-navy);
+  --page-bg-image: url("../assets/images/team-scaled.jpg");
+  --nav-text-color: var(--color-white);
+  --nav-hover-color: var(--color-navy);
+  --nav-arrow-color: var(--color-navy);
+  --accent-color: var(--color-navy);
+  --footer-brand-color: var(--color-rose);
+  --footer-text-color: var(--color-navy);
+}
+
+/* Page Theme 5: Therapy Detail Pages (Amber/Orange background + Teal accents) */
+body.theme-project {
+  --page-bg-color: var(--color-orange-bg);
+  --page-bg-image: url("../assets/images/TERAPIA-1-scaled.jpg");
+  --nav-text-color: var(--color-white);
+  --nav-hover-color: var(--color-teal);
+  --nav-arrow-color: var(--color-teal);
+  --accent-color: var(--color-teal);
+  --footer-brand-color: var(--color-amber);
+  --footer-text-color: var(--color-teal);
+}
+
+/* --------------------------------------------------------------------------
+   3. Base Reset & Typography
+   -------------------------------------------------------------------------- */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html {
+  font-size: var(--base-font-size);
+  line-height: 1.66667;
+  font-family: "Medium", "Inter", sans-serif;
+  -webkit-text-size-adjust: 100%;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  width: 100%;
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  min-height: 100vh;
+  background-color: var(--page-bg-color);
+  background-image: var(--page-bg-image);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: 50% 50%;
+  background-attachment: scroll;
+  color: var(--color-white);
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+h1, h2, h3 {
+  font-family: "Medium", sans-serif;
+  font-weight: 400;
+  margin-top: 0;
+  font-size: 1.94444rem;
+  line-height: 2.22222rem;
+}
+
+p, li {
+  font-family: "Medium", sans-serif;
+  font-weight: 400;
+  font-size: 0.77778rem;
+  line-height: 1.33333;
+  letter-spacing: 0.00556rem;
+  margin-top: 0;
+  margin-bottom: 1.33333rem;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+  transition: color 0.35s var(--ease-out-expo), background-color 0.35s var(--ease-out-expo), opacity 0.35s var(--ease-out-expo);
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+.accent-arrow {
+  color: var(--accent-color);
+}
+
+.text-rose {
+  color: var(--color-rose);
+}
+
+.text-navy {
+  color: var(--color-navy);
+}
+
+.text-amber {
+  color: var(--color-amber);
+}
+
+.text-teal {
+  color: var(--color-teal);
+}
+
+/* --------------------------------------------------------------------------
+   4. Top Navigation Bar & Mobile Overlay Menu
+   -------------------------------------------------------------------------- */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  width: 100%;
+  background: transparent;
+}
+
+.nav-container {
+  max-width: var(--grid-max-width);
+  margin: 0 auto;
+  padding: 0 var(--grid-gutter);
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: start;
+}
+
+.nav-logo-wrap {
+  padding-top: 10rem;
+  padding-left: 1.66667rem;
+}
+
+/* On the homepage, the desktop logo lives inside the hero left column */
+body.theme-home .nav-logo-wrap {
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.nav-logo-wrap img {
+  width: 10rem;
+  height: auto;
+}
+
+.nav-menu-wrap {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: 2.2rem;
+}
+
+.nav-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  gap: 4.44444rem;
+}
+
+.nav-list li {
+  position: relative;
+  padding-left: 20px;
+  margin: 8px 0;
+  font-family: "Medium", sans-serif;
+}
+
+.nav-list li::before {
+  content: "→";
+  color: var(--nav-arrow-color);
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 0.88889rem;
+}
+
+.nav-list li a {
+  color: var(--nav-text-color);
+  font-size: 0.88889rem;
+  text-transform: uppercase;
+  letter-spacing: 0.01667rem;
+  font-family: "Medium", sans-serif;
+}
+
+.nav-list li a:hover,
+.nav-list li a.active {
+  color: var(--nav-hover-color);
+}
+
+/* Hamburger Toggle (Tablet/Mobile) */
+.hamburger-btn {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  width: 28px;
+  height: 20px;
+  position: relative;
+  padding: 0;
+  z-index: 110;
+}
+
+.hamburger-btn span,
+.hamburger-btn span::before,
+.hamburger-btn span::after {
+  display: block;
+  width: 24px;
+  height: 2px;
+  background-color: var(--hamburger-color);
+  position: absolute;
+  left: 0;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.hamburger-btn span {
+  top: 9px;
+}
+
+.hamburger-btn span::before {
+  content: "";
+  top: -6px;
+}
+
+.hamburger-btn span::after {
+  content: "";
+  top: 6px;
+}
+
+/* Mobile Overlay Navigation */
+.mobile-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.88);
+  z-index: 200;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 2rem var(--grid-gutter);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s var(--ease-out-expo);
+}
+
+.mobile-overlay.is-open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.overlay-close-btn {
+  position: absolute;
+  top: 1.75rem;
+  right: 1.75rem;
+  background: none;
+  border: none;
+  color: var(--color-white);
+  cursor: pointer;
+  padding: 0.5rem;
+}
+
+.overlay-nav-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1.38889rem;
+}
+
+.overlay-nav-list li {
+  position: relative;
+  padding-left: 24px;
+}
+
+.overlay-nav-list li::before {
+  content: "→";
+  color: var(--nav-arrow-color);
+  position: absolute;
+  left: 0;
+  font-size: 1.33334rem;
+}
+
+.overlay-nav-list li a {
+  font-family: "Regular", sans-serif;
+  font-size: 1.33334rem;
+  color: var(--color-white);
+  text-transform: uppercase;
+}
+
+.overlay-nav-list li a:hover {
+  color: var(--nav-hover-color);
+}
+
+/* --------------------------------------------------------------------------
+   5. Main Layout & Content Containers
+   -------------------------------------------------------------------------- */
+.page-main {
+  flex: 1;
+  width: 100%;
+  position: relative;
+}
+
+.container {
+  max-width: var(--grid-max-width);
+  margin: 0 auto;
+  padding: 0 var(--grid-gutter);
+  width: 100%;
+}
+
+/* Entrance Animation */
+.fade-in-up {
+  animation: fadeInUp 0.8s var(--ease-out-expo) both;
+}
+
+.fade-in-left {
+  animation: fadeInLeft 0.85s var(--ease-out-expo) 0.1s both;
+}
+
+.fade-in-right {
+  animation: fadeInRight 0.85s var(--ease-out-expo) 0.05s both;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(2.5rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-2.5rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes fadeInRight {
+  from {
+    opacity: 0;
+    transform: translateX(2.5rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   6. Homepage Hero Cover (Video Background + 2-Column Layout)
+   -------------------------------------------------------------------------- */
+.hero-cover {
+  position: relative;
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  margin-top: -12.2rem; /* Align under transparent sticky navbar */
+  padding-top: 12.2rem;
+  padding-bottom: 7rem;
+  overflow: hidden;
+}
+
+.hero-video-wrapper {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background-color: var(--color-white);
+}
+
+.hero-video-wrapper video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 1;
+}
+
+.hero-grid {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: 3fr 9fr;
+  gap: var(--grid-gutter);
+  align-items: start;
+  width: 100%;
+}
+
+.hero-logo-col {
+  padding-top: 8%;
+  padding-left: 1.66667rem;
+}
+
+.hero-logo-col img {
+  width: 18.33333rem;
+}
+
+.hero-content-col {
+  padding-top: 9%;
+  padding-left: 4.44444rem;
+}
+
+.hero-title {
+  font-size: 2.5rem;
+  line-height: 2.667rem;
+  margin-bottom: 1.38889rem;
+}
+
+.hero-buttons {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.66667rem;
+}
+
+/* Action Buttons (Home & Project Pages) */
+.btn-action {
+  display: inline-block;
+  font-family: "Medium", sans-serif;
+  font-size: 0.77778rem;
+  letter-spacing: 0.01111rem;
+  text-transform: uppercase;
+  transition: all 0.7s var(--ease-out-expo);
+}
+
+.btn-rose {
+  background-color: var(--color-rose);
+  color: var(--color-navy);
+  padding: 1.22222rem 0.5rem 0.55556rem 3.61111rem;
+}
+
+.btn-rose.btn-services {
+  padding-left: 7.11111rem;
+  padding-right: 0.55556rem;
+}
+
+.btn-rose:hover {
+  background-color: var(--color-navy);
+  color: var(--color-white);
+}
+
+.btn-teal {
+  background-color: var(--color-teal);
+  color: var(--color-white);
+  padding: 1.22222rem 0.55556rem 0.55556rem 4.11111rem;
+  margin-top: 1.38889rem;
+}
+
+.btn-teal:hover {
+  background-color: var(--color-white);
+  color: var(--color-teal);
+}
+
+/* --------------------------------------------------------------------------
+   7. Content Sections (HUB, Terapie, Insta, Dove, Project Pages)
+   -------------------------------------------------------------------------- */
+.content-section {
+  margin-top: 2rem;
+  padding-bottom: 8.33333rem;
+  display: flex;
+  justify-content: center;
+}
+
+.content-col-5 {
+  width: 41.66667%;
+  margin: 0 auto;
+}
+
+.content-col-6 {
+  width: 50%;
+  margin: 0 auto;
+}
+
+.content-col-7 {
+  width: 58.33333%;
+  margin: 0 auto;
+}
+
+/* Terapie List Links */
+.terapie-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.terapie-list li {
+  line-height: 1.556rem;
+  margin-bottom: 0.15rem;
+}
+
+.terapie-list a {
+  color: var(--color-white);
+  text-decoration: none;
+}
+
+.terapie-list a:hover {
+  text-decoration: underline;
+  text-decoration-color: var(--color-amber);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
+}
+
+/* Pathology Bullet List inside Therapy Pages */
+.pathology-list {
+  list-style: none;
+  padding: 0;
+  margin: 0.5rem 0 1.5rem 0;
+}
+
+.pathology-list li {
+  margin-bottom: 0.2rem;
+  line-height: 1.33333;
+}
+
+/* --------------------------------------------------------------------------
+   8. Team Grid & Team Member Bio Layout
+   -------------------------------------------------------------------------- */
+.team-section {
+  margin-top: 2rem;
+  padding: 0 15% 8.33333rem 15%;
+}
+
+.team-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2.5rem var(--grid-gutter);
+  max-width: 820px;
+  margin: 0 auto;
+}
+
+.team-card {
+  display: block;
+  text-decoration: none;
+  color: var(--color-white);
+  transition: transform 0.4s var(--ease-out-expo);
+}
+
+.team-card:hover {
+  transform: translateY(-4px);
+}
+
+.team-card img {
+  width: 100%;
+  height: auto;
+  margin-bottom: 0.75rem;
+}
+
+.team-card h2 {
+  font-size: 1.389rem;
+  line-height: 1.6rem;
+  margin: 0;
+  text-transform: uppercase;
+}
+
+/* Team Bio Page (Photo + Biography Columns) */
+.bio-grid {
+  display: grid;
+  grid-template-columns: 3fr 4fr;
+  gap: var(--grid-gutter);
+  max-width: 760px;
+  margin: 0 auto;
+  align-items: start;
+}
+
+.bio-photo img {
+  width: 100%;
+  height: auto;
+}
+
+/* --------------------------------------------------------------------------
+   9. Dove (Location & Map)
+   -------------------------------------------------------------------------- */
+.dove-contact p {
+  font-size: 0.88889rem;
+  line-height: 1.444rem;
+}
+
+.dove-contact a {
+  color: var(--color-white);
+}
+
+.embed-map-responsive {
+  position: relative;
+  width: 100%;
+  height: 0;
+  padding-bottom: 69.23%;
+  margin-top: 1.5rem;
+}
+
+.embed-map-frame {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+/* --------------------------------------------------------------------------
+   10. Therapy Detail Page Prev / Next Navigation
+   -------------------------------------------------------------------------- */
+.project-nav-prev,
+.project-nav-next {
+  position: fixed;
+  bottom: 130px;
+  z-index: 90;
+  font-family: "Medium", sans-serif;
+  font-size: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.00556rem;
+  color: var(--color-white);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.project-nav-prev {
+  left: 30px;
+}
+
+.project-nav-next {
+  right: 30px;
+}
+
+.project-nav-prev:hover,
+.project-nav-next:hover {
+  color: var(--color-teal);
+}
+
+/* --------------------------------------------------------------------------
+   11. Fixed Footer
+   -------------------------------------------------------------------------- */
+.site-footer {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  background-color: var(--color-white);
+  padding: 0.55556rem 0;
+  z-index: 95;
+}
+
+.footer-grid {
+  max-width: var(--grid-max-width);
+  margin: 0 auto;
+  padding: 0 var(--grid-gutter);
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  align-items: end;
+  gap: var(--grid-gutter);
+}
+
+.footer-col p {
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.444rem;
+  color: var(--footer-text-color);
+}
+
+.footer-brand {
+  color: var(--footer-brand-color);
+}
+
+.footer-col a {
+  color: var(--footer-text-color);
+}
+
+.footer-col a:hover {
+  opacity: 0.75;
+}
+
+.footer-whatsapp {
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+}
+
+.footer-whatsapp a {
+  display: inline-block;
+  transition: opacity 0.3s ease;
+}
+
+.footer-whatsapp a:hover {
+  opacity: 0.5;
+}
+
+.footer-whatsapp img {
+  height: 2.77778rem;
+  width: auto;
+}
+
+/* --------------------------------------------------------------------------
+   12. Responsive Breakpoints (Tablet & Mobile)
+   -------------------------------------------------------------------------- */
+@media screen and (max-width: 991.98px) {
+  .nav-container {
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    padding-top: 1.38889rem;
+  }
+
+  .nav-logo-wrap {
+    padding-top: 0;
+    padding-left: 0;
+  }
+
+  body.theme-home .nav-logo-wrap {
+    visibility: visible;
+    pointer-events: auto;
+  }
+
+  .nav-menu-wrap {
+    padding-top: 0;
+    justify-content: flex-end;
+  }
+
+  .nav-list {
+    display: none;
+  }
+
+  .hamburger-btn {
+    display: block;
+  }
+
+  .hero-cover {
+    margin-top: 0;
+    padding-top: 3rem;
+  }
+
+  .hero-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .hero-logo-col {
+    display: none;
+  }
+
+  .hero-content-col {
+    padding-top: 4.44444rem;
+    padding-left: 1.66667rem;
+  }
+
+  .content-col-5,
+  .content-col-6,
+  .content-col-7 {
+    width: 75%;
+  }
+
+  .team-section {
+    padding-left: 5%;
+    padding-right: 5%;
+  }
+
+  .bio-grid {
+    grid-template-columns: 1fr 2fr;
+  }
+}
+
+@media screen and (max-width: 767.98px) {
+  .content-section,
+  .team-section {
+    margin-top: 0;
+    padding-top: 4rem;
+    padding-bottom: 3rem;
+  }
+
+  .content-col-5,
+  .content-col-6,
+  .content-col-7 {
+    width: 100%;
+  }
+
+  .team-grid,
+  .bio-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .project-nav-wrapper {
+    display: flex;
+    justify-content: space-between;
+    max-width: var(--grid-max-width);
+    margin: 2rem auto 1rem auto;
+    padding: 0 var(--grid-gutter);
+  }
+
+  .project-nav-prev,
+  .project-nav-next {
+    position: relative;
+    left: auto;
+    right: auto;
+    bottom: auto;
+  }
+
+  .site-footer {
+    position: relative;
+  }
+
+  .footer-grid {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+
+  .footer-whatsapp {
+    margin-top: -3.5rem;
+  }
+}
+
+@media screen and (max-width: 543.98px) {
+  .hero-content-col {
+    padding-top: 6rem;
+    padding-left: 0;
+  }
+
+  .hero-title {
+    font-size: 1.556rem;
+    line-height: 1.833rem;
+  }
+
+  .btn-rose {
+    font-size: 1rem;
+  }
+
+  .btn-rose.btn-services {
+    padding-left: 6rem;
+  }
+}
