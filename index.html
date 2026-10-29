@@ -3,11 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Home - Fisio Hub</title>
-  <meta name="description" content="Fisio Hub Lugano: il punto d'incontro tra scienza, ascolto e movimento. Fisioterapia moderna a Lugano.">
+  <title>Home - Fisio Hub Lugano</title>
+  <meta name="description" content="FisioHub Lugano: il punto d’incontro tra scienza, ascolto e movimento. Fisioterapia e fitness premium nel cuore di Lugano.">
   <meta property="og:locale" content="it_IT">
   <meta property="og:site_name" content="Fisio Hub - Fisioterapia moderna Lugano">
-  <meta property="og:title" content="Home - Fisio Hub">
+  <meta property="og:title" content="Home - Fisio Hub Lugano">
+  <meta property="og:description" content="FisioHub Lugano: il punto d’incontro tra scienza, ascolto e movimento. Fisioterapia e fitness premium nel cuore di Lugano.">
   <link rel="icon" href="assets/images/favicon-32x32.png" sizes="32x32">
   <link rel="icon" href="assets/images/favicon-192x192.png" sizes="192x192">
   <link rel="apple-touch-icon" href="assets/images/favicon-180x180.png">
@@ -18,24 +19,28 @@
   <!-- Shared Header & Navigation -->
   <header class="site-header">
     <div class="nav-container">
-      <div class="nav-logo-wrap">
-        <a href="index.html" aria-label="Fisio Hub Home">
-          <img src="assets/logos/FisioHub_blu.svg" alt="Fisio Hub Logo">
-        </a>
-      </div>
-      <nav class="nav-menu-wrap" aria-label="Menu principale">
+      <a class="nav-logo" href="index.html" aria-label="Fisio Hub - Home">
+        <img class="logo-top" src="assets/logos/FisioHub_blu.svg" alt="Fisio Hub">
+        <img class="logo-scrolled" src="assets/logos/FisioHub_blu.svg" alt="" aria-hidden="true">
+      </a>
+      <nav class="nav-menu" aria-label="Menu principale">
         <ul class="nav-list">
-          <li><a href="hub.html">HUB</a></li>
-          <li><a href="terapie.html">Terapie</a></li>
-          <li><a href="team.html">Team</a></li>
+          <li><a href="hub.html">Hub</a></li>
+          <li><a href="servizi.html">Servizi</a></li>
+          <li><a href="cosa-trattiamo.html">Cosa trattiamo</a></li>
+          <li><a href="team.html">Il team</a></li>
           <li><a href="insta.html">Insta</a></li>
-          <li><a href="dove.html">Dove</a></li>
+          <li><a href="contatti.html">Contatti</a></li>
         </ul>
-        <button id="mobile-menu-open" class="hamburger-btn" aria-label="Apri menu">
+      </nav>
+      <div class="nav-actions">
+        <a class="nav-phone" href="https://wa.me/41798396900?text=Buongiorno,%20vorrei%20prenotare%20un%20appuntamento." target="_blank" rel="noopener" aria-label="Scrivici su WhatsApp al 079 839 69 00">
+          <svg class="icon-wa" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38a9.9 9.9 0 0 0 4.74 1.21c5.46 0 9.91-4.45 9.91-9.91S17.5 2 12.04 2Zm0 18.15c-1.48 0-2.93-.4-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.2 8.2 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.25-8.24 4.54 0 8.24 3.7 8.24 8.24 0 4.55-3.7 8.24-8.24 8.24Zm4.52-6.16c-.25-.12-1.47-.72-1.7-.81-.23-.08-.39-.12-.56.13-.17.25-.64.81-.78.97-.14.17-.29.19-.54.06-.25-.12-1.05-.39-1.99-1.23-.74-.66-1.23-1.47-1.38-1.72-.14-.25-.02-.38.11-.51.11-.11.25-.29.37-.43.13-.15.17-.25.25-.42.08-.17.04-.31-.02-.43-.06-.12-.56-1.34-.76-1.84-.2-.48-.41-.42-.56-.43h-.48c-.17 0-.43.06-.66.31-.23.25-.86.85-.86 2.07 0 1.22.89 2.4 1.01 2.56.12.17 1.75 2.67 4.23 3.74.59.26 1.05.41 1.41.52.59.19 1.13.16 1.56.1.48-.07 1.47-.6 1.67-1.18.21-.58.21-1.08.14-1.18-.06-.11-.22-.17-.47-.29Z"/></svg><span class="nav-phone-num">079 839 69 00</span>
+        </a>
+        <button id="mobile-menu-open" class="hamburger-btn" aria-label="Apri menu" aria-controls="mobile-overlay" aria-expanded="false">
           <span></span>
         </button>
-      </nav>
-      <div class="nav-spacer" aria-hidden="true"></div>
+      </div>
     </div>
 
     <!-- Mobile Overlay Menu -->
@@ -46,12 +51,14 @@
         </svg>
       </button>
       <ul class="overlay-nav-list">
-        <li><a href="hub.html">HUB</a></li>
-        <li><a href="terapie.html">Terapie</a></li>
-        <li><a href="team.html">Team</a></li>
+        <li><a href="hub.html">Hub</a></li>
+        <li><a href="servizi.html">Servizi</a></li>
+        <li><a href="cosa-trattiamo.html">Cosa trattiamo</a></li>
+        <li><a href="team.html">Il team</a></li>
         <li><a href="insta.html">Insta</a></li>
-        <li><a href="dove.html">Dove</a></li>
+        <li><a href="contatti.html">Contatti</a></li>
       </ul>
+      <a class="overlay-phone" href="https://wa.me/41798396900?text=Buongiorno,%20vorrei%20prenotare%20un%20appuntamento." target="_blank" rel="noopener"><svg class="icon-wa" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38a9.9 9.9 0 0 0 4.74 1.21c5.46 0 9.91-4.45 9.91-9.91S17.5 2 12.04 2Zm0 18.15c-1.48 0-2.93-.4-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.2 8.2 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.25-8.24 4.54 0 8.24 3.7 8.24 8.24 0 4.55-3.7 8.24-8.24 8.24Zm4.52-6.16c-.25-.12-1.47-.72-1.7-.81-.23-.08-.39-.12-.56.13-.17.25-.64.81-.78.97-.14.17-.29.19-.54.06-.25-.12-1.05-.39-1.99-1.23-.74-.66-1.23-1.47-1.38-1.72-.14-.25-.02-.38.11-.51.11-.11.25-.29.37-.43.13-.15.17-.25.25-.42.08-.17.04-.31-.02-.43-.06-.12-.56-1.34-.76-1.84-.2-.48-.41-.42-.56-.43h-.48c-.17 0-.43.06-.66.31-.23.25-.86.85-.86 2.07 0 1.22.89 2.4 1.01 2.56.12.17 1.75 2.67 4.23 3.74.59.26 1.05.41 1.41.52.59.19 1.13.16 1.56.1.48-.07 1.47-.6 1.67-1.18.21-.58.21-1.08.14-1.18-.06-.11-.22-.17-.47-.29Z"/></svg> 079 839 69 00</a>
     </div>
   </header>
 
@@ -72,42 +79,266 @@
             <span class="text-rose">FISIOHUB LUGANO</span><br>
             <span class="text-navy">IL PUNTO D’INCONTRO<br>TRA SCIENZA, ASCOLTO<br>E MOVIMENTO</span>
           </h1>
+          <p class="hero-lead fade-in-up">
+            Fisioterapia e fitness premium nel cuore di Lugano.<br>
+            Riconosciuti da tutte le casse malati, senza bisogno di prescrizione medica.
+          </p>
           <div class="hero-buttons fade-in-left">
-            <a id="btn-book-home" class="btn-action btn-rose" href="mailto:info@fisiohub.ch?subject=Prenotazione&amp;body=Buongiorno,%20vorrei%20effettuare%20una%20prenotazione%20per....%20Grazie">
-              → PRENOTA APPUNTAMENTO
-            </a>
-            <a id="btn-services-home" class="btn-action btn-rose btn-services" href="terapie.html">
-              → SCOPRI SERVIZI
-            </a>
+            <a id="btn-book-home" class="btn-action btn-rose" href="contatti.html">→ PRENOTA APPUNTAMENTO</a>
+            <a id="btn-approach-home" class="btn-action btn-rose btn-secondary" href="hub.html#approccio">→ SCOPRI IL NOSTRO APPROCCIO</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="band band-navy" id="hub">
+      <div class="container split">
+        <div class="split-text">
+          <h2 class="section-title"><span class="accent-arrow">→</span> L’Hub</h2>
+            <p>FisioHub nasce dall’idea di tre colleghi uniti dalla passione per la fisioterapia e da una visione comune: mettere al centro il benessere reale della persona. Il nome <span class="hl">“Hub” rappresenta un punto di connessione,</span> il luogo in cui la scienza incontra l’esperienza, dove metodo e ascolto si fondono per costruire percorsi terapeutici efficaci e personalizzati. Crediamo in una fisioterapia basata sulle evidenze scientifiche, ma profondamente attenta all’unicità di ogni individuo.</p>
+            <p><span class="hl">Ogni paziente viene accompagnato passo dopo passo verso i propri obiettivi,</span> per ritrovare equilibrio, movimento e uno stile di vita più sano.</p>
+            <p>Il nostro simbolo, una “H” minimale ed essenziale, vuole rappresentare proprio questo: un hub centrale, il luogo in cui percorsi, competenze e persone si incontrano per dare vita a un recupero completo, continuo e consapevole.</p>
+            <p><span class="hl">Il nostro approccio vuole essere contemporaneo, affidabile,</span> orientato al movimento e lontano dai cliché della fisioterapia tradizionale. Per questo ci affidiamo anche alla tecnologia, con macchinari e strumenti di ultima generazione che rendono la nostra fisioterapia moderna ed efficace.</p>
+          <a class="btn btn-outline-light" href="hub.html">→ Scopri lo studio</a>
+        </div>
+        <div class="split-media">
+          <figure class="photo photo-placeholder " role="img" aria-label="Lo studio FisioHub a Lugano"><span>Foto dello studio</span></figure>
+        </div>
+      </div>
+    </section>
+
+    <section class="band band-teal" id="servizi">
+      <div class="container">
+        <div class="section-head">
+          <h2 class="section-title"><span class="accent-arrow">→</span> Servizi</h2>
+          <p class="section-intro">Fisioterapia moderna, con un’attenzione particolare alle nostre aree di specializzazione: ortopedia, sport e riabilitazione post-operatoria.</p>
+        </div>
+        <div class="row-list">
+          <a class="row-link" href="servizi.html#fisioterapia">
+            <span class="row-num">01</span>
+            <span class="row-title">Fisioterapia</span>
+            <span class="row-text">Riabilitazione muscoloscheletrica, ortopedica e post-operatoria, con un percorso costruito su di te.</span>
+            <span class="row-arrow" aria-hidden="true">→</span>
+          </a>
+          <a class="row-link" href="servizi.html#sportiva">
+            <span class="row-num">02</span>
+            <span class="row-title">Fisioterapia sportiva</span>
+            <span class="row-text">Dall’infortunio al ritorno in campo, con test funzionali e misure oggettive.</span>
+            <span class="row-arrow" aria-hidden="true">→</span>
+          </a>
+          <a class="row-link" href="servizi.html#domicilio">
+            <span class="row-num">03</span>
+            <span class="row-title">Fisioterapia a domicilio</span>
+            <span class="row-text">Se lo studio è lontano, viene il terapista: stessa qualità, a casa tua.</span>
+            <span class="row-arrow" aria-hidden="true">→</span>
+          </a>
+          <a class="row-link" href="servizi.html#prevenzione">
+            <span class="row-num">04</span>
+            <span class="row-title">Prevenzione e Strength &amp; Conditioning</span>
+            <span class="row-text">Forza, resistenza e controllo motorio per prevenire gli infortuni e migliorare la performance.</span>
+            <span class="row-arrow" aria-hidden="true">→</span>
+          </a>
+          <a class="row-link" href="servizi.html#massaggio">
+            <span class="row-num">05</span>
+            <span class="row-title">Massaggio e linfodrenaggio</span>
+            <span class="row-text">Trattamenti manuali per ridurre tensioni, gonfiori ed edemi e favorire il recupero.</span>
+            <span class="row-arrow" aria-hidden="true">→</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="band band-white" id="cosa-trattiamo">
+      <div class="container">
+        <div class="section-head">
+          <h2 class="section-title"><span class="accent-arrow">→</span> Come possiamo aiutarti?</h2>
+          <p class="section-intro">Alcuni dei problemi che trattiamo ogni giorno in studio.</p>
+        </div>
+        <div class="tile-grid">
+          <a class="tile" href="cosa-trattiamo.html#collo-e-schiena">
+            <h3>Collo e schiena</h3>
+            <p>Cervicalgia, lombalgia, ernie e dolore irradiato.</p>
+            <span class="tile-arrow" aria-hidden="true">→</span>
+          </a>
+          <a class="tile" href="cosa-trattiamo.html#spalla">
+            <h3>Spalla</h3>
+            <p>Cuffia dei rotatori, instabilità, spalla congelata.</p>
+            <span class="tile-arrow" aria-hidden="true">→</span>
+          </a>
+          <a class="tile" href="cosa-trattiamo.html#ginocchio">
+            <h3>Ginocchio</h3>
+            <p>LCA, menisco, dolore femoro-rotuleo, protesi.</p>
+            <span class="tile-arrow" aria-hidden="true">→</span>
+          </a>
+          <a class="tile" href="cosa-trattiamo.html#caviglia-e-piede">
+            <h3>Caviglia e piede</h3>
+            <p>Distorsioni, fascite plantare, tendine d’Achille.</p>
+            <span class="tile-arrow" aria-hidden="true">→</span>
+          </a>
+          <a class="tile" href="cosa-trattiamo.html#anca-e-inguine">
+            <h3>Anca e inguine</h3>
+            <p>Pubalgia, conflitto femoro-acetabolare, protesi d’anca.</p>
+            <span class="tile-arrow" aria-hidden="true">→</span>
+          </a>
+          <a class="tile" href="cosa-trattiamo.html#atm">
+            <h3>ATM</h3>
+            <p>Dolore alla mandibola, click, bruxismo.</p>
+            <span class="tile-arrow" aria-hidden="true">→</span>
+          </a>
+          <a class="tile" href="cosa-trattiamo.html#dolore-cronico">
+            <h3>Dolore cronico</h3>
+            <p>Fibromialgia, dolore persistente, patologie reumatiche.</p>
+            <span class="tile-arrow" aria-hidden="true">→</span>
+          </a>
+          <a class="tile" href="cosa-trattiamo.html#infortuni-sportivi">
+            <h3>Infortuni sportivi</h3>
+            <p>Lesioni muscolari, legamentose e ritorno allo sport.</p>
+            <span class="tile-arrow" aria-hidden="true">→</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="band band-orange" id="strumenti">
+      <div class="container">
+        <div class="section-head">
+          <h2 class="section-title"><span class="accent-arrow">→</span> Cosa c’è in studio</h2>
+          <p class="section-intro">Tecnologie di ultima generazione al servizio dell’esercizio e della terapia manuale.</p>
+        </div>
+        <div class="tool-grid">
+          <article class="tool-card" id="strumento-tecar">
+            <span class="card-num">01</span>
+            <h3>Tecar</h3>
+            <p>Energia a radiofrequenza per ridurre dolore e infiammazione.</p>
+          </article>
+          <article class="tool-card" id="strumento-onde-d-urto">
+            <span class="card-num">02</span>
+            <h3>Onde d’urto</h3>
+            <p>Impulsi acustici per le tendinopatie più ostinate.</p>
+          </article>
+          <article class="tool-card" id="strumento-bfr">
+            <span class="card-num">03</span>
+            <h3>BFR</h3>
+            <p>Blood Flow Restriction: forza anche con carichi leggeri.</p>
+          </article>
+          <article class="tool-card" id="strumento-motion-guidance">
+            <span class="card-num">04</span>
+            <h3>Motion Guidance</h3>
+            <p>Feedback visivo per vedere e correggere il movimento.</p>
+          </article>
+          <article class="tool-card" id="strumento-dinamometro">
+            <span class="card-num">05</span>
+            <h3>Misurazione con dinamometro</h3>
+            <p>La forza misurata in numeri, non a occhio.</p>
+          </article>
+          <article class="tool-card" id="strumento-criocompressione">
+            <span class="card-num">06</span>
+            <h3>Criocompressione</h3>
+            <p>Freddo e compressione contro dolore e gonfiore.</p>
+          </article>
+          <article class="tool-card" id="strumento-nmes">
+            <span class="card-num">07</span>
+            <h3>NMES</h3>
+            <p>Elettrostimolazione per riattivare i muscoli.</p>
+          </article>
+          <article class="tool-card" id="strumento-taping">
+            <span class="card-num">08</span>
+            <h3>Taping e bendaggi</h3>
+            <p>Supporto per articolazioni e muscoli, dentro e fuori dal campo.</p>
+          </article>
+        </div>
+        <a class="btn btn-outline-light" href="servizi.html#strumenti">→ Gli strumenti spiegati</a>
+      </div>
+    </section>
+
+    <section class="band band-rose" id="team">
+      <div class="container">
+        <div class="section-head">
+          <h2 class="section-title"><span class="accent-arrow">→</span> Esperti in fisioterapia</h2>
+          <p class="section-intro">Quattro fisioterapisti, formazione universitaria avanzata e un’esperienza costruita nello sport.</p>
+        </div>
+        <div class="team-grid">
+          <a class="team-card" href="team.html#luca-gilardoni">
+            <img src="assets/images/LUCA_GILARDONI.jpg" width="1000" height="1043" alt="Luca Gilardoni">
+            <h3><span class="accent-arrow">→</span> Luca Gilardoni</h3>
+            <ul class="chips"><li>OMPT</li><li>CAS SUPSI</li></ul>
+            <p class="team-areas">Spalla · Ginocchio · Collo · Corsa in montagna</p>
+          </a>
+          <a class="team-card" href="team.html#simone-vaccani">
+            <img src="assets/images/SIMONE_VACCANI.jpg" width="1000" height="1043" alt="Simone Vaccani">
+            <h3><span class="accent-arrow">→</span> Simone Vaccani</h3>
+            <ul class="chips"><li>Maitland</li><li>Running Injury Specialist</li><li>Master Fisioterapia Sportiva</li></ul>
+            <p class="team-areas">Anca · Ginocchio · Infortuni da corsa · Post-operatorio</p>
+          </a>
+          <a class="team-card" href="team.html#carola-isella">
+            <img src="assets/images/CAROLA_ISELLA.jpg" width="1000" height="1043" alt="Carola Isella">
+            <h3><span class="accent-arrow">→</span> Carola Isella</h3>
+            <ul class="chips"><li>CSCS</li><li>Maitland</li><li>Master Linfodrenaggio</li><li>Pilates Reformer</li></ul>
+            <p class="team-areas">Fisioterapia sportiva · Strength &amp; Conditioning · Linfodrenaggio · Dolore cronico e scoliosi</p>
+          </a>
+          <a class="team-card" href="team.html#federico-monzoni">
+            <img src="assets/images/Federico-Monzoni.jpg" width="1000" height="1043" alt="Federico Monzoni">
+            <h3><span class="accent-arrow">→</span> Federico Monzoni</h3>
+            <ul class="chips"><li>Master Biomeccanica Clinica e Sportiva</li></ul>
+            <p class="team-areas">Biomeccanica e analisi del movimento · Arto inferiore · Infortuni sportivi</p>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="band band-lake" id="dove">
+      <div class="container split">
+        <div class="split-text">
+          <h2 class="section-title"><span class="accent-arrow">→</span> Dove siamo</h2>
+          <div class="contact-block">
+            <p class="contact-address">
+              <span class="hl">FisioHub SA</span><br>
+              Via Carlo Maderno, 26<br>
+              6900 Lugano
+            </p>
+            <ul class="contact-links">
+              <li><a href="https://wa.me/41798396900?text=Buongiorno,%20vorrei%20prenotare%20un%20appuntamento." target="_blank" rel="noopener"><svg class="icon-wa" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38a9.9 9.9 0 0 0 4.74 1.21c5.46 0 9.91-4.45 9.91-9.91S17.5 2 12.04 2Zm0 18.15c-1.48 0-2.93-.4-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.2 8.2 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.25-8.24 4.54 0 8.24 3.7 8.24 8.24 0 4.55-3.7 8.24-8.24 8.24Zm4.52-6.16c-.25-.12-1.47-.72-1.7-.81-.23-.08-.39-.12-.56.13-.17.25-.64.81-.78.97-.14.17-.29.19-.54.06-.25-.12-1.05-.39-1.99-1.23-.74-.66-1.23-1.47-1.38-1.72-.14-.25-.02-.38.11-.51.11-.11.25-.29.37-.43.13-.15.17-.25.25-.42.08-.17.04-.31-.02-.43-.06-.12-.56-1.34-.76-1.84-.2-.48-.41-.42-.56-.43h-.48c-.17 0-.43.06-.66.31-.23.25-.86.85-.86 2.07 0 1.22.89 2.4 1.01 2.56.12.17 1.75 2.67 4.23 3.74.59.26 1.05.41 1.41.52.59.19 1.13.16 1.56.1.48-.07 1.47-.6 1.67-1.18.21-.58.21-1.08.14-1.18-.06-.11-.22-.17-.47-.29Z"/></svg><span>WhatsApp <strong>079 839 69 00</strong></span></a></li>
+              <li><a href="tel:+41798396900"><span class="contact-ico" aria-hidden="true">☎</span><span>Telefono <strong>079 839 69 00</strong></span></a></li>
+              <li><a href="mailto:info@fisiohub.ch"><span class="contact-ico" aria-hidden="true">@</span><span>Email <strong>info@fisiohub.ch</strong></span></a></li>
+            </ul>
+          </div>
+          <a class="btn btn-rose" href="contatti.html">→ Prenota appuntamento</a>
+        </div>
+        <div class="split-media">
+          <div class="map-wrap">
+            <iframe title="Mappa FisioHub Lugano - Via Carlo Maderno, 26" loading="lazy" src="https://maps.google.com/maps?width=650&amp;height=450&amp;hl=it&amp;q=lugano%20Via%20Carlo%20Maderno%2C%2026&amp;t=&amp;z=15&amp;ie=UTF8&amp;iwloc=B&amp;output=embed"></iframe>
           </div>
         </div>
       </div>
     </section>
   </main>
 
-  <!-- Shared Fixed Footer -->
+  <!-- Shared Footer -->
   <footer class="site-footer">
     <div class="footer-grid">
       <div class="footer-col">
         <p>
           <span class="footer-brand">FisioHub SA</span><br>
           Via Carlo Maderno, 26<br>
-          6900 Lugano.
+          6900 Lugano
         </p>
       </div>
       <div class="footer-col">
         <p>
-          <a href="tel:+410798396900">079 8396900</a><br>
+          <a href="tel:+41798396900">079 839 69 00</a><br>
           <a href="mailto:info@fisiohub.ch">info@fisiohub.ch</a>
         </p>
       </div>
-      <div class="footer-col footer-whatsapp">
-        <a href="https://api.whatsapp.com/send?phone=+410798396900&amp;text=Buongiorno" target="_blank" rel="noopener noreferrer" aria-label="Contattaci su WhatsApp">
-          <img src="assets/images/whatsapp.png" alt="WhatsApp">
-        </a>
+      <div class="footer-col footer-cta">
+        <a class="btn btn-navy" href="contatti.html">→ Prenota appuntamento</a>
       </div>
     </div>
   </footer>
+
+  <!-- Floating WhatsApp button -->
+  <a class="wa-float" href="https://wa.me/41798396900?text=Buongiorno,%20vorrei%20prenotare%20un%20appuntamento." target="_blank" rel="noopener" aria-label="Scrivici su WhatsApp">
+    <img src="assets/images/whatsapp.png" alt="">
+  </a>
 
   <script src="js/main.js"></script>
 </body>

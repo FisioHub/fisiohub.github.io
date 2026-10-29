@@ -1,9 +1,20 @@
 #!/usr/bin/env python3
 """Static Site Generator for Fisio Hub Lugano (https://fisiohub.ch).
 
-Generates all 24 static HTML pages (Home, HUB, Terapie, Team, Insta, Dove,
-4 Team Member biography pages, and 14 Therapy detail pages) from a single
-shared layout and data definition.
+Generates every page of the site from a single shared layout and the content
+data defined below:
+
+  index.html            Homepage (hero + one-page overview of every section)
+  hub.html              Lo studio, il nostro approccio, gli strumenti
+  servizi.html          I servizi spiegati + gli strumenti spiegati
+  cosa-trattiamo.html   I casi che trattiamo + banner post-operatorio
+  team.html             Biografie, sigle spiegate, formazione e sport
+  insta.html            Feed Instagram
+  contatti.html         Mappa, contatti, fisioterapia a domicilio
+
+Old URLs from the previous version of the site (terapie.html, dove.html, the
+individual team pages and project/*.html) are regenerated as small redirect
+pages so existing links and search results keep working.
 
 Usage:
   python3 build.py
@@ -14,33 +25,626 @@ import os
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 # ==============================================================================
-# 1. Shared Site Configuration (Edit here to update across all 24 pages)
+# 1. Shared Site Configuration (Edit here to update across all pages)
 # ==============================================================================
 SITE_CONFIG = {
     "site_name": "Fisio Hub - Fisioterapia moderna Lugano",
     "company": "FisioHub SA",
     "address_line_1": "Via Carlo Maderno, 26",
-    "address_line_2": "6900 Lugano.",
-    "phone_display": "079 8396900",
-    "phone_whatsapp": "+410798396900",
+    "address_line_2": "6900 Lugano",
+    "phone_display": "079 839 69 00",
+    # International format, digits only (no "+", no leading 0 of the Swiss
+    # number): used for tel: and WhatsApp links.
+    "phone_intl": "41798396900",
     "email": "info@fisiohub.ch",
+    "whatsapp_text": "Buongiorno, vorrei prenotare un appuntamento.",
+    # Where every "Prenota appuntamento" button points. For now it is the
+    # contact page; replace with the online booking URL once it is live.
+    "booking_url": "contatti.html",
+    "map_embed_url": (
+        "https://maps.google.com/maps?width=650&amp;height=450&amp;hl=it"
+        "&amp;q=lugano%20Via%20Carlo%20Maderno%2C%2026&amp;t=&amp;z=15"
+        "&amp;ie=UTF8&amp;iwloc=B&amp;output=embed"
+    ),
+    "map_link_url": (
+        "https://www.google.com/maps/search/?api=1&amp;query=FisioHub%20Via"
+        "%20Carlo%20Maderno%2026%20Lugano"
+    ),
     "nav_items": [
-        ("HUB", "hub.html"),
-        ("Terapie", "terapie.html"),
-        ("Team", "team.html"),
+        ("Hub", "hub.html"),
+        ("Servizi", "servizi.html"),
+        ("Cosa trattiamo", "cosa-trattiamo.html"),
+        ("Il team", "team.html"),
         ("Insta", "insta.html"),
-        ("Dove", "dove.html"),
+        ("Contatti", "contatti.html"),
     ],
 }
 
+# Photos of the studio. Put the files in assets/images/ and write the paths
+# here (e.g. "assets/images/studio-1.jpg"). While a slot is None, a clearly
+# marked placeholder is shown instead.
+STUDIO_PHOTOS = {
+    "main": None,     # Homepage HUB section + hero of the HUB page
+    "gallery_1": None,
+    "gallery_2": None,
+    "gallery_3": None,
+}
+
 # ==============================================================================
-# 2. Team Members Data (Used on team.html and individual biography pages)
+# 2. HUB text (homepage "HUB" section + HUB page)
+# ==============================================================================
+HUB_PARAGRAPHS = [
+    (
+        "FisioHub nasce dall’idea di tre colleghi uniti dalla passione per la"
+        " fisioterapia e da una visione comune: mettere al centro il benessere"
+        " reale della persona. Il nome <span class=\"hl\">“Hub” rappresenta un"
+        " punto di connessione,</span> il luogo in cui la scienza incontra"
+        " l’esperienza, dove metodo e ascolto si fondono per costruire percorsi"
+        " terapeutici efficaci e personalizzati. Crediamo in una fisioterapia"
+        " basata sulle evidenze scientifiche, ma profondamente attenta"
+        " all’unicità di ogni individuo."
+    ),
+    (
+        "<span class=\"hl\">Ogni paziente viene accompagnato passo dopo passo"
+        " verso i propri obiettivi,</span> per ritrovare equilibrio, movimento"
+        " e uno stile di vita più sano."
+    ),
+    (
+        "Il nostro simbolo, una “H” minimale ed essenziale, vuole rappresentare"
+        " proprio questo: un hub centrale, il luogo in cui percorsi, competenze"
+        " e persone si incontrano per dare vita a un recupero completo,"
+        " continuo e consapevole."
+    ),
+]
+
+APPROACH_INTRO = (
+    "<span class=\"hl\">Il nostro approccio vuole essere contemporaneo,"
+    " affidabile,</span> orientato al movimento e lontano dai cliché della"
+    " fisioterapia tradizionale. Per questo ci affidiamo anche alla"
+    " tecnologia, con macchinari e strumenti di ultima generazione che rendono"
+    " la nostra fisioterapia moderna ed efficace."
+)
+
+APPROACH_PILLARS = [
+    (
+        "Scienza",
+        "Lavoriamo secondo le evidenze scientifiche più aggiornate. Il nostro"
+        " team si forma costantemente, insegna e partecipa alla ricerca.",
+    ),
+    (
+        "Ascolto",
+        "Ogni percorso parte da una valutazione accurata e dall’ascolto della"
+        " persona: la sua storia, i suoi obiettivi, la sua vita quotidiana.",
+    ),
+    (
+        "Movimento",
+        "L’esercizio terapeutico è al centro del trattamento. Terapia manuale e"
+        " strumenti lo supportano, non lo sostituiscono.",
+    ),
+    (
+        "Misure oggettive",
+        "Test funzionali e misurazioni della forza ci permettono di monitorare"
+        " i progressi con dati reali e di decidere insieme quando tornare allo"
+        " sport.",
+    ),
+]
+
+# ==============================================================================
+# 3. Services (homepage "Servizi" section + servizi.html)
+# ==============================================================================
+SERVICES = [
+    {
+        "id": "fisioterapia",
+        "title": "Fisioterapia",
+        "short": (
+            "Riabilitazione muscoloscheletrica, ortopedica e post-operatoria,"
+            " con un percorso costruito su di te."
+        ),
+        "paragraphs": [
+            (
+                "La fisioterapia si occupa della prevenzione, valutazione e"
+                " trattamento delle disfunzioni muscolo-scheletriche causate da"
+                " traumi, interventi chirurgici o patologie da sovraccarico."
+                " Attraverso tecniche manuali, esercizi terapeutici e protocolli"
+                " di recupero mirati basati su misure oggettive, interveniamo"
+                " per ristabilire il corretto equilibrio funzionale."
+            ),
+            (
+                "Il percorso è personalizzato in base al problema e agli"
+                " obiettivi del paziente: l’obiettivo è recuperare forza,"
+                " mobilità e sicurezza nei movimenti, riducendo il rischio di"
+                " recidive. Seguiamo anche percorsi di fisioterapia"
+                " neurologica, geriatrica e cardio-respiratoria."
+            ),
+        ],
+        "focus_title": "Le nostre aree di riferimento",
+        "focus": [
+            "Riabilitazione ortopedica e muscoloscheletrica",
+            "Riabilitazione post-operatoria",
+            "Spalla, ginocchio, anca e rachide cervicale",
+            "Dolore cronico e reumatologico",
+            "Disturbi dell’articolazione temporo-mandibolare (ATM)",
+        ],
+    },
+    {
+        "id": "sportiva",
+        "title": "Fisioterapia sportiva",
+        "short": (
+            "Dall’infortunio al ritorno in campo, con test funzionali e misure"
+            " oggettive."
+        ),
+        "paragraphs": [
+            (
+                "Che tu sia un atleta professionista o uno sportivo amatoriale,"
+                " ti accompagniamo dalla gestione dell’infortunio fino al"
+                " ritorno alla pratica sportiva. Il nostro team ha lavorato con"
+                " squadre di calcio, rugby e basket, tornei ATP e cliniche"
+                " specializzate in traumatologia sportiva."
+            ),
+            (
+                "Il percorso include una fase specifica di return to sport,"
+                " strutturata su test funzionali e misure di outcome"
+                " scientificamente validate, che consentono di monitorare in"
+                " modo oggettivo i progressi e garantire un ritorno sicuro,"
+                " efficace e duraturo allo sport."
+            ),
+        ],
+        "focus_title": "Ideale per",
+        "focus": [
+            "Lesioni muscolari, legamentose e tendinee",
+            "Riabilitazione dopo ricostruzione del LCA",
+            "Infortuni da corsa e da sovraccarico",
+            "Test di forza e criteri di ritorno allo sport",
+        ],
+    },
+    {
+        "id": "domicilio",
+        "title": "Fisioterapia a domicilio",
+        "short": (
+            "Se lo studio è lontano, viene il terapista: stessa qualità, a"
+            " casa tua."
+        ),
+        "paragraphs": [
+            (
+                "La fisioterapia a domicilio è pensata per chi ha difficoltà a"
+                " raggiungere lo studio, ma desidera ricevere un trattamento di"
+                " pari qualità e professionalità. Il fisioterapista si reca"
+                " direttamente a casa del paziente, portando con sé"
+                " l’attrezzatura necessaria per svolgere le sedute in modo"
+                " efficace e sicuro."
+            ),
+            (
+                "Questo servizio permette di mantenere continuità terapeutica,"
+                " fondamentale soprattutto dopo interventi chirurgici o in caso"
+                " di patologie croniche, in un ambiente familiare e"
+                " confortevole."
+            ),
+        ],
+        "focus_title": "Ideale per",
+        "focus": [
+            "Le prime settimane dopo un intervento",
+            "Persone con mobilità ridotta",
+            "Pazienti anziani o con patologie croniche",
+        ],
+    },
+    {
+        "id": "prevenzione",
+        "title": "Prevenzione e Strength &amp; Conditioning",
+        "short": (
+            "Forza, resistenza e controllo motorio per prevenire gli infortuni"
+            " e migliorare la performance."
+        ),
+        "paragraphs": [
+            (
+                "Il programma di Strength &amp; Conditioning integra esercizi"
+                " di forza, resistenza e controllo motorio con l’obiettivo di"
+                " migliorare le prestazioni fisiche e prevenire gli infortuni."
+                " È indicato sia per atleti che per chi desidera recuperare o"
+                " mantenere una condizione fisica efficiente dopo un periodo di"
+                " inattività o un percorso riabilitativo."
+            ),
+            (
+                "Attraverso protocolli personalizzati e progressivi lavoriamo"
+                " su potenza, stabilità, coordinazione e mobilità, riducendo il"
+                " rischio di recidive e prevenendo squilibri muscolari o"
+                " sovraccarichi."
+            ),
+        ],
+        "focus_title": "Ideale per",
+        "focus": [
+            "Fine del percorso riabilitativo",
+            "Preparazione atletica e prevenzione infortuni",
+            "Ripresa dell’attività dopo un periodo di stop",
+        ],
+    },
+    {
+        "id": "massaggio",
+        "title": "Massaggio e linfodrenaggio",
+        "short": (
+            "Trattamenti manuali per ridurre tensioni, gonfiori ed edemi e"
+            " favorire il recupero."
+        ),
+        "paragraphs": [
+            (
+                "Il massaggio terapeutico aiuta a ridurre tensioni e"
+                " rigidità muscolari, a favorire il recupero dopo l’attività"
+                " sportiva e a ritrovare una sensazione di benessere."
+            ),
+            (
+                "Il linfodrenaggio manuale è una tecnica dolce e ritmica che"
+                " favorisce il corretto flusso della linfa nel corpo, riducendo"
+                " gonfiori, edemi e ritenzione. È particolarmente indicato dopo"
+                " interventi chirurgici, traumi o in presenza di insufficienza"
+                " linfatica, e ha un effetto rilassante e rigenerante"
+                " sull’intero organismo."
+            ),
+        ],
+        "focus_title": "Ideale per",
+        "focus": [
+            "Gonfiore ed edema dopo intervento o trauma",
+            "Insufficienza linfatica",
+            "Tensioni muscolari e recupero sportivo",
+        ],
+    },
+]
+
+# ==============================================================================
+# 4. Conditions — "Come possiamo aiutarti" / "Cosa trattiamo"
+# ==============================================================================
+CONDITIONS = [
+    {
+        "id": "collo-e-schiena",
+        "title": "Collo e schiena",
+        "short": "Cervicalgia, lombalgia, ernie e dolore irradiato.",
+        "paragraphs": [
+            (
+                "Il dolore al collo e alla schiena è tra i motivi più frequenti"
+                " per cui ci si rivolge al fisioterapista. Nella maggior parte"
+                " dei casi non è legato a un danno grave, ma può limitare molto"
+                " il lavoro, il sonno e lo sport."
+            ),
+            (
+                "Dopo una valutazione accurata, combiniamo terapia manuale,"
+                " educazione e un programma di esercizi progressivo per ridurre"
+                " il dolore e ritrovare fiducia nel movimento."
+            ),
+        ],
+        "examples": [
+            "Cervicalgia e lombalgia, acuta o cronica",
+            "Ernia e protrusione discale",
+            "Sciatalgia e dolore irradiato al braccio o alla gamba",
+            "Colpo di frusta",
+            "Riabilitazione dopo intervento alla colonna",
+        ],
+    },
+    {
+        "id": "spalla",
+        "title": "Spalla",
+        "short": "Cuffia dei rotatori, instabilità, spalla congelata.",
+        "paragraphs": [
+            (
+                "Dolore quando alzi il braccio, di notte o durante lo sport? La"
+                " spalla è un’articolazione molto mobile e per questo"
+                " vulnerabile a sovraccarichi, traumi e rigidità."
+            ),
+            (
+                "Lavoriamo su mobilità, forza e controllo della scapola e della"
+                " cuffia dei rotatori, con un percorso graduale che ti riporta"
+                " ai gesti quotidiani e sportivi."
+            ),
+        ],
+        "examples": [
+            "Lesioni e tendinopatie della cuffia dei rotatori",
+            "Spalla congelata (capsulite adesiva)",
+            "Instabilità e lussazione",
+            "Dolore da conflitto subacromiale",
+            "Riabilitazione dopo intervento alla spalla",
+        ],
+    },
+    {
+        "id": "ginocchio",
+        "title": "Ginocchio",
+        "short": "LCA, menisco, dolore femoro-rotuleo, protesi.",
+        "paragraphs": [
+            (
+                "Il ginocchio è una delle articolazioni più sollecitate nello"
+                " sport e nella vita quotidiana. Trattiamo sia gli infortuni"
+                " acuti sia i dolori da sovraccarico e le problematiche"
+                " degenerative."
+            ),
+            (
+                "Con esercizi mirati, misure di forza oggettive e test"
+                " funzionali seguiamo ogni fase, dal recupero della mobilità"
+                " fino al ritorno alla corsa e allo sport."
+            ),
+        ],
+        "examples": [
+            "Lesione del legamento crociato anteriore (LCA)",
+            "Lesioni meniscali",
+            "Dolore femoro-rotuleo",
+            "Tendinopatia rotulea",
+            "Artrosi e protesi di ginocchio",
+        ],
+    },
+    {
+        "id": "caviglia-e-piede",
+        "title": "Caviglia e piede",
+        "short": "Distorsioni, fascite plantare, tendine d’Achille.",
+        "paragraphs": [
+            (
+                "Una distorsione di caviglia trattata male può diventare un"
+                " problema ricorrente. Così come il dolore al tallone o al"
+                " tendine d’Achille può impedire di camminare e correre senza"
+                " fastidio."
+            ),
+            (
+                "Lavoriamo su forza, equilibrio e propriocezione per recuperare"
+                " stabilità e ridurre il rischio di nuovi infortuni."
+            ),
+        ],
+        "examples": [
+            "Distorsione e instabilità di caviglia",
+            "Fascite plantare",
+            "Tendinopatia d’Achille",
+            "Recupero dopo fratture e immobilizzazione",
+        ],
+    },
+    {
+        "id": "anca-e-inguine",
+        "title": "Anca e inguine",
+        "short": "Pubalgia, conflitto femoro-acetabolare, protesi d’anca.",
+        "paragraphs": [
+            (
+                "Il dolore all’anca e all’inguine è frequente negli sportivi"
+                " che corrono, calciano e cambiano direzione, ma anche in chi"
+                " soffre di artrosi o è stato operato."
+            ),
+            (
+                "Una valutazione precisa permette di capire da dove nasce il"
+                " dolore e di costruire un programma di carico progressivo per"
+                " anca, muscoli adduttori e glutei."
+            ),
+        ],
+        "examples": [
+            "Pubalgia e dolore inguinale dell’atleta",
+            "Conflitto femoro-acetabolare (FAI)",
+            "Tendinopatia glutea",
+            "Artrosi e protesi d’anca",
+        ],
+    },
+    {
+        "id": "atm",
+        "title": "ATM",
+        "short": "Dolore alla mandibola, click, bruxismo.",
+        "paragraphs": [
+            (
+                "L’articolazione temporo-mandibolare (ATM) collega la mandibola"
+                " al cranio. Dolore alla mascella, click, difficoltà ad aprire"
+                " la bocca, bruxismo o mal di testa possono essere legati a un"
+                " suo disturbo."
+            ),
+            (
+                "Interveniamo con terapia manuale, esercizi specifici ed"
+                " educazione, quando necessario in collaborazione con il"
+                " dentista o l’ortodontista."
+            ),
+        ],
+        "examples": [
+            "Dolore alla mandibola e ai muscoli masticatori",
+            "Click o blocchi articolari",
+            "Limitazione nell’apertura della bocca",
+            "Bruxismo e cefalea associata",
+        ],
+    },
+    {
+        "id": "dolore-cronico",
+        "title": "Dolore cronico",
+        "short": "Fibromialgia, dolore persistente, patologie reumatiche.",
+        "paragraphs": [
+            (
+                "Le patologie reumatiche e il dolore cronico richiedono un"
+                " approccio delicato e continuo, mirato a migliorare la qualità"
+                " della vita e ridurre la disabilità."
+            ),
+            (
+                "Il trattamento combina movimento controllato, terapia manuale"
+                " ed educazione sul dolore e sullo stile di vita. L’obiettivo è"
+                " aiutarti a gestire il dolore, ritrovando equilibrio e"
+                " autonomia nelle attività quotidiane."
+            ),
+        ],
+        "examples": [
+            "Fibromialgia",
+            "Cervicalgie e lombalgie croniche",
+            "Dolore articolare cronico e artrosi",
+            "Artrite reumatoide",
+        ],
+    },
+    {
+        "id": "infortuni-sportivi",
+        "title": "Infortuni sportivi",
+        "short": "Lesioni muscolari, legamentose e ritorno allo sport.",
+        "paragraphs": [
+            (
+                "Siamo sportivi anche noi, e sappiamo quanto conta tornare in"
+                " campo, in pista o in montagna nel minor tempo possibile, ma"
+                " senza rischi."
+            ),
+            (
+                "Ogni percorso termina con una fase di return to sport basata"
+                " su test funzionali e misure oggettive di forza, per decidere"
+                " con dati reali quando sei pronto."
+            ),
+        ],
+        "examples": [
+            "Lesioni muscolari (stiramenti, strappi)",
+            "Distorsioni e lesioni legamentose",
+            "Tendinopatie da sovraccarico",
+            "Infortuni da corsa",
+        ],
+    },
+]
+
+# ==============================================================================
+# 5. Equipment — "Cosa c'è in studio" (homepage, HUB page, servizi.html)
+# ==============================================================================
+TOOLS = [
+    {
+        "id": "tecar",
+        "title": "Tecar",
+        "short": "Energia a radiofrequenza per ridurre dolore e infiammazione.",
+        "text": (
+            "La Tecarterapia utilizza energia elettromagnetica a"
+            " radiofrequenza che stimola i tessuti dall’interno, migliorando la"
+            " circolazione e riducendo dolore e infiammazione. La integriamo"
+            " con la terapia manuale e l’esercizio, soprattutto nelle fasi in"
+            " cui il dolore limita il movimento."
+        ),
+    },
+    {
+        "id": "onde-d-urto",
+        "title": "Onde d’urto",
+        "short": "Impulsi acustici per le tendinopatie più ostinate.",
+        "text": (
+            "Le onde d’urto sono impulsi acustici ad alta energia trasmessi ai"
+            " tessuti. Sono indicate soprattutto nelle tendinopatie croniche,"
+            " come fascite plantare, epicondilite o tendinopatia d’Achille, dove"
+            " stimolano i processi di riparazione e riducono il dolore."
+        ),
+    },
+    {
+        "id": "bfr",
+        "title": "BFR",
+        "short": "Blood Flow Restriction: forza anche con carichi leggeri.",
+        "text": (
+            "La Blood Flow Restriction Therapy consiste nell’eseguire esercizi"
+            " a bassa intensità con un parziale blocco del flusso sanguigno,"
+            " ottenuto con un bracciale a pressione controllata. Stimola la"
+            " crescita muscolare e la forza anche con carichi ridotti,"
+            " riducendo lo stress articolare: ideale nelle prime fasi della"
+            " riabilitazione."
+        ),
+    },
+    {
+        "id": "motion-guidance",
+        "title": "Motion Guidance",
+        "short": "Feedback visivo per vedere e correggere il movimento.",
+        "text": (
+            "Un sistema di feedback visivo: un piccolo puntatore laser"
+            " applicato al corpo proietta il movimento su un bersaglio, così il"
+            " paziente vede e corregge in tempo reale la qualità del gesto."
+            " Lo usiamo per allenare controllo motorio, stabilità e"
+            " propriocezione, ad esempio di collo, ginocchio e caviglia."
+        ),
+    },
+    {
+        "id": "dinamometro",
+        "title": "Misurazione con dinamometro",
+        "short": "La forza misurata in numeri, non a occhio.",
+        "text": (
+            "Con il dinamometro misuriamo la forza muscolare in modo"
+            " oggettivo. Confrontiamo il lato infortunato con quello sano,"
+            " monitoriamo i progressi seduta dopo seduta e usiamo questi dati"
+            " come criteri per il ritorno allo sport."
+        ),
+    },
+    {
+        "id": "criocompressione",
+        "title": "Criocompressione",
+        "short": "Freddo e compressione contro dolore e gonfiore.",
+        "text": (
+            "La criocompressione combina il freddo con una compressione"
+            " pneumatica intermittente per ridurre dolore, gonfiore ed edema,"
+            " in particolare nelle prime fasi dopo un intervento chirurgico o"
+            " un trauma acuto."
+        ),
+    },
+    {
+        "id": "nmes",
+        "title": "NMES",
+        "short": "Elettrostimolazione per riattivare i muscoli.",
+        "text": (
+            "L’elettrostimolazione neuromuscolare (NMES) utilizza impulsi"
+            " elettrici per attivare la contrazione dei muscoli, aiutando a"
+            " recuperare forza e tono dopo un’immobilizzazione. È"
+            " particolarmente utile quando, dopo un intervento o in presenza"
+            " di dolore, il corpo limita l’attivazione muscolare (inibizione"
+            " muscolare artrogenica)."
+        ),
+    },
+    {
+        "id": "taping",
+        "title": "Taping e bendaggi",
+        "short": "Supporto per articolazioni e muscoli, dentro e fuori dal campo.",
+        "text": (
+            "Taping neuromuscolare e bendaggi funzionali stabilizzano e"
+            " supportano articolazioni e muscoli senza limitarne il movimento."
+            " Molto diffusi in ambito sportivo, sono utili anche nel recupero"
+            " post-infortunio. Ti aiutiamo anche nella scelta di bendaggi e"
+            " tutori adeguati, dall’infortunio al ritorno allo sport."
+        ),
+    },
+]
+
+# ==============================================================================
+# 6. Credentials glossary — "Le sigle, spiegate" (team.html)
+# ==============================================================================
+CREDENTIALS_GLOSSARY = [
+    (
+        "OMPT",
+        "Orthopaedic Manipulative Physical Therapist",
+        "Titolo internazionale riconosciuto dall’IFOMPT, ottenuto con un"
+        " master universitario in riabilitazione dei disordini"
+        " muscoloscheletrici. Indica una formazione avanzata in terapia"
+        " manuale, esercizio terapeutico e ragionamento clinico.",
+    ),
+    (
+        "CAS",
+        "Certificate of Advanced Studies",
+        "Formazione universitaria post-laurea del sistema svizzero. Luca ha"
+        " conseguito il CAS in Fisioterapia Muscoloscheletrica alla SUPSI.",
+    ),
+    (
+        "CSCS",
+        "Certified Strength and Conditioning Specialist",
+        "Certificazione internazionale della NSCA (National Strength and"
+        " Conditioning Association) per la programmazione dell’allenamento di"
+        " forza e condizionamento, dalla prevenzione alla performance.",
+    ),
+    (
+        "Maitland",
+        "Concetto Maitland di terapia manuale",
+        "Percorso di formazione in terapia manuale che unisce tecniche di"
+        " mobilizzazione a un ragionamento clinico strutturato, con"
+        " rivalutazione continua dei risultati.",
+    ),
+    (
+        "Running Injury Specialist",
+        "The Running Clinic",
+        "Certificazione internazionale dedicata alla prevenzione e al"
+        " trattamento degli infortuni da corsa.",
+    ),
+    (
+        "Master",
+        "Master universitario post-laurea",
+        "Formazione universitaria avanzata dopo la laurea in fisioterapia: nel"
+        " nostro team in fisioterapia sportiva, linfodrenaggio e biomeccanica"
+        " clinica e sportiva.",
+    ),
+]
+
+# ==============================================================================
+# 7. Team Members Data (homepage team section + team.html)
+#    "credentials" are the short titles shown as tags; "areas" are each
+#    therapist's areas of reference.
 # ==============================================================================
 TEAM_MEMBERS = [
     {
         "slug": "luca-gilardoni",
         "name": "Luca Gilardoni",
         "photo": "assets/images/LUCA_GILARDONI.jpg",
+        "credentials": ['OMPT', 'CAS SUPSI'],
+        "areas": ['Spalla', 'Ginocchio', 'Collo', 'Corsa in montagna'],
         "paragraphs": [
             (
                 "Luca, nato a Sorengo nel 1991 e cresciuto a Valsolda sul lago"
@@ -97,6 +701,8 @@ TEAM_MEMBERS = [
         "slug": "simone-vaccani",
         "name": "Simone Vaccani",
         "photo": "assets/images/SIMONE_VACCANI.jpg",
+        "credentials": ['Maitland', 'Running Injury Specialist', 'Master Fisioterapia Sportiva'],
+        "areas": ['Anca', 'Ginocchio', 'Infortuni da corsa', 'Post-operatorio'],
         "paragraphs": [
             (
                 "Simone, nato a Busto Arsizio (VA) nel 1981, è appassionato di"
@@ -149,6 +755,8 @@ TEAM_MEMBERS = [
         "slug": "carola-isella",
         "name": "Carola Isella",
         "photo": "assets/images/CAROLA_ISELLA.jpg",
+        "credentials": ['CSCS', 'Maitland', 'Master Linfodrenaggio', 'Pilates Reformer'],
+        "areas": ['Fisioterapia sportiva', 'Strength &amp; Conditioning', 'Linfodrenaggio', 'Dolore cronico e scoliosi'],
         "paragraphs": [
             (
                 "Carola è nata a Biella (BI) nel 1996. E’ sempre stata una"
@@ -198,15 +806,17 @@ TEAM_MEMBERS = [
         ],
     },
     {
-        "slug": "federico-monzoni-2",
+        "slug": "federico-monzoni",
         "name": "Federico Monzoni",
         "photo": "assets/images/Federico-Monzoni.jpg",
+        "credentials": ['Master Biomeccanica Clinica e Sportiva'],
+        "areas": ['Biomeccanica e analisi del movimento', 'Arto inferiore', 'Infortuni sportivi'],
         "paragraphs": [
             (
                 "Federico, nato nelle Marche nel 1999, è da sempre appassionato"
                 " di sport e attività all’aria aperta. Le vacanze trascorse sui"
                 " Monti Sibillini lo hanno portato fin da bambino a sviluppare"
-                " un forte legame con la montagna e ad avvicarsi al mondo"
+                " un forte legame con la montagna e ad avvicinarsi al mondo"
                 " della Mountain Bike."
             ),
             (
@@ -258,386 +868,186 @@ TEAM_MEMBERS = [
     },
 ]
 
-# ==============================================================================
-# 3. Therapies Data (Used on terapie.html and project/*.html detail pages)
-# ==============================================================================
-THERAPIES = [
-    {
-        "slug": "fisioterapia-ortopedica-e-sportiva",
-        "list_title": "FISIOTERAPIA ORTOPEDICA E SPORTIVA",
-        "page_title": "FISIOTERAPIA ORTOPEDICA E SPORTIVA",
-        "subject": "Fisioterapia ortopedica e sportiva",
-        "paragraphs": [
-            (
-                "La fisioterapia ortopedica e sportiva si occupa della"
-                " prevenzione, valutazione e trattamento delle disfunzioni"
-                " muscolo-scheletriche causate da traumi o patologie da"
-                " sovraccarico. Attraverso tecniche manuali, esercizi"
-                " terapeutici e protocolli di recupero mirati basati su misure"
-                " oggettive, si interviene per ristabilire il corretto"
-                " equilibrio funzionale. Il percorso riabilitativo è"
-                " personalizzato in base al tipo di infortunio e agli obiettivi"
-                " del paziente, sia esso un atleta o una persona che desidera"
-                " tornare alle proprie attività quotidiane. L’obiettivo è"
-                " recuperare la forza, la mobilità e la sicurezza nei"
-                " movimenti, riducendo il rischio di recidive e migliorando la"
-                " performance fisica complessiva. In caso di pazienti sportivi,"
-                " il percorso include una fase specifica di return to sport,"
-                " strutturata su test funzionali e misure di outcome"
-                " scientificamente validate, che consentono di monitorare in"
-                " modo oggettivo i progressi e garantire un ritorno sicuro,"
-                " efficace e duraturo alla pratica sportiva."
-            ),
-        ],
-        "pathologies": [
-            "Tendinopatie",
-            "Lesioni meniscali ed LCA del ginocchio",
-            "Lesioni della cuffia dei rotatori della spalla",
-            "Cervicalgie e Lombalgie",
-            "Epicondilite",
-            "Fascite plantare",
-        ],
-    },
-    {
-        "slug": "fisioterapia-post-operatoria",
-        "list_title": "FISIOTERAPIA POST OPERATORIA",
-        "page_title": "FISIOTERAPIA POST OPERATORIA",
-        "subject": "Fisioterapia post operatoria",
-        "paragraphs": [
-            (
-                "Dopo un intervento chirurgico, la riabilitazione è"
-                " fondamentale per favorire un recupero completo e sicuro. La"
-                " fisioterapia post-operatoria interviene in tutte le fasi del"
-                " percorso, dalla gestione del dolore e del gonfiore fino al"
-                " ripristino della mobilità, della forza e della funzionalità"
-                " del distretto trattato."
-            ),
-            (
-                "Attraverso un piano personalizzato, il fisioterapista"
-                " accompagna il paziente in un percorso graduale e controllato,"
-                " favorendo la guarigione dei tessuti e prevenendo complicanze"
-                " come rigidità articolare (artrofibrosi), atrofia muscolare o"
-                " aderenze cicatriziali. L’obiettivo è tornare progressivamente"
-                " alle normali attività quotidiane con piena fiducia nel"
-                " proprio corpo."
-            ),
-        ],
-        "pathologies": [
-            "Interventi di protesi di anca o ginocchio",
-            "Ricostruzione LCA o artroscopie di ginocchio",
-            "Intervento di riparazione della cuffia dei rotatori",
-            "Interventi sulla colonna vertebrale",
-        ],
-    },
-    {
-        "slug": "fisioterapia-reumatologica-e-trattamento-del-dolore-cronico",
-        "list_title": "FISIOTERAPIA REUMATOLOGICA E TRATTAMENTO DOLORE CRONICO",
-        "page_title": (
-            "FISIOTERAPIA REUMATOLOGICA E TRATTAMENTO DEL DOLORE CRONICO"
-        ),
-        "subject": (
-            "Fisioterapia reumatologica e trattamento del dolore cronico"
-        ),
-        "paragraphs": [
-            (
-                "Le patologie reumatiche e il dolore cronico richiedono un"
-                " approccio delicato e continuo, mirato a migliorare la qualità"
-                " della vita e ridurre la disabilità."
-            ),
-            (
-                "Il trattamento del dolore cronico si basa su strategie"
-                " multidisciplinari che combinano movimento controllato,"
-                " rilassamento miofasciale e educazione sul cambiamento dello"
-                " stile di vita. L’obiettivo è aiutare il paziente a gestire il"
-                " dolore, ritrovando equilibrio e autonomia nelle attività"
-                " quotidiane."
-            ),
-        ],
-        "pathologies": [
-            "Fibromialgia",
-            "Cervicalgie o lombalgie croniche",
-            "Dolore articolare cronico",
-            "Artrite reumatoide",
-        ],
-    },
-    {
-        "slug": "fisioterapia-neurologica",
-        "list_title": "FISIOTERAPIA NEUROLOGICA",
-        "page_title": "FISIOTERAPIA NEUROLOGICA",
-        "subject": "Fisioterapia neurologica",
-        "paragraphs": [
-            (
-                "La fisioterapia neurologica è dedicata alle persone che"
-                " presentano disturbi del sistema nervoso centrale o"
-                " periferico. Attraverso un approccio personalizzato e basato"
-                " sull’evidenza scientifica, il fisioterapista lavora per"
-                " migliorare controllo motorio, equilibrio, coordinazione e"
-                " forza."
-            ),
-            (
-                "Il trattamento include esercizi di stimolazione neuromotoria,"
-                " tecniche di rieducazione funzionale e strategie di compenso"
-                " per favorire l’autonomia. L’obiettivo è aiutare ogni paziente"
-                " a raggiungere il massimo potenziale di recupero, migliorando"
-                " la qualità della vita e l’indipendenza nei gesti quotidiani."
-            ),
-        ],
-        "pathologies": [
-            "Ictus",
-            "Sclerosi multipla",
-            "Morbo di Parkinson",
-            "Neuropatie",
-        ],
-    },
-    {
-        "slug": "fisioterapia-cardio-respiratoria",
-        "list_title": "FISIOTERAPIA CARDIO-RESPIRATORIA",
-        "page_title": "FISIOTERAPIA CARDIO RESPIRATORIA",
-        "subject": "Fisioterapia cardio-respiratoria",
-        "paragraphs": [
-            (
-                "Questa branca della fisioterapia è rivolta a persone con"
-                " patologie cardiache o respiratori. Gli esercizi e le tecniche"
-                " respiratorie proposte mirano a migliorare la ventilazione"
-                " polmonare, la capacità aerobica e la resistenza allo sforzo."
-            ),
-            (
-                "Il percorso di riabilitazione cardio-respiratoria aiuta a"
-                " gestire meglio la fatica, migliorare la tolleranza"
-                " all’esercizio e recuperare una migliore qualità della vita."
-                " Grazie a una guida costante, il paziente impara a conoscere e"
-                " utilizzare in modo più efficiente le proprie risorse"
-                " respiratorie e cardiache."
-            ),
-        ],
-        "pathologies": [
-            "BPCO",
-            "Asma",
-            "Insufficienza cardiaca",
-            "Post-intervento toracico",
-        ],
-    },
-    {
-        "slug": "fisioterapia-geriatrica",
-        "list_title": "FISIOTERAPIA GERIATRICA",
-        "page_title": "FISIOTERAPIA GERIATRICA",
-        "subject": "Fisioterapia geriatrica",
-        "paragraphs": [
-            (
-                "Con l’avanzare dell’età, mantenere la mobilità e l’autonomia"
-                " diventa fondamentale per una buona qualità della vita. La"
-                " fisioterapia geriatrica si concentra sulla prevenzione delle"
-                " cadute, sul miglioramento dell’equilibrio e sul recupero"
-                " della forza muscolare."
-            ),
-            (
-                "Attraverso esercizi personalizzati e un approccio attento ai"
-                " bisogni della persona anziana, il fisioterapista aiuta a"
-                " preservare indipendenza e sicurezza nei movimenti."
-            ),
-            (
-                "L’obiettivo è promuovere un invecchiamento attivo, riducendo"
-                " il dolore articolare e migliorando la funzionalità"
-                " quotidiana."
-            ),
-        ],
-        "pathologies": [],
-    },
-    {
-        "slug": "fisioterapia-a-domicilio",
-        "list_title": "FISIOTERAPIA A DOMICILIO",
-        "page_title": "FISIOTERAPIA A DOMICILIO",
-        "subject": "Fisioterapia a domicilio",
-        "paragraphs": [
-            (
-                "La fisioterapia a domicilio è pensata per chi ha difficoltà a"
-                " raggiungere lo studio, ma desidera ricevere un trattamento di"
-                " pari qualità e professionalità. Il fisioterapista si reca"
-                " direttamente a casa del paziente, portando con sé"
-                " l’attrezzatura necessaria per svolgere le sedute in modo"
-                " efficace e sicuro."
-            ),
-            (
-                "Questo servizio permette di mantenere continuità terapeutica,"
-                " fondamentale soprattutto dopo interventi chirurgici o in caso"
-                " di patologie croniche. Il paziente può così lavorare sul"
-                " recupero in un ambiente familiare e confortevole, favorendo"
-                " una riabilitazione più serena e personalizzata."
-            ),
-        ],
-        "pathologies": [],
-    },
-    {
-        "slug": "linfodrenaggio",
-        "list_title": "LINFODRENAGGIO",
-        "page_title": "LINFODRENAGGIO",
-        "subject": "Linfodrenaggio",
-        "paragraphs": [
-            (
-                "Il linfodrenaggio manuale è una tecnica dolce e ritmica che"
-                " favorisce il corretto flusso della linfa nel corpo, riducendo"
-                " gonfiori, edemi e ritenzione. È particolarmente indicato dopo"
-                " interventi chirurgici, traumi o in presenza di insufficienza"
-                " linfatica."
-            ),
-            (
-                "Oltre a migliorare la circolazione e la depurazione dei"
-                " tessuti, questa tecnica ha un effetto rilassante e"
-                " rigenerante sull’intero organismo. Il trattamento dona una"
-                " sensazione di leggerezza e benessere, contribuendo al"
-                " recupero funzionale. Può alleviare il disagio, ridurre"
-                " l’infiammazione e migliorare la circolazione, favorendo una"
-                " guarigione più rapida e migliorando la salute generale."
-            ),
-        ],
-        "pathologies": [],
-    },
-    {
-        "slug": "prevenzione-e-strength-and-conditioning",
-        "list_title": "PREVENZIONE E STRENGTH AND CONDITIONING",
-        "page_title": "PREVENZIONE E STRENGTH AND CONDITIONING",
-        "subject": "Prevenzione e Strength and Conditioning",
-        "paragraphs": [
-            (
-                "Il programma di Strength &amp; Conditioning integra esercizi"
-                " di forza, resistenza e controllo motorio con l’obiettivo di"
-                " migliorare le prestazioni fisiche e prevenire gli infortuni."
-                " È indicato sia per atleti che per chi desidera recuperare o"
-                " mantenere una condizione fisica efficiente dopo un periodo di"
-                " inattività o un percorso riabilitativo."
-            ),
-            (
-                "Attraverso protocolli personalizzati e progressivi, il"
-                " fisioterapista lavora su potenza, stabilità, coordinazione e"
-                " mobilità, adattando ogni esercizio alle caratteristiche e"
-                " agli obiettivi individuali."
-            ),
-            (
-                "Questo approccio permette non solo di ottimizzare la"
-                " performance, ma anche di ridurre il rischio di recidive e"
-                " prevenire squilibri muscolari o sovraccarichi, favorendo un"
-                " corpo più forte, armonico e pronto ad affrontare le sfide"
-                " quotidiane o sportive."
-            ),
-        ],
-        "pathologies": [],
-    },
-    {
-        "slug": "terapia-strumentale",
-        "list_title": "TERAPIA STRUMENTALE",
-        "page_title": "TERAPIA STRUMENTALE",
-        "subject": "Terapia Strumentale",
-        "paragraphs": [
-            (
-                "La terapia strumentale si avvale di tecnologie avanzate come"
-                " Tecar e onde d’urto per accelerare i processi di guarigione."
-                " Questi strumenti permettono di ridurre dolore e"
-                " infiammazione, migliorando la circolazione e la rigenerazione"
-                " dei tessuti."
-            ),
-            (
-                "Integrata con la terapia manuale e gli esercizi riabilitativi,"
-                " la terapia strumentale potenzia gli effetti del trattamento,"
-                " favorendo un recupero più rapido e duraturo."
-            ),
-        ],
-        "pathologies": [],
-    },
-    {
-        "slug": "taping-e-bendaggio-sportivo",
-        "list_title": "TAPING E BENDAGGIO SPORTIVO",
-        "page_title": "TAPING E BENDAGGIO SPORTIVO",
-        "subject": "Taping e bendaggio sportivo",
-        "paragraphs": [
-            (
-                "Taping neuromuscolare e i bendaggi funzionali vengono"
-                " utilizzati per stabilizzare e supportare articolazioni e"
-                " muscoli, sono tecniche molto diffuse in ambito sportivo, ma"
-                " utili anche nel recupero post-infortunio. Ti assistiamo nella"
-                " scelta di bendaggi e tutori adeguati, dal momento"
-                " dell’infortunio fino alla fase di ritorno allo sport."
-            ),
-            (
-                "Oltre a sostenere i tessuti senza limitarne il movimento, il"
-                " taping stimola la circolazione linfatica e contribuisce alla"
-                " riduzione dell’infiammazione. È un valido alleato nel"
-                " percorso di guarigione e nella prevenzione delle recidive."
-            ),
-        ],
-        "pathologies": [],
-    },
-    {
-        "slug": "elettrostimolazione-nmes",
-        "list_title": "ELETTROSTIMOLAZIONE NMES",
-        "page_title": "ELETTROSTIMOLAZIONE NMES",
-        "subject": "Elettrostimolazione NMES",
-        "paragraphs": [
-            (
-                "L’elettrostimolazione neuromuscolare (NMES) utilizza impulsi"
-                " elettrici per attivare la contrazione dei muscoli, aiutando a"
-                " mantenere o recuperare forza e tono in caso di"
-                " immobilizzazione o atrofia."
-            ),
-            (
-                "E’ particolarmente importante in casi di inibizione muscolare"
-                " artrogenica, una condizione in cui il corpo limita"
-                " l’attivazione muscolare a seguito di un intervento chirurgico"
-                " o in presenza di condizioni dolorose. Integrata a esercizi"
-                " attivi, contribuisce a un recupero più rapido ed efficace."
-            ),
-        ],
-        "pathologies": [],
-    },
-    {
-        "slug": "brf-blood-flow-restriction-therapy",
-        "list_title": "BRF (BLOOD FLOW RESTRICTION THERAPY)",
-        "page_title": "BRF – BLOOD FLOW RESTRICTION THERAPY",
-        "subject": "BRF – Blood Flow Restriction Therapy",
-        "paragraphs": [
-            (
-                "La Blood Flow Restriction Therapy è una metodica innovativa"
-                " che consiste nell’eseguire esercizi a bassa intensità con un"
-                " parziale blocco del flusso sanguigno. Questo stimola la"
-                " crescita muscolare e la forza anche con carichi ridotti,"
-                " rendendola ideale nella fase riabilitativa."
-            ),
-            (
-                "Sotto il controllo del fisioterapista, la BRF permette di"
-                " ottenere risultati simili all’allenamento tradizionale in"
-                " modo sicuro e progressivo, riducendo lo stress articolare e"
-                " accelerando i tempi di recupero."
-            ),
-        ],
-        "pathologies": [],
-    },
-    {
-        "slug": "mtt-mechanical-therapy-and-training",
-        "list_title": "MTT (MECHANICAL THERAPY AND TRAINING)",
-        "page_title": "MTT – MECHANICAL THERAPY AND TRAINING",
-        "subject": "MTT – Mechanical Therapy and Training",
-        "paragraphs": [
-            (
-                "La Mechanical Therapy and Training (MTT) è un approccio"
-                " riabilitativo basato sull’esercizio terapeutico assistito da"
-                " macchinari e resistenze controllate. È indicata per il"
-                " recupero funzionale dopo traumi, interventi o periodi di"
-                " immobilità."
-            ),
-            (
-                "Attraverso un programma progressivo e personalizzato, il"
-                " paziente lavora su forza, mobilità e controllo motorio in"
-                " modo sicuro e monitorato. L’obiettivo è migliorare la"
-                " funzionalità e prevenire recidive, favorendo un ritorno"
-                " graduale all’attività quotidiana o sportiva."
-            ),
-        ],
-        "pathologies": [],
-    },
+TEAM_BANNER_COLUMNS = [
+    (
+        "Formazione",
+        "Master universitari, OMPT, CAS e corsi di aggiornamento continui in"
+        " ambito muscoloscheletrico e sportivo: la formazione non si ferma"
+        " mai.",
+    ),
+    (
+        "Insegnamento e ricerca",
+        "Carola è assistente docente all’università LUDES di Lugano. Luca e"
+        " Federico hanno collaborato a studi di ricerca con pubblicazioni"
+        " scientifiche.",
+    ),
+    (
+        "Sport",
+        "Squadre di calcio, rugby e basket, tornei ATP, una clinica di"
+        " traumatologia sportiva nelle Dolomiti. E da atleti: skyrunning,"
+        " nuoto master, danza classica e downhill ai Mondiali.",
+    ),
 ]
 
+# Redirects from the previous site structure (old URL -> new URL).
+REDIRECTS = {
+    "terapie.html": "servizi.html",
+    "dove.html": "contatti.html",
+    "luca-gilardoni.html": "team.html#luca-gilardoni",
+    "simone-vaccani.html": "team.html#simone-vaccani",
+    "carola-isella.html": "team.html#carola-isella",
+    "federico-monzoni-2.html": "team.html#federico-monzoni",
+    "project/fisioterapia-ortopedica-e-sportiva.html": "servizi.html#fisioterapia",
+    "project/fisioterapia-post-operatoria.html": "cosa-trattiamo.html#operato",
+    "project/fisioterapia-reumatologica-e-trattamento-del-dolore-cronico.html": "cosa-trattiamo.html#dolore-cronico",
+    "project/fisioterapia-neurologica.html": "servizi.html#fisioterapia",
+    "project/fisioterapia-cardio-respiratoria.html": "servizi.html#fisioterapia",
+    "project/fisioterapia-geriatrica.html": "servizi.html#fisioterapia",
+    "project/fisioterapia-a-domicilio.html": "servizi.html#domicilio",
+    "project/linfodrenaggio.html": "servizi.html#massaggio",
+    "project/prevenzione-e-strength-and-conditioning.html": "servizi.html#prevenzione",
+    "project/terapia-strumentale.html": "servizi.html#strumenti",
+    "project/taping-e-bendaggio-sportivo.html": "servizi.html#strumento-taping",
+    "project/elettrostimolazione-nmes.html": "servizi.html#strumento-nmes",
+    "project/brf-blood-flow-restriction-therapy.html": "servizi.html#strumento-bfr",
+    "project/mtt-mechanical-therapy-and-training.html": "servizi.html#prevenzione",
+}
+
 
 # ==============================================================================
-# 4. Shared HTML Layout Template
+# 8. Small HTML helpers
+# ==============================================================================
+def whatsapp_url() -> str:
+  text = SITE_CONFIG["whatsapp_text"].replace(" ", "%20")
+  return f"https://wa.me/{SITE_CONFIG['phone_intl']}?text={text}"
+
+
+def tel_url() -> str:
+  return f"tel:+{SITE_CONFIG['phone_intl']}"
+
+
+def mailto_url(subject: str = "Prenotazione") -> str:
+  subject = subject.replace(" ", "%20")
+  return f"mailto:{SITE_CONFIG['email']}?subject={subject}"
+
+
+WHATSAPP_ICON = (
+    '<svg class="icon-wa" viewBox="0 0 24 24" aria-hidden="true"'
+    ' focusable="false"><path fill="currentColor" d="M12.04 2C6.58 2 2.13'
+    " 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38a9.9 9.9 0 0"
+    " 0 4.74 1.21c5.46 0 9.91-4.45 9.91-9.91S17.5 2 12.04 2Zm0 18.15c-1.48"
+    " 0-2.93-.4-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.2 8.2 0 0 1-1.26-4.38c0-4.54"
+    " 3.7-8.24 8.25-8.24 4.54 0 8.24 3.7 8.24 8.24 0 4.55-3.7 8.24-8.24"
+    " 8.24Zm4.52-6.16c-.25-.12-1.47-.72-1.7-.81-.23-.08-.39-.12-.56.13-.17.25-.64.81-.78.97-.14.17-.29.19-.54.06-.25-.12-1.05-.39-1.99-1.23-.74-.66-1.23-1.47-1.38-1.72-.14-.25-.02-.38.11-.51.11-.11.25-.29.37-.43.13-.15.17-.25.25-.42.08-.17.04-.31-.02-.43-.06-.12-.56-1.34-.76-1.84-.2-.48-.41-.42-.56-.43h-.48c-.17"
+    " 0-.43.06-.66.31-.23.25-.86.85-.86 2.07 0 1.22.89 2.4 1.01 2.56.12.17"
+    " 1.75 2.67 4.23 3.74.59.26 1.05.41 1.41.52.59.19 1.13.16 1.56.1.48-.07"
+    " 1.47-.6 1.67-1.18.21-.58.21-1.08.14-1.18-.06-.11-.22-.17-.47-.29Z\"/>"
+    "</svg>"
+)
+
+
+def photo(src, alt: str, label: str, cls: str = "") -> str:
+  """An image, or a clearly marked placeholder while the photo is missing."""
+  if src:
+    return (
+        f'<figure class="photo {cls}"><img src="{src}" alt="{alt}"'
+        ' loading="lazy"></figure>'
+    )
+  return (
+      f'<figure class="photo photo-placeholder {cls}" role="img"'
+      f' aria-label="{alt}"><span>{label}</span></figure>'
+  )
+
+
+def btn(href: str, label: str, style: str = "rose", extra: str = "") -> str:
+  return f'<a class="btn btn-{style}" href="{href}"{extra}>→ {label}</a>'
+
+
+def book_btn(style: str = "rose") -> str:
+  return btn(SITE_CONFIG["booking_url"], "Prenota appuntamento", style)
+
+
+def section_title(text: str, tag: str = "h2") -> str:
+  return f'<{tag} class="section-title"><span class="accent-arrow">→</span> {text}</{tag}>'
+
+
+def bullet_list(items, cls: str = "arrow-list") -> str:
+  lis = "\n".join(
+      f'              <li><span class="accent-arrow">→</span> {i}</li>'
+      for i in items
+  )
+  return f'<ul class="{cls}">\n{lis}\n            </ul>'
+
+
+def paragraphs(items, indent: int = 12) -> str:
+  pad = " " * indent
+  return "\n".join(f"{pad}<p>{p}</p>" for p in items)
+
+
+def page_hero(title: str, lead: str, extra_html: str = "") -> str:
+  return f"""    <section class="page-hero">
+      <div class="container page-hero-inner fade-in-up">
+        {section_title(title, "h1")}
+        <p class="lead">{lead}</p>
+        {extra_html}
+      </div>
+    </section>"""
+
+
+def tools_grid(detailed: bool) -> str:
+  cards = []
+  for i, t in enumerate(TOOLS, 1):
+    body = t["text"] if detailed else t["short"]
+    cards.append(f"""          <article class="tool-card" id="strumento-{t['id']}">
+            <span class="card-num">{i:02d}</span>
+            <h3>{t['title']}</h3>
+            <p>{body}</p>
+          </article>""")
+  cls = "tool-grid tool-grid--detailed" if detailed else "tool-grid"
+  return f'<div class="{cls}">\n' + "\n".join(cards) + "\n        </div>"
+
+
+def tools_band(detailed: bool, intro: str, cta: str = "") -> str:
+  return f"""    <section class="band band-orange" id="strumenti">
+      <div class="container">
+        <div class="section-head">
+          {section_title("Cosa c’è in studio")}
+          <p class="section-intro">{intro}</p>
+        </div>
+        {tools_grid(detailed)}
+        {cta}
+      </div>
+    </section>"""
+
+
+def chips(items) -> str:
+  return '<ul class="chips">' + "".join(f"<li>{c}</li>" for c in items) + "</ul>"
+
+
+def contact_block() -> str:
+  c = SITE_CONFIG
+  return f"""<div class="contact-block">
+            <p class="contact-address">
+              <span class="hl">{c['company']}</span><br>
+              {c['address_line_1']}<br>
+              {c['address_line_2']}
+            </p>
+            <ul class="contact-links">
+              <li><a href="{whatsapp_url()}" target="_blank" rel="noopener">{WHATSAPP_ICON}<span>WhatsApp <strong>{c['phone_display']}</strong></span></a></li>
+              <li><a href="{tel_url()}"><span class="contact-ico" aria-hidden="true">☎</span><span>Telefono <strong>{c['phone_display']}</strong></span></a></li>
+              <li><a href="mailto:{c['email']}"><span class="contact-ico" aria-hidden="true">@</span><span>Email <strong>{c['email']}</strong></span></a></li>
+            </ul>
+          </div>"""
+
+
+def map_embed() -> str:
+  return f"""<div class="map-wrap">
+            <iframe title="Mappa FisioHub Lugano - {SITE_CONFIG['address_line_1']}" loading="lazy" src="{SITE_CONFIG['map_embed_url']}"></iframe>
+          </div>"""
+
+
+# ==============================================================================
+# 9. Shared HTML Layout Template
 # ==============================================================================
 def render_page(
     *,
@@ -646,21 +1056,18 @@ def render_page(
     theme_class: str,
     logo_file: str,
     body_html: str,
-    root_prefix: str = "",
     active_nav: str = "",
 ) -> str:
-  """Wraps page content with the shared Fisio Hub header, mobile menu, and footer."""
+  """Wraps page content with the shared header, mobile menu and footer."""
+  c = SITE_CONFIG
   nav_lis = []
   overlay_lis = []
-  for label, href in SITE_CONFIG["nav_items"]:
-    active_cls = ' class="active"' if label.lower() == active_nav.lower() else ""
-    nav_lis.append(
-        f'          <li><a href="{root_prefix}{href}"{active_cls}>{label}</a></li>'
-    )
-    overlay_lis.append(
-        f'        <li><a href="{root_prefix}{href}">{label}</a></li>'
-    )
-
+  for label, href in c["nav_items"]:
+    is_active = label.lower() == active_nav.lower()
+    cur = ' aria-current="page"' if is_active else ""
+    act = ' class="active"' if is_active else ""
+    nav_lis.append(f'          <li><a href="{href}"{act}{cur}>{label}</a></li>')
+    overlay_lis.append(f'        <li><a href="{href}"{cur}>{label}</a></li>')
   nav_html = "\n".join(nav_lis)
   overlay_html = "\n".join(overlay_lis)
 
@@ -669,35 +1076,39 @@ def render_page(
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{title} - Fisio Hub</title>
+  <title>{title} - Fisio Hub Lugano</title>
   <meta name="description" content="{description}">
   <meta property="og:locale" content="it_IT">
-  <meta property="og:site_name" content="{SITE_CONFIG['site_name']}">
-  <meta property="og:title" content="{title} - Fisio Hub">
-  <link rel="icon" href="{root_prefix}assets/images/favicon-32x32.png" sizes="32x32">
-  <link rel="icon" href="{root_prefix}assets/images/favicon-192x192.png" sizes="192x192">
-  <link rel="apple-touch-icon" href="{root_prefix}assets/images/favicon-180x180.png">
-  <link rel="stylesheet" href="{root_prefix}css/styles.css">
+  <meta property="og:site_name" content="{c['site_name']}">
+  <meta property="og:title" content="{title} - Fisio Hub Lugano">
+  <meta property="og:description" content="{description}">
+  <link rel="icon" href="assets/images/favicon-32x32.png" sizes="32x32">
+  <link rel="icon" href="assets/images/favicon-192x192.png" sizes="192x192">
+  <link rel="apple-touch-icon" href="assets/images/favicon-180x180.png">
+  <link rel="stylesheet" href="css/styles.css">
 </head>
 <body class="{theme_class}">
 
   <!-- Shared Header & Navigation -->
   <header class="site-header">
     <div class="nav-container">
-      <div class="nav-logo-wrap">
-        <a href="{root_prefix}index.html" aria-label="Fisio Hub Home">
-          <img src="{root_prefix}assets/logos/{logo_file}" alt="Fisio Hub Logo">
-        </a>
-      </div>
-      <nav class="nav-menu-wrap" aria-label="Menu principale">
+      <a class="nav-logo" href="index.html" aria-label="Fisio Hub - Home">
+        <img class="logo-top" src="assets/logos/{logo_file}" alt="Fisio Hub">
+        <img class="logo-scrolled" src="assets/logos/FisioHub_blu.svg" alt="" aria-hidden="true">
+      </a>
+      <nav class="nav-menu" aria-label="Menu principale">
         <ul class="nav-list">
 {nav_html}
         </ul>
-        <button id="mobile-menu-open" class="hamburger-btn" aria-label="Apri menu">
+      </nav>
+      <div class="nav-actions">
+        <a class="nav-phone" href="{whatsapp_url()}" target="_blank" rel="noopener" aria-label="Scrivici su WhatsApp al {c['phone_display']}">
+          {WHATSAPP_ICON}<span class="nav-phone-num">{c['phone_display']}</span>
+        </a>
+        <button id="mobile-menu-open" class="hamburger-btn" aria-label="Apri menu" aria-controls="mobile-overlay" aria-expanded="false">
           <span></span>
         </button>
-      </nav>
-      <div class="nav-spacer" aria-hidden="true"></div>
+      </div>
     </div>
 
     <!-- Mobile Overlay Menu -->
@@ -710,6 +1121,7 @@ def render_page(
       <ul class="overlay-nav-list">
 {overlay_html}
       </ul>
+      <a class="overlay-phone" href="{whatsapp_url()}" target="_blank" rel="noopener">{WHATSAPP_ICON} {c['phone_display']}</a>
     </div>
   </header>
 
@@ -718,31 +1130,53 @@ def render_page(
 {body_html}
   </main>
 
-  <!-- Shared Fixed Footer -->
+  <!-- Shared Footer -->
   <footer class="site-footer">
     <div class="footer-grid">
       <div class="footer-col">
         <p>
-          <span class="footer-brand">{SITE_CONFIG['company']}</span><br>
-          {SITE_CONFIG['address_line_1']}<br>
-          {SITE_CONFIG['address_line_2']}
+          <span class="footer-brand">{c['company']}</span><br>
+          {c['address_line_1']}<br>
+          {c['address_line_2']}
         </p>
       </div>
       <div class="footer-col">
         <p>
-          <a href="tel:{SITE_CONFIG['phone_whatsapp']}">{SITE_CONFIG['phone_display']}</a><br>
-          <a href="mailto:{SITE_CONFIG['email']}">{SITE_CONFIG['email']}</a>
+          <a href="{tel_url()}">{c['phone_display']}</a><br>
+          <a href="mailto:{c['email']}">{c['email']}</a>
         </p>
       </div>
-      <div class="footer-col footer-whatsapp">
-        <a href="https://api.whatsapp.com/send?phone={SITE_CONFIG['phone_whatsapp']}&amp;text=Buongiorno" target="_blank" rel="noopener noreferrer" aria-label="Contattaci su WhatsApp">
-          <img src="{root_prefix}assets/images/whatsapp.png" alt="WhatsApp">
-        </a>
+      <div class="footer-col footer-cta">
+        {book_btn("navy")}
       </div>
     </div>
   </footer>
 
-  <script src="{root_prefix}js/main.js"></script>
+  <!-- Floating WhatsApp button -->
+  <a class="wa-float" href="{whatsapp_url()}" target="_blank" rel="noopener" aria-label="Scrivici su WhatsApp">
+    <img src="assets/images/whatsapp.png" alt="">
+  </a>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
+"""
+
+
+def render_redirect(old_path: str, new_url: str) -> str:
+  depth = old_path.count("/")
+  target = "../" * depth + new_url
+  return f"""<!DOCTYPE html>
+<html lang="it-IT">
+<head>
+  <meta charset="UTF-8">
+  <title>Fisio Hub Lugano</title>
+  <meta name="robots" content="noindex">
+  <meta http-equiv="refresh" content="0; url={target}">
+  <link rel="canonical" href="{target}">
+</head>
+<body>
+  <p>Questa pagina è stata spostata: <a href="{target}">continua qui</a>.</p>
 </body>
 </html>
 """
@@ -757,11 +1191,41 @@ def write_page(rel_path: str, content: str) -> None:
 
 
 # ==============================================================================
-# 5. Page Builders
+# 10. Page Builders
 # ==============================================================================
-def build_all() -> None:
-  # 1. Home (index.html)
-  home_body = """    <section class="hero-cover">
+def build_home() -> str:
+  c = SITE_CONFIG
+
+  service_rows = "\n".join(
+      f"""          <a class="row-link" href="servizi.html#{s['id']}">
+            <span class="row-num">{i:02d}</span>
+            <span class="row-title">{s['title']}</span>
+            <span class="row-text">{s['short']}</span>
+            <span class="row-arrow" aria-hidden="true">→</span>
+          </a>"""
+      for i, s in enumerate(SERVICES, 1)
+  )
+
+  condition_tiles = "\n".join(
+      f"""          <a class="tile" href="cosa-trattiamo.html#{x['id']}">
+            <h3>{x['title']}</h3>
+            <p>{x['short']}</p>
+            <span class="tile-arrow" aria-hidden="true">→</span>
+          </a>"""
+      for x in CONDITIONS
+  )
+
+  team_cards = "\n".join(
+      f"""          <a class="team-card" href="team.html#{m['slug']}">
+            <img src="{m['photo']}" width="1000" height="1043" alt="{m['name']}">
+            <h3><span class="accent-arrow">→</span> {m['name']}</h3>
+            {chips(m['credentials'])}
+            <p class="team-areas">{" · ".join(m['areas'])}</p>
+          </a>"""
+      for m in TEAM_MEMBERS
+  )
+
+  return f"""    <section class="hero-cover">
       <div class="hero-video-wrapper">
         <video autoplay playsinline loop muted>
           <source src="assets/video/Comp-1_12_mute.mp4" type="video/mp4">
@@ -776,276 +1240,376 @@ def build_all() -> None:
             <span class="text-rose">FISIOHUB LUGANO</span><br>
             <span class="text-navy">IL PUNTO D’INCONTRO<br>TRA SCIENZA, ASCOLTO<br>E MOVIMENTO</span>
           </h1>
+          <p class="hero-lead fade-in-up">
+            Fisioterapia e fitness premium nel cuore di Lugano.<br>
+            Riconosciuti da tutte le casse malati, senza bisogno di prescrizione medica.
+          </p>
           <div class="hero-buttons fade-in-left">
-            <a id="btn-book-home" class="btn-action btn-rose" href="mailto:info@fisiohub.ch?subject=Prenotazione&amp;body=Buongiorno,%20vorrei%20effettuare%20una%20prenotazione%20per....%20Grazie">
-              → PRENOTA APPUNTAMENTO
-            </a>
-            <a id="btn-services-home" class="btn-action btn-rose btn-services" href="terapie.html">
-              → SCOPRI SERVIZI
-            </a>
-          </div>
-        </div>
-      </div>
-    </section>"""
-  write_page(
-      "index.html",
-      render_page(
-          title="Home",
-          description=(
-              "Fisio Hub Lugano: il punto d'incontro tra scienza, ascolto e"
-              " movimento. Fisioterapia moderna a Lugano."
-          ),
-          theme_class="theme-home",
-          logo_file="FisioHub_blu.svg",
-          body_html=home_body,
-      ),
-  )
-
-  # 2. HUB (hub.html)
-  hub_body = """    <section class="content-section">
-      <div class="container">
-        <div class="content-col-5 fade-in-right">
-          <h1><span class="accent-arrow">→</span> L'HUB</h1>
-          <p>
-            FisioHub nasce dall’idea di tre colleghi uniti dalla passione per la fisioterapia e da una visione comune: mettere al centro il benessere reale della persona. Il nome <span class="text-rose">“Hub” rappresenta un punto di connessione,</span> il luogo in cui la scienza incontra l’esperienza, dove metodo e ascolto si fondono per costruire percorsi terapeutici efficaci e personalizzati. Crediamo in una fisioterapia basata sulle evidenze scientifiche, ma profondamente attenta all’unicità di ogni individuo.
-            <br><br>
-            <span class="text-rose">Ogni paziente viene accompagnato passo dopo passo verso i propri obiettivi,</span> per ritrovare equilibrio, movimento e uno stile di vita più sano.
-          </p>
-          <p>
-            Il nostro simbolo, una “H” minimale ed essenziale, vuole rappresentare proprio questo: un hub centrale, il luogo in cui percorsi, competenze e persone si incontrano per dare vita a un recupero completo, continuo e consapevole.
-          </p>
-          <p>
-            <span class="text-rose">Il nostro approccio vuole essere contemporaneo, affidabile,</span> orientato al movimento e lontano dai cliché della fisioterapia tradizionale. Per questo ci affidiamo anche alla tecnologia, con macchinari e strumenti di ultima generazione che rendono la nostra fisioterapia moderna ed efficace.
-          </p>
-        </div>
-      </div>
-    </section>"""
-  write_page(
-      "hub.html",
-      render_page(
-          title="HUB",
-          description=(
-              "Scopri FisioHub Lugano: fisioterapia moderna basata sulle"
-              " evidenze scientifiche e orientata al movimento."
-          ),
-          theme_class="theme-hub",
-          logo_file="FisioHub.svg",
-          body_html=hub_body,
-          active_nav="HUB",
-      ),
-  )
-
-  # 3. Terapie Index (terapie.html)
-  terapie_links = []
-  for t in THERAPIES:
-    terapie_links.append(
-        f'            <li><a href="project/{t["slug"]}.html"><span'
-        f' class="accent-arrow">→</span> {t["list_title"]}</a></li>'
-    )
-  terapie_links_html = "\n".join(terapie_links)
-  terapie_body = f"""    <section class="content-section">
-      <div class="container">
-        <div class="content-col-5 fade-in-right">
-          <h1><span class="accent-arrow">→</span> LE TERAPIE</h1>
-          <ul class="terapie-list">
-{terapie_links_html}
-          </ul>
-        </div>
-      </div>
-    </section>"""
-  write_page(
-      "terapie.html",
-      render_page(
-          title="Terapie",
-          description=(
-              "Le terapie di Fisio Hub Lugano: fisioterapia ortopedica,"
-              " sportiva, post-operatoria, neurologica, linfodrenaggio e"
-              " terapia strumentale."
-          ),
-          theme_class="theme-terapie",
-          logo_file="FisioHub_giallo.svg",
-          body_html=terapie_body,
-          active_nav="Terapie",
-      ),
-  )
-
-  # 4. Team Index (team.html) & Individual Team Member Bio Pages
-  team_cards = []
-  for m in TEAM_MEMBERS:
-    team_cards.append(f"""          <a class="team-card fade-in-up" href="{m['slug']}.html">
-            <img src="{m['photo']}" width="1000" height="1043" alt="{m['name']}">
-            <h2><span class="accent-arrow">→</span> {m['name'].upper()}</h2>
-          </a>""")
-  team_cards_html = "\n".join(team_cards)
-  team_body = f"""    <section class="team-section">
-      <div class="container">
-        <div class="team-grid">
-{team_cards_html}
-        </div>
-      </div>
-    </section>"""
-  write_page(
-      "team.html",
-      render_page(
-          title="Team",
-          description=(
-              "Il team di fisioterapisti di Fisio Hub Lugano: Luca Gilardoni,"
-              " Simone Vaccani, Carola Isella e Federico Monzoni."
-          ),
-          theme_class="theme-team",
-          logo_file="FisioHub_BLuw.svg",
-          body_html=team_body,
-          active_nav="Team",
-      ),
-  )
-
-  for m in TEAM_MEMBERS:
-    paras_html = "\n".join(f"            <p>{p}</p>" for p in m["paragraphs"])
-    bio_body = f"""    <section class="content-section">
-      <div class="container">
-        <div class="bio-grid">
-          <div class="bio-photo fade-in-up">
-            <img src="{m['photo']}" width="1000" height="1043" alt="{m['name']}">
-          </div>
-          <div class="bio-text fade-in-right">
-            <h1><span class="accent-arrow">→</span> {m['name'].upper()}</h1>
-{paras_html}
-          </div>
-        </div>
-      </div>
-    </section>"""
-    write_page(
-        f"{m['slug']}.html",
-        render_page(
-            title=m["name"],
-            description=f"{m['name']} - Fisioterapista presso Fisio Hub Lugano.",
-            theme_class="theme-team",
-            logo_file="FisioHub_BLuw.svg",
-            body_html=bio_body,
-            active_nav="Team",
-        ),
-    )
-
-  # 5. Insta (insta.html)
-  insta_body = """    <section class="content-section">
-      <div class="container">
-        <div class="content-col-7 fade-in-up">
-          <script src="https://elfsightcdn.com/platform.js" async></script>
-          <div class="elfsight-app-fbefbcda-4027-463d-99c1-13c3c4f3b81c" data-elfsight-app-lazy></div>
-        </div>
-      </div>
-    </section>"""
-  write_page(
-      "insta.html",
-      render_page(
-          title="Insta",
-          description="Segui Fisio Hub Lugano su Instagram.",
-          theme_class="theme-insta",
-          logo_file="FisioHub.svg",
-          body_html=insta_body,
-          active_nav="Insta",
-      ),
-  )
-
-  # 6. Dove (dove.html)
-  dove_body = """    <section class="content-section">
-      <div class="container">
-        <div class="content-col-6 dove-contact fade-in-up">
-          <h1><span class="accent-arrow">→</span> DOVE SIAMO</h1>
-          <p>
-            <span class="text-rose">FisioHub SA</span><br>
-            Via Carlo Maderno, 26<br>
-            6900 Lugano.
-          </p>
-          <p>
-            <a href="tel:+410798396900">079 8396900</a><br>
-            <a href="mailto:info@fisiohub.ch">info@fisiohub.ch</a>
-          </p>
-          <div class="embed-map-responsive">
-            <iframe
-              class="embed-map-frame"
-              title="Mappa FisioHub Lugano - Via Carlo Maderno 26"
-              loading="lazy"
-              src="https://maps.google.com/maps?width=650&amp;height=450&amp;hl=it&amp;q=lugano%20Via%20Carlo%20Maderno%2C%2026&amp;t=&amp;z=14&amp;ie=UTF8&amp;iwloc=B&amp;output=embed">
-            </iframe>
-          </div>
-        </div>
-      </div>
-    </section>"""
-  write_page(
-      "dove.html",
-      render_page(
-          title="Dove",
-          description=(
-              "Dove trovarci: FisioHub SA, Via Carlo Maderno 26, 6900 Lugano."
-          ),
-          theme_class="theme-dove",
-          logo_file="FisioHub.svg",
-          body_html=dove_body,
-          active_nav="Dove",
-      ),
-  )
-
-  # 7. Therapy Detail Pages (project/*.html)
-  num_therapies = len(THERAPIES)
-  for idx, t in enumerate(THERAPIES):
-    prev_t = THERAPIES[(idx - 1) % num_therapies]
-    next_t = THERAPIES[(idx + 1) % num_therapies]
-
-    paras_html = "\n".join(f"          <p>{p}</p>" for p in t["paragraphs"])
-    pathologies_html = ""
-    if t["pathologies"]:
-      items = "\n".join(
-          f'            <li><span class="accent-arrow">→</span> {item}</li>'
-          for item in t["pathologies"]
-      )
-      pathologies_html = f"""          <p>Alcune delle patologie che trattiamo sono:</p>
-          <ul class="pathology-list">
-{items}
-          </ul>"""
-
-    mailto_href = (
-        f"mailto:info@fisiohub.ch?subject=Prenotazione per {t['subject']}"
-        "&amp;body=Buongiorno, vorrei effettuare una prenotazione per il"
-        " trattamento in oggetto. Grazie"
-    )
-
-    project_body = f"""    <section class="content-section">
-      <div class="container">
-        <div class="content-col-6 fade-in-right">
-          <h1><span class="accent-arrow">→</span> {t['page_title']}</h1>
-{paras_html}
-{pathologies_html}
-          <div>
-            <a id="btn-book-{t['slug']}" class="btn-action btn-teal" href="{mailto_href}">
-              → PRENOTA APPUNTAMENTO
-            </a>
+            <a id="btn-book-home" class="btn-action btn-rose" href="{c['booking_url']}">→ PRENOTA APPUNTAMENTO</a>
+            <a id="btn-approach-home" class="btn-action btn-rose btn-secondary" href="hub.html#approccio">→ SCOPRI IL NOSTRO APPROCCIO</a>
           </div>
         </div>
       </div>
     </section>
 
-    <nav class="project-nav-wrapper" aria-label="Navigazione terapie">
-      <a class="project-nav-prev" href="{prev_t['slug']}.html">
-        <span>&larr;</span> <span>Previous</span>
-      </a>
-      <a class="project-nav-next" href="{next_t['slug']}.html">
-        <span>&rarr;</span> <span>Next</span>
-      </a>
-    </nav>"""
+    <section class="band band-navy" id="hub">
+      <div class="container split">
+        <div class="split-text">
+          {section_title("L’Hub")}
+{paragraphs(HUB_PARAGRAPHS)}
+            <p>{APPROACH_INTRO}</p>
+          {btn("hub.html", "Scopri lo studio", "outline-light")}
+        </div>
+        <div class="split-media">
+          {photo(STUDIO_PHOTOS['main'], "Lo studio FisioHub a Lugano", "Foto dello studio")}
+        </div>
+      </div>
+    </section>
 
-    write_page(
-        f"project/{t['slug']}.html",
-        render_page(
-            title=t["subject"],
-            description=f"{t['subject']} presso Fisio Hub Lugano.",
-            theme_class="theme-project",
-            logo_file="FisioHub_verde.svg",
-            body_html=project_body,
-            root_prefix="../",
-            active_nav="Terapie",
-        ),
-    )
+    <section class="band band-teal" id="servizi">
+      <div class="container">
+        <div class="section-head">
+          {section_title("Servizi")}
+          <p class="section-intro">Fisioterapia moderna, con un’attenzione particolare alle nostre aree di specializzazione: ortopedia, sport e riabilitazione post-operatoria.</p>
+        </div>
+        <div class="row-list">
+{service_rows}
+        </div>
+      </div>
+    </section>
+
+    <section class="band band-white" id="cosa-trattiamo">
+      <div class="container">
+        <div class="section-head">
+          {section_title("Come possiamo aiutarti?")}
+          <p class="section-intro">Alcuni dei problemi che trattiamo ogni giorno in studio.</p>
+        </div>
+        <div class="tile-grid">
+{condition_tiles}
+        </div>
+      </div>
+    </section>
+
+{tools_band(False, "Tecnologie di ultima generazione al servizio dell’esercizio e della terapia manuale.", btn("servizi.html#strumenti", "Gli strumenti spiegati", "outline-light"))}
+
+    <section class="band band-rose" id="team">
+      <div class="container">
+        <div class="section-head">
+          {section_title("Esperti in fisioterapia")}
+          <p class="section-intro">Quattro fisioterapisti, formazione universitaria avanzata e un’esperienza costruita nello sport.</p>
+        </div>
+        <div class="team-grid">
+{team_cards}
+        </div>
+      </div>
+    </section>
+
+    <section class="band band-lake" id="dove">
+      <div class="container split">
+        <div class="split-text">
+          {section_title("Dove siamo")}
+          {contact_block()}
+          {book_btn()}
+        </div>
+        <div class="split-media">
+          {map_embed()}
+        </div>
+      </div>
+    </section>"""
+
+
+def build_hub() -> str:
+  pillars = "\n".join(
+      f"""          <div class="pillar">
+            <span class="card-num">{i:02d}</span>
+            <h3>{t}</h3>
+            <p>{d}</p>
+          </div>"""
+      for i, (t, d) in enumerate(APPROACH_PILLARS, 1)
+  )
+  gallery = "\n".join(
+      "          " + photo(STUDIO_PHOTOS[k], "Lo studio FisioHub", "Foto dello studio")
+      for k in ("gallery_1", "gallery_2", "gallery_3")
+  )
+  return f"""{page_hero("L’Hub", "Un punto d’incontro tra scienza, ascolto e movimento, nel cuore di Lugano.")}
+
+    <section class="band band-white" id="studio">
+      <div class="container split">
+        <div class="split-text">
+          {section_title("Lo studio")}
+{paragraphs(HUB_PARAGRAPHS)}
+        </div>
+        <div class="split-media">
+          {photo(STUDIO_PHOTOS['main'], "Lo studio FisioHub a Lugano", "Foto dello studio")}
+        </div>
+      </div>
+      <div class="container gallery">
+{gallery}
+      </div>
+    </section>
+
+    <section class="band band-navy" id="approccio">
+      <div class="container">
+        <div class="section-head">
+          {section_title("Il nostro approccio")}
+          <p class="section-intro">{APPROACH_INTRO}</p>
+        </div>
+        <div class="pillar-grid">
+{pillars}
+        </div>
+      </div>
+    </section>
+
+{tools_band(True, "Gli strumenti che usiamo ogni giorno, spiegati in breve. Sempre integrati con l’esercizio e la terapia manuale.")}
+
+    <section class="banner banner-rose">
+      <div class="container banner-inner">
+        <h2>Vuoi conoscerci di persona?</h2>
+        <div class="banner-actions">{book_btn("navy")}</div>
+      </div>
+    </section>"""
+
+
+def build_servizi() -> str:
+  blocks = []
+  for i, s in enumerate(SERVICES, 1):
+    blocks.append(f"""        <article class="detail" id="{s['id']}">
+          <div class="detail-head">
+            <span class="card-num">{i:02d}</span>
+            <h2>{s['title']}</h2>
+          </div>
+          <div class="detail-body">
+{paragraphs(s['paragraphs'])}
+          </div>
+          <div class="detail-side">
+            <h3>{s['focus_title']}</h3>
+            {bullet_list(s['focus'])}
+            {btn(SITE_CONFIG["booking_url"], "Prenota", "teal")}
+          </div>
+        </article>""")
+  return f"""{page_hero("Servizi", "Fisioterapia, sport, prevenzione e trattamenti manuali, in studio o a casa tua.")}
+
+    <section class="band band-white">
+      <div class="container detail-list">
+{chr(10).join(blocks)}
+      </div>
+    </section>
+
+{tools_band(True, "Gli strumenti che usiamo ogni giorno, spiegati in breve. Sempre integrati con l’esercizio e la terapia manuale.")}"""
+
+
+def build_cosa_trattiamo() -> str:
+  blocks = []
+  for i, x in enumerate(CONDITIONS, 1):
+    blocks.append(f"""        <article class="detail" id="{x['id']}">
+          <div class="detail-head">
+            <span class="card-num">{i:02d}</span>
+            <h2>{x['title']}</h2>
+          </div>
+          <div class="detail-body">
+{paragraphs(x['paragraphs'])}
+          </div>
+          <div class="detail-side">
+            <h3>Trattiamo ad esempio</h3>
+            {bullet_list(x['examples'])}
+          </div>
+        </article>""")
+    if i == 4:
+      blocks.append("        <!--BANNER_OPERATO-->")
+  body = "\n".join(blocks)
+
+  banner_operato = f"""      </div>
+    </section>
+
+    <section class="banner banner-rose" id="operato">
+      <div class="container banner-inner">
+        <div>
+          <p class="banner-kicker">Riabilitazione post-operatoria</p>
+          <h2>Ti hanno operato?</h2>
+          <p>Protesi d’anca o di ginocchio, ricostruzione del LCA, cuffia dei rotatori, colonna vertebrale: ti seguiamo in tutte le fasi, dalla gestione del dolore e del gonfiore fino al ritorno alle tue attività. Con criocompressione, NMES e BFR fin dalle prime settimane, e a domicilio se serve.</p>
+        </div>
+        <div class="banner-actions">{book_btn("navy")}</div>
+      </div>
+    </section>
+
+    <section class="banner banner-navy">
+      <div class="container banner-inner">
+        <div>
+          <p class="banner-kicker">Dentro la sala operatoria</p>
+          <h2>Sappiamo cosa succede in sala operatoria.</h2>
+          <p>Per tre anni, alla Dolomiti Sportclinic di Ortisei, Simone ha collaborato con i chirurghi direttamente in sala operatoria, seguendo poi il recupero di atleti di alto livello. Conoscere l’intervento dall’interno ci permette di costruire una riabilitazione coerente con il lavoro del chirurgo.</p>
+        </div>
+        <div class="banner-actions">{btn("team.html#simone-vaccani", "Conosci Simone", "outline-light")}</div>
+      </div>
+    </section>
+
+    <section class="band band-white">
+      <div class="container detail-list">"""
+  body = body.replace("        <!--BANNER_OPERATO-->", banner_operato)
+
+  return f"""{page_hero("Cosa trattiamo", "Dal collo alla caviglia, dal dolore cronico all’infortunio sportivo: ecco come possiamo aiutarti.")}
+
+    <section class="band band-white">
+      <div class="container detail-list">
+{body}
+      </div>
+    </section>
+
+    <section class="banner banner-teal">
+      <div class="container banner-inner">
+        <h2>Non trovi il tuo problema? Scrivici.</h2>
+        <div class="banner-actions">{btn(whatsapp_url(), "WhatsApp", "outline-light", ' target="_blank" rel="noopener"')} {book_btn("navy")}</div>
+      </div>
+    </section>"""
+
+
+def build_team() -> str:
+  bios = []
+  for m in TEAM_MEMBERS:
+    first, rest = m["paragraphs"][:2], m["paragraphs"][2:]
+    bios.append(f"""        <article class="bio" id="{m['slug']}">
+          <div class="bio-photo">
+            <img src="{m['photo']}" width="1000" height="1043" alt="{m['name']}" loading="lazy">
+          </div>
+          <div class="bio-text">
+            <h2><span class="accent-arrow">→</span> {m['name']}</h2>
+            {chips(m['credentials'])}
+            <p class="bio-areas"><strong>Aree di riferimento:</strong> {", ".join(m['areas'])}</p>
+{paragraphs(first)}
+            <details class="bio-more">
+              <summary>Leggi tutta la biografia</summary>
+{paragraphs(rest, 14)}
+            </details>
+          </div>
+        </article>""")
+
+  glossary = "\n".join(
+      f"""          <div class="gloss">
+            <h3>{abbr}</h3>
+            <p class="gloss-full">{full}</p>
+            <p>{desc}</p>
+          </div>"""
+      for abbr, full, desc in CREDENTIALS_GLOSSARY
+  )
+  banner_cols = "\n".join(
+      f"""          <div>
+            <h3><span class="accent-arrow">→</span> {t}</h3>
+            <p>{d}</p>
+          </div>"""
+      for t, d in TEAM_BANNER_COLUMNS
+  )
+
+  return f"""{page_hero("Il team", "Fisioterapisti con formazione universitaria avanzata, che vivono lo sport in prima persona.")}
+
+    <section class="band band-white">
+      <div class="container bio-list">
+{chr(10).join(bios)}
+      </div>
+    </section>
+
+    <section class="band band-navy" id="sigle">
+      <div class="container">
+        <div class="section-head">
+          {section_title("Le sigle, spiegate")}
+          <p class="section-intro">Cosa significano i titoli accanto ai nostri nomi.</p>
+        </div>
+        <div class="gloss-grid">
+{glossary}
+        </div>
+      </div>
+    </section>
+
+    <section class="banner banner-orange" id="formazione">
+      <div class="container">
+        <h2 class="banner-title">Formazione, insegnamento e sport</h2>
+        <div class="banner-cols">
+{banner_cols}
+        </div>
+      </div>
+    </section>"""
+
+
+def build_contatti() -> str:
+  return f"""{page_hero("Contatti", "Scrivici su WhatsApp, chiamaci o mandaci una email: ti rispondiamo il prima possibile.")}
+
+    <section class="band band-white">
+      <div class="container split">
+        <div class="split-text">
+          {section_title("Dove siamo")}
+          {contact_block()}
+          <div class="btn-row">
+            {btn(whatsapp_url(), "Scrivici su WhatsApp", "rose", ' target="_blank" rel="noopener"')}
+            {btn(mailto_url(), "Mandaci una email", "navy")}
+          </div>
+          <p class="small"><a href="{SITE_CONFIG['map_link_url']}" target="_blank" rel="noopener">→ Apri in Google Maps</a></p>
+        </div>
+        <div class="split-media">
+          {map_embed()}
+        </div>
+      </div>
+    </section>
+
+    <section class="banner banner-rose" id="domicilio">
+      <div class="container banner-inner">
+        <div>
+          <p class="banner-kicker">Fisioterapia a domicilio</p>
+          <h2>Se lo studio è lontano, viene il terapista.</h2>
+          <p>Dopo un intervento, con mobilità ridotta o semplicemente se non riesci a raggiungerci: il fisioterapista viene a casa tua con l’attrezzatura necessaria.</p>
+        </div>
+        <div class="banner-actions">{btn("servizi.html#domicilio", "Scopri il servizio", "navy")}</div>
+      </div>
+    </section>"""
+
+
+def build_insta() -> str:
+  return f"""{page_hero("Insta", "Seguici su Instagram per consigli, esercizi e la vita in studio.")}
+
+    <section class="band band-white">
+      <div class="container">
+        <script src="https://elfsightcdn.com/platform.js" async></script>
+        <div class="elfsight-app-fbefbcda-4027-463d-99c1-13c3c4f3b81c" data-elfsight-app-lazy></div>
+      </div>
+    </section>"""
+
+
+def build_all() -> None:
+  pages = [
+      ("index.html", "Home",
+       "FisioHub Lugano: il punto d’incontro tra scienza, ascolto e movimento."
+       " Fisioterapia e fitness premium nel cuore di Lugano.",
+       "theme-home", "FisioHub_blu.svg", build_home(), ""),
+      ("hub.html", "Hub",
+       "Lo studio FisioHub a Lugano: il nostro approccio e gli strumenti che"
+       " usiamo.",
+       "theme-hub", "FisioHub.svg", build_hub(), "Hub"),
+      ("servizi.html", "Servizi",
+       "Fisioterapia, fisioterapia sportiva, a domicilio, prevenzione e"
+       " strength &amp; conditioning, massaggio e linfodrenaggio a Lugano.",
+       "theme-servizi", "FisioHub_giallo.svg", build_servizi(), "Servizi"),
+      ("cosa-trattiamo.html", "Cosa trattiamo",
+       "Collo e schiena, spalla, ginocchio, caviglia, anca, ATM, dolore"
+       " cronico e infortuni sportivi: cosa trattiamo a FisioHub Lugano.",
+       "theme-trattiamo", "FisioHub_verde.svg", build_cosa_trattiamo(),
+       "Cosa trattiamo"),
+      ("team.html", "Il team",
+       "Il team di FisioHub Lugano: Luca Gilardoni, Simone Vaccani, Carola"
+       " Isella e Federico Monzoni.",
+       "theme-team", "FisioHub_BLuw.svg", build_team(), "Il team"),
+      ("insta.html", "Insta", "Segui FisioHub Lugano su Instagram.",
+       "theme-insta", "FisioHub.svg", build_insta(), "Insta"),
+      ("contatti.html", "Contatti",
+       "Contatti e indirizzo di FisioHub SA, Via Carlo Maderno 26, 6900"
+       " Lugano. WhatsApp, telefono ed email.",
+       "theme-contatti", "FisioHub.svg", build_contatti(), "Contatti"),
+  ]
+  for path, title, desc, theme, logo, body, active in pages:
+    write_page(path, render_page(
+        title=title, description=desc, theme_class=theme, logo_file=logo,
+        body_html=body, active_nav=active,
+    ))
+
+  for old, new in REDIRECTS.items():
+    write_page(old, render_redirect(old, new))
 
 
 if __name__ == "__main__":

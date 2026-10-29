@@ -7,31 +7,21 @@ This is a clean, dependency-free static reproduction of [fisiohub.ch](https://fi
 ## Project Structure
 
 ```text
-random_stuff/
-├── index.html                  # Homepage (video background + hero)
-├── hub.html                    # L'HUB page
-├── terapie.html                # Therapies index page
-├── team.html                   # Team 2x2 grid page
-├── luca-gilardoni.html         # Team bio: Luca Gilardoni
-├── simone-vaccani.html         # Team bio: Simone Vaccani
-├── carola-isella.html          # Team bio: Carola Isella
-├── federico-monzoni-2.html     # Team bio: Federico Monzoni
-├── insta.html                  # Instagram feed page
-├── dove.html                   # Location, contact & Google Map page
-├── project/                    # 14 individual therapy detail pages
-│   ├── fisioterapia-ortopedica-e-sportiva.html
-│   ├── fisioterapia-post-operatoria.html
-│   └── ...
-├── css/
-│   └── styles.css              # Single unified stylesheet (~450 lines)
-├── js/
-│   └── main.js                 # Mobile menu toggle (~30 lines)
+fisiohub-web/
+├── index.html            # Homepage: hero + Hub, Servizi, Come possiamo aiutarti,
+│                         #   Cosa c'è in studio, Esperti in fisioterapia, Dove siamo
+├── hub.html              # Lo studio (+ foto), il nostro approccio, strumenti spiegati
+├── servizi.html          # I 5 servizi spiegati + strumenti spiegati
+├── cosa-trattiamo.html   # 8 casi + banner "Ti hanno operato?" / "Dentro la sala operatoria"
+├── team.html             # Biografie, sigle spiegate, banner "Formazione, insegnamento e sport"
+├── insta.html            # Instagram feed
+├── contatti.html         # Mappa, WhatsApp/email cliccabili, banner fisioterapia a domicilio
+├── terapie.html, dove.html, <team>.html, project/*.html
+│                         # Redirect pages from the old URLs (keep links/SEO working)
+├── css/styles.css
+├── js/main.js            # Mobile menu + solid header on scroll
 ├── assets/
-│   ├── fonts/                  # Self-hosted WOFF2 fonts (Regular, Medium, Bold, Inter, Satoshi)
-│   ├── logos/                  # All 5 color-themed SVG logos
-│   ├── images/                 # Background images, team photos, favicons, WhatsApp icon
-│   └── video/                  # Homepage cover background MP4
-└── build.py                    # Single-file static generator for shared layout & data
+└── build.py              # Generator: all content and settings live here
 ```
 
 ---
@@ -52,15 +42,18 @@ Then open `http://martinsevilla.c.googlers.com:8080` in your browser.
 
 Instead of editing 24 separate HTML files when changing a phone number, email address, menu link, team member, or therapy description:
 
-1. Edit [`build.py`](build.py):
-   - **`SITE_CONFIG`**: Phone number, WhatsApp number, email, physical address, navigation items.
-   - **`TEAM_MEMBERS`**: Team photos and biography paragraphs.
-   - **`THERAPIES`**: Therapy titles, descriptions, treated pathologies, and email booking subjects.
+1. Edit [`build.py`]:
+   - **`SITE_CONFIG`**: phone, WhatsApp number, email, address, navigation, and
+     **`booking_url`** (currently `contatti.html`; swap in the online booking link when ready).
+   - **`STUDIO_PHOTOS`**: paths of the studio photos (placeholders are shown while empty).
+   - **`HUB_PARAGRAPHS`, `APPROACH_*`, `SERVICES`, `CONDITIONS`, `TOOLS`**: page content.
+   - **`TEAM_MEMBERS`, `CREDENTIALS_GLOSSARY`**: bios, credentials, areas, glossary.
+   - **`REDIRECTS`**: old URL → new URL map.
 2. Run:
    ```bash
    python3 build.py
    ```
-   All 24 HTML files will regenerate in under 0.1 seconds.
+   All pages and redirects will regenerate in under 0.1 seconds.
 
 ---
 

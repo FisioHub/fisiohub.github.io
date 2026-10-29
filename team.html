@@ -3,11 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Team - Fisio Hub</title>
-  <meta name="description" content="Il team di fisioterapisti di Fisio Hub Lugano: Luca Gilardoni, Simone Vaccani, Carola Isella e Federico Monzoni.">
+  <title>Il team - Fisio Hub Lugano</title>
+  <meta name="description" content="Il team di FisioHub Lugano: Luca Gilardoni, Simone Vaccani, Carola Isella e Federico Monzoni.">
   <meta property="og:locale" content="it_IT">
   <meta property="og:site_name" content="Fisio Hub - Fisioterapia moderna Lugano">
-  <meta property="og:title" content="Team - Fisio Hub">
+  <meta property="og:title" content="Il team - Fisio Hub Lugano">
+  <meta property="og:description" content="Il team di FisioHub Lugano: Luca Gilardoni, Simone Vaccani, Carola Isella e Federico Monzoni.">
   <link rel="icon" href="assets/images/favicon-32x32.png" sizes="32x32">
   <link rel="icon" href="assets/images/favicon-192x192.png" sizes="192x192">
   <link rel="apple-touch-icon" href="assets/images/favicon-180x180.png">
@@ -18,24 +19,28 @@
   <!-- Shared Header & Navigation -->
   <header class="site-header">
     <div class="nav-container">
-      <div class="nav-logo-wrap">
-        <a href="index.html" aria-label="Fisio Hub Home">
-          <img src="assets/logos/FisioHub_BLuw.svg" alt="Fisio Hub Logo">
-        </a>
-      </div>
-      <nav class="nav-menu-wrap" aria-label="Menu principale">
+      <a class="nav-logo" href="index.html" aria-label="Fisio Hub - Home">
+        <img class="logo-top" src="assets/logos/FisioHub_BLuw.svg" alt="Fisio Hub">
+        <img class="logo-scrolled" src="assets/logos/FisioHub_blu.svg" alt="" aria-hidden="true">
+      </a>
+      <nav class="nav-menu" aria-label="Menu principale">
         <ul class="nav-list">
-          <li><a href="hub.html">HUB</a></li>
-          <li><a href="terapie.html">Terapie</a></li>
-          <li><a href="team.html" class="active">Team</a></li>
+          <li><a href="hub.html">Hub</a></li>
+          <li><a href="servizi.html">Servizi</a></li>
+          <li><a href="cosa-trattiamo.html">Cosa trattiamo</a></li>
+          <li><a href="team.html" class="active" aria-current="page">Il team</a></li>
           <li><a href="insta.html">Insta</a></li>
-          <li><a href="dove.html">Dove</a></li>
+          <li><a href="contatti.html">Contatti</a></li>
         </ul>
-        <button id="mobile-menu-open" class="hamburger-btn" aria-label="Apri menu">
+      </nav>
+      <div class="nav-actions">
+        <a class="nav-phone" href="https://wa.me/41798396900?text=Buongiorno,%20vorrei%20prenotare%20un%20appuntamento." target="_blank" rel="noopener" aria-label="Scrivici su WhatsApp al 079 839 69 00">
+          <svg class="icon-wa" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38a9.9 9.9 0 0 0 4.74 1.21c5.46 0 9.91-4.45 9.91-9.91S17.5 2 12.04 2Zm0 18.15c-1.48 0-2.93-.4-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.2 8.2 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.25-8.24 4.54 0 8.24 3.7 8.24 8.24 0 4.55-3.7 8.24-8.24 8.24Zm4.52-6.16c-.25-.12-1.47-.72-1.7-.81-.23-.08-.39-.12-.56.13-.17.25-.64.81-.78.97-.14.17-.29.19-.54.06-.25-.12-1.05-.39-1.99-1.23-.74-.66-1.23-1.47-1.38-1.72-.14-.25-.02-.38.11-.51.11-.11.25-.29.37-.43.13-.15.17-.25.25-.42.08-.17.04-.31-.02-.43-.06-.12-.56-1.34-.76-1.84-.2-.48-.41-.42-.56-.43h-.48c-.17 0-.43.06-.66.31-.23.25-.86.85-.86 2.07 0 1.22.89 2.4 1.01 2.56.12.17 1.75 2.67 4.23 3.74.59.26 1.05.41 1.41.52.59.19 1.13.16 1.56.1.48-.07 1.47-.6 1.67-1.18.21-.58.21-1.08.14-1.18-.06-.11-.22-.17-.47-.29Z"/></svg><span class="nav-phone-num">079 839 69 00</span>
+        </a>
+        <button id="mobile-menu-open" class="hamburger-btn" aria-label="Apri menu" aria-controls="mobile-overlay" aria-expanded="false">
           <span></span>
         </button>
-      </nav>
-      <div class="nav-spacer" aria-hidden="true"></div>
+      </div>
     </div>
 
     <!-- Mobile Overlay Menu -->
@@ -46,64 +51,200 @@
         </svg>
       </button>
       <ul class="overlay-nav-list">
-        <li><a href="hub.html">HUB</a></li>
-        <li><a href="terapie.html">Terapie</a></li>
-        <li><a href="team.html">Team</a></li>
+        <li><a href="hub.html">Hub</a></li>
+        <li><a href="servizi.html">Servizi</a></li>
+        <li><a href="cosa-trattiamo.html">Cosa trattiamo</a></li>
+        <li><a href="team.html" aria-current="page">Il team</a></li>
         <li><a href="insta.html">Insta</a></li>
-        <li><a href="dove.html">Dove</a></li>
+        <li><a href="contatti.html">Contatti</a></li>
       </ul>
+      <a class="overlay-phone" href="https://wa.me/41798396900?text=Buongiorno,%20vorrei%20prenotare%20un%20appuntamento." target="_blank" rel="noopener"><svg class="icon-wa" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38a9.9 9.9 0 0 0 4.74 1.21c5.46 0 9.91-4.45 9.91-9.91S17.5 2 12.04 2Zm0 18.15c-1.48 0-2.93-.4-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.2 8.2 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.25-8.24 4.54 0 8.24 3.7 8.24 8.24 0 4.55-3.7 8.24-8.24 8.24Zm4.52-6.16c-.25-.12-1.47-.72-1.7-.81-.23-.08-.39-.12-.56.13-.17.25-.64.81-.78.97-.14.17-.29.19-.54.06-.25-.12-1.05-.39-1.99-1.23-.74-.66-1.23-1.47-1.38-1.72-.14-.25-.02-.38.11-.51.11-.11.25-.29.37-.43.13-.15.17-.25.25-.42.08-.17.04-.31-.02-.43-.06-.12-.56-1.34-.76-1.84-.2-.48-.41-.42-.56-.43h-.48c-.17 0-.43.06-.66.31-.23.25-.86.85-.86 2.07 0 1.22.89 2.4 1.01 2.56.12.17 1.75 2.67 4.23 3.74.59.26 1.05.41 1.41.52.59.19 1.13.16 1.56.1.48-.07 1.47-.6 1.67-1.18.21-.58.21-1.08.14-1.18-.06-.11-.22-.17-.47-.29Z"/></svg> 079 839 69 00</a>
     </div>
   </header>
 
   <!-- Main Page Content -->
   <main class="page-main">
-    <section class="team-section">
+    <section class="page-hero">
+      <div class="container page-hero-inner fade-in-up">
+        <h1 class="section-title"><span class="accent-arrow">→</span> Il team</h1>
+        <p class="lead">Fisioterapisti con formazione universitaria avanzata, che vivono lo sport in prima persona.</p>
+        
+      </div>
+    </section>
+
+    <section class="band band-white">
+      <div class="container bio-list">
+        <article class="bio" id="luca-gilardoni">
+          <div class="bio-photo">
+            <img src="assets/images/LUCA_GILARDONI.jpg" width="1000" height="1043" alt="Luca Gilardoni" loading="lazy">
+          </div>
+          <div class="bio-text">
+            <h2><span class="accent-arrow">→</span> Luca Gilardoni</h2>
+            <ul class="chips"><li>OMPT</li><li>CAS SUPSI</li></ul>
+            <p class="bio-areas"><strong>Aree di riferimento:</strong> Spalla, Ginocchio, Collo, Corsa in montagna</p>
+            <p>Luca, nato a Sorengo nel 1991 e cresciuto a Valsolda sul lago di Lugano, è da sempre appassionato di sport. Dopo circa vent’anni di calcio, alcuni infortuni lo hanno avvicinato al mondo della fisioterapia. Amante della montagna, ha sciato per molti anni e dal 2015 si è dedicato alla corsa in montagna, gareggiando dal 2016 con l’ASD Atletica Pidaggia 1528 e distinguendosi nelle lunghe distanze nel circuito italiano e internazionale di Skyrunning.</p>
+            <p>Laureato in fisioterapia presso l'Università degli studi dell'Insubria successivamente frequenta e ottiene il titolo OMPT grazie al Master in riabilitazione dei disordini muscoloscheletrici presso l'Università di Genova, esperienza che lo porta ad avere un approccio lavorativo e formativo molto Evidence-Based.</p>
+            <details class="bio-more">
+              <summary>Leggi tutta la biografia</summary>
+              <p>Dopo, continua la sua formazione universitaria post-laurea completando il CAS in Fisioterapia Muscoloscheletrica presso l'Università SUPSI di Lugano.</p>
+              <p>Frequenta costantemente corsi di aggiornamento in ambito muscoloscheletrico e sportivo ed ha collaborato a vari studi di ricerca con pubblicazioni annesse.</p>
+              <p>Luca inizia la professione presso l’Istituto Ortopedico Gaetano Pini di Milano, occupandosi di riabilitazione ortopedica e neurochirurgica. Dal 2015 lavora in Ticino in uno studio specializzato nella riabilitazione muscoloscheletrica, dove scopre la possibilità di unire le sue due passioni: sport e fisioterapia.</p>
+              <p>Dal 2019 al 2022 segue la riabilitazione dei calciatori dell’FC Gambarogno Contone, squadra di seconda lega interregionale svizzera. Successivamente amplia la propria esperienza nel settore sportivo, approfondendo la specializzazione nel trattamento di spalla, ginocchio e distretto cervicale.</p>
+              <p>Nel suo tempo libero passa il tempo con sua figlia Viola, ama leggere libri, tifare per il Calcio Como, stare in natura per osservare paesaggi e viaggiare!</p>
+            </details>
+          </div>
+        </article>
+        <article class="bio" id="simone-vaccani">
+          <div class="bio-photo">
+            <img src="assets/images/SIMONE_VACCANI.jpg" width="1000" height="1043" alt="Simone Vaccani" loading="lazy">
+          </div>
+          <div class="bio-text">
+            <h2><span class="accent-arrow">→</span> Simone Vaccani</h2>
+            <ul class="chips"><li>Maitland</li><li>Running Injury Specialist</li><li>Master Fisioterapia Sportiva</li></ul>
+            <p class="bio-areas"><strong>Aree di riferimento:</strong> Anca, Ginocchio, Infortuni da corsa, Post-operatorio</p>
+            <p>Simone, nato a Busto Arsizio (VA) nel 1981, è appassionato di sport fin da giovane.</p>
+            <p>Dopo il calcio amatoriale scopre a 18 anni il nuoto, che per oltre dieci anni diventa il suo principale impegno, portandolo a conseguire brevetti da istruttore e a gareggiare nel circuito master, sia in vasca che in acque libere.</p>
+            <details class="bio-more">
+              <summary>Leggi tutta la biografia</summary>
+              <p>Tuttora pratica diversi sport a livello amatoriale quali nuoto in acque libere, running, mountain bike, snowboard e nel tempo libero ama fare trekking in montagna con i suoi cani e la sua famiglia.</p>
+              <p>Simone si laurea in Fisioterapia all’Università di Varese con il massimo dei voti, iniziando subito la formazione in terapia manuale secondo il concetto Maitland, lavorando al fianco di uno dei docenti più esperti della metodica.</p>
+              <p>Negli anni sviluppa una solida competenza nell’ambito ortopedico e sportivo, conseguendo la certificazione internazionale di Running Injury Specialist di The Running Clinic, un master in fisioterapia sportiva e diverse formazioni su problematiche muscolo-scheletriche di anca e ginocchio.</p>
+              <p>Nel 2019 si trasferisce a Ortisei, in Alto Adige, per lavorare alla Dolomiti Sportclinic, centro di riferimento per la traumatologia sportiva e gli sport invernali. Durante i tre anni trascorsi lì, collabora con chirurghi in sala operatoria e segue quotidianamente il recupero di giovani atleti e professionisti di alto livello, tra cui praticanti di hockey, sci freestyle, biathlon e pattinaggio artistico.</p>
+              <p>Dal 2022 Simone si trasferisce in Svizzera, dove continua a lavorare nella riabilitazione ortopedica e sportiva, affinando le proprie competenze in particolare nella riabilitazione dell’articolazione dell’anca e del ginocchio.</p>
+            </details>
+          </div>
+        </article>
+        <article class="bio" id="carola-isella">
+          <div class="bio-photo">
+            <img src="assets/images/CAROLA_ISELLA.jpg" width="1000" height="1043" alt="Carola Isella" loading="lazy">
+          </div>
+          <div class="bio-text">
+            <h2><span class="accent-arrow">→</span> Carola Isella</h2>
+            <ul class="chips"><li>CSCS</li><li>Maitland</li><li>Master Linfodrenaggio</li><li>Pilates Reformer</li></ul>
+            <p class="bio-areas"><strong>Aree di riferimento:</strong> Fisioterapia sportiva, Strength &amp; Conditioning, Linfodrenaggio, Dolore cronico e scoliosi</p>
+            <p>Carola è nata a Biella (BI) nel 1996. E’ sempre stata una persona attiva, con una forte passione per lo sport e la natura. Ex ballerina di danza classica, ha sviluppato un profondo interesse per il movimento umano e per il recupero dagli infortuni, che l’ha portata a conseguire la laurea in Fisioterapia all'università dell'Insubria di Varese.</p>
+            <p>Dopo aver completato gli studi, Carola ha approfondito la sua formazione nell’ambito muscolo-scheletrico seguendo il percorso Maitland. Ha inoltre frequentato numerosi corsi di fisioterapia sportiva, conseguito la certificazione CSCS (Certified Strength and Conditioning Specialist) e ottenuto un master in linfodrenaggio. Nel corso della sua carriera ha poi ampliato ulteriormente le proprie competenze conseguendo specifiche qualifiche nel trattamento della scoliosi e del dolore cronico.</p>
+            <details class="bio-more">
+              <summary>Leggi tutta la biografia</summary>
+              <p>Oggi Carola è dall'altra parte della cattedra: è assistente docente presso l'università LUDES di Lugano.</p>
+              <p>Carola ha iniziato subito a lavorare nell’ambito della riabilitazione muscoloscheletrica e sportiva, arrivando a ricoprire il ruolo di fisioterapista responsabile per squadre di rugby e basket di alto livello.</p>
+              <p>Carola ha maturato una vasta esperienza in molti sport come rugby, basket, pallavolo e tennis, seguendo tornei ATP e lavorando in cliniche sportive altamente specializzate e basate sulle evidenze scientifiche. Nel corso della sua carriera è diventata anche istruttrice certificata di Pilates Reformer.</p>
+              <p>L’approccio di Carola si basa su una pratica evidence-based, con una forte attenzione a guidare il paziente verso un recupero completo. Grande importanza viene data all’educazione del paziente, aiutandolo a comprendere il proprio infortunio e a gestirlo in modo efficace nel lungo termine.</p>
+            </details>
+          </div>
+        </article>
+        <article class="bio" id="federico-monzoni">
+          <div class="bio-photo">
+            <img src="assets/images/Federico-Monzoni.jpg" width="1000" height="1043" alt="Federico Monzoni" loading="lazy">
+          </div>
+          <div class="bio-text">
+            <h2><span class="accent-arrow">→</span> Federico Monzoni</h2>
+            <ul class="chips"><li>Master Biomeccanica Clinica e Sportiva</li></ul>
+            <p class="bio-areas"><strong>Aree di riferimento:</strong> Biomeccanica e analisi del movimento, Arto inferiore, Infortuni sportivi</p>
+            <p>Federico, nato nelle Marche nel 1999, è da sempre appassionato di sport e attività all’aria aperta. Le vacanze trascorse sui Monti Sibillini lo hanno portato fin da bambino a sviluppare un forte legame con la montagna e ad avvicinarsi al mondo della Mountain Bike.</p>
+            <p>Inizia a praticare Downhill in giovane età, e durante la sua carriera agonistica partecipa a competizioni nazionali e internazionali, conquistando due titoli italiani nelle categorie giovanili e un titolo svizzero nel circuito IXS Swiss Cup. Nel 2016 rappresenta l’Italia ai Campionati del Mondo di Downhill in Val di Sole.</p>
+            <details class="bio-more">
+              <summary>Leggi tutta la biografia</summary>
+              <p>Terminata l’attività agonistica, intraprende il percorso universitario in Fisioterapia presso l’Università degli Studi di Perugia, laureandosi con il massimo dei voti nel novembre 2021. Durante gli studi ottiene una borsa Erasmus+, che gli permette di svolgere un tirocinio clinico presso l’ambulatorio ortopedico dell’Università di Malaga.</p>
+              <p>Inizia la propria attività clinica in Centro Italia, occupandosi della riabilitazione di pazienti con patologie muscolo-scheletriche e neurologiche, sia in fase acuta che cronica.</p>
+              <p>Prosegue successivamente la propria formazione attraverso corsi di perfezionamento in Italia, Svizzera e Inghilterra, approfondendo in particolare l’ambito muscolo-scheletrico e sportivo.</p>
+              <p>Nel 2025 consegue il Master in Biomeccanica Clinica e Sportiva presso l’Università degli Studi di Camerino, consolidando il proprio interesse per l’analisi del movimento e la relazione tra biomeccanica, riabilitazione e performance.</p>
+              <p>All’inizio del 2026 pubblica inoltre, in qualità di coautore, il suo primo articolo scientifico dedicato allo studio dell’arto inferiore, affiancando il ramo della ricerca scientifica alla sua pratica clinica.</p>
+              <p>Nel tempo libero ama viaggiare, praticare sport all’aria aperta e dedicarsi a progetti legati allo sviluppo dello sport nel territorio.</p>
+            </details>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="band band-navy" id="sigle">
       <div class="container">
-        <div class="team-grid">
-          <a class="team-card fade-in-up" href="luca-gilardoni.html">
-            <img src="assets/images/LUCA_GILARDONI.jpg" width="1000" height="1043" alt="Luca Gilardoni">
-            <h2><span class="accent-arrow">→</span> LUCA GILARDONI</h2>
-          </a>
-          <a class="team-card fade-in-up" href="simone-vaccani.html">
-            <img src="assets/images/SIMONE_VACCANI.jpg" width="1000" height="1043" alt="Simone Vaccani">
-            <h2><span class="accent-arrow">→</span> SIMONE VACCANI</h2>
-          </a>
-          <a class="team-card fade-in-up" href="carola-isella.html">
-            <img src="assets/images/CAROLA_ISELLA.jpg" width="1000" height="1043" alt="Carola Isella">
-            <h2><span class="accent-arrow">→</span> CAROLA ISELLA</h2>
-          </a>
-          <a class="team-card fade-in-up" href="federico-monzoni-2.html">
-            <img src="assets/images/Federico-Monzoni.jpg" width="1000" height="1043" alt="Federico Monzoni">
-            <h2><span class="accent-arrow">→</span> FEDERICO MONZONI</h2>
-          </a>
+        <div class="section-head">
+          <h2 class="section-title"><span class="accent-arrow">→</span> Le sigle, spiegate</h2>
+          <p class="section-intro">Cosa significano i titoli accanto ai nostri nomi.</p>
+        </div>
+        <div class="gloss-grid">
+          <div class="gloss">
+            <h3>OMPT</h3>
+            <p class="gloss-full">Orthopaedic Manipulative Physical Therapist</p>
+            <p>Titolo internazionale riconosciuto dall’IFOMPT, ottenuto con un master universitario in riabilitazione dei disordini muscoloscheletrici. Indica una formazione avanzata in terapia manuale, esercizio terapeutico e ragionamento clinico.</p>
+          </div>
+          <div class="gloss">
+            <h3>CAS</h3>
+            <p class="gloss-full">Certificate of Advanced Studies</p>
+            <p>Formazione universitaria post-laurea del sistema svizzero. Luca ha conseguito il CAS in Fisioterapia Muscoloscheletrica alla SUPSI.</p>
+          </div>
+          <div class="gloss">
+            <h3>CSCS</h3>
+            <p class="gloss-full">Certified Strength and Conditioning Specialist</p>
+            <p>Certificazione internazionale della NSCA (National Strength and Conditioning Association) per la programmazione dell’allenamento di forza e condizionamento, dalla prevenzione alla performance.</p>
+          </div>
+          <div class="gloss">
+            <h3>Maitland</h3>
+            <p class="gloss-full">Concetto Maitland di terapia manuale</p>
+            <p>Percorso di formazione in terapia manuale che unisce tecniche di mobilizzazione a un ragionamento clinico strutturato, con rivalutazione continua dei risultati.</p>
+          </div>
+          <div class="gloss">
+            <h3>Running Injury Specialist</h3>
+            <p class="gloss-full">The Running Clinic</p>
+            <p>Certificazione internazionale dedicata alla prevenzione e al trattamento degli infortuni da corsa.</p>
+          </div>
+          <div class="gloss">
+            <h3>Master</h3>
+            <p class="gloss-full">Master universitario post-laurea</p>
+            <p>Formazione universitaria avanzata dopo la laurea in fisioterapia: nel nostro team in fisioterapia sportiva, linfodrenaggio e biomeccanica clinica e sportiva.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="banner banner-orange" id="formazione">
+      <div class="container">
+        <h2 class="banner-title">Formazione, insegnamento e sport</h2>
+        <div class="banner-cols">
+          <div>
+            <h3><span class="accent-arrow">→</span> Formazione</h3>
+            <p>Master universitari, OMPT, CAS e corsi di aggiornamento continui in ambito muscoloscheletrico e sportivo: la formazione non si ferma mai.</p>
+          </div>
+          <div>
+            <h3><span class="accent-arrow">→</span> Insegnamento e ricerca</h3>
+            <p>Carola è assistente docente all’università LUDES di Lugano. Luca e Federico hanno collaborato a studi di ricerca con pubblicazioni scientifiche.</p>
+          </div>
+          <div>
+            <h3><span class="accent-arrow">→</span> Sport</h3>
+            <p>Squadre di calcio, rugby e basket, tornei ATP, una clinica di traumatologia sportiva nelle Dolomiti. E da atleti: skyrunning, nuoto master, danza classica e downhill ai Mondiali.</p>
+          </div>
         </div>
       </div>
     </section>
   </main>
 
-  <!-- Shared Fixed Footer -->
+  <!-- Shared Footer -->
   <footer class="site-footer">
     <div class="footer-grid">
       <div class="footer-col">
         <p>
           <span class="footer-brand">FisioHub SA</span><br>
           Via Carlo Maderno, 26<br>
-          6900 Lugano.
+          6900 Lugano
         </p>
       </div>
       <div class="footer-col">
         <p>
-          <a href="tel:+410798396900">079 8396900</a><br>
+          <a href="tel:+41798396900">079 839 69 00</a><br>
           <a href="mailto:info@fisiohub.ch">info@fisiohub.ch</a>
         </p>
       </div>
-      <div class="footer-col footer-whatsapp">
-        <a href="https://api.whatsapp.com/send?phone=+410798396900&amp;text=Buongiorno" target="_blank" rel="noopener noreferrer" aria-label="Contattaci su WhatsApp">
-          <img src="assets/images/whatsapp.png" alt="WhatsApp">
-        </a>
+      <div class="footer-col footer-cta">
+        <a class="btn btn-navy" href="contatti.html">→ Prenota appuntamento</a>
       </div>
     </div>
   </footer>
+
+  <!-- Floating WhatsApp button -->
+  <a class="wa-float" href="https://wa.me/41798396900?text=Buongiorno,%20vorrei%20prenotare%20un%20appuntamento." target="_blank" rel="noopener" aria-label="Scrivici su WhatsApp">
+    <img src="assets/images/whatsapp.png" alt="">
+  </a>
 
   <script src="js/main.js"></script>
 </body>

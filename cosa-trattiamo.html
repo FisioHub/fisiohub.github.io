@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="it-IT">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cosa trattiamo - Fisio Hub Lugano</title>
+  <meta name="description" content="Collo e schiena, spalla, ginocchio, caviglia, anca, ATM, dolore cronico e infortuni sportivi: cosa trattiamo a FisioHub Lugano.">
+  <meta property="og:locale" content="it_IT">
+  <meta property="og:site_name" content="Fisio Hub - Fisioterapia moderna Lugano">
+  <meta property="og:title" content="Cosa trattiamo - Fisio Hub Lugano">
+  <meta property="og:description" content="Collo e schiena, spalla, ginocchio, caviglia, anca, ATM, dolore cronico e infortuni sportivi: cosa trattiamo a FisioHub Lugano.">
+  <link rel="icon" href="assets/images/favicon-32x32.png" sizes="32x32">
+  <link rel="icon" href="assets/images/favicon-192x192.png" sizes="192x192">
+  <link rel="apple-touch-icon" href="assets/images/favicon-180x180.png">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body class="theme-trattiamo">
+
+  <!-- Shared Header & Navigation -->
+  <header class="site-header">
+    <div class="nav-container">
+      <a class="nav-logo" href="index.html" aria-label="Fisio Hub - Home">
+        <img class="logo-top" src="assets/logos/FisioHub_verde.svg" alt="Fisio Hub">
+        <img class="logo-scrolled" src="assets/logos/FisioHub_blu.svg" alt="" aria-hidden="true">
+      </a>
+      <nav class="nav-menu" aria-label="Menu principale">
+        <ul class="nav-list">
+          <li><a href="hub.html">Hub</a></li>
+          <li><a href="servizi.html">Servizi</a></li>
+          <li><a href="cosa-trattiamo.html" class="active" aria-current="page">Cosa trattiamo</a></li>
+          <li><a href="team.html">Il team</a></li>
+          <li><a href="insta.html">Insta</a></li>
+          <li><a href="contatti.html">Contatti</a></li>
+        </ul>
+      </nav>
+      <div class="nav-actions">
+        <a class="nav-phone" href="https://wa.me/41798396900?text=Buongiorno,%20vorrei%20prenotare%20un%20appuntamento." target="_blank" rel="noopener" aria-label="Scrivici su WhatsApp al 079 839 69 00">
+          <svg class="icon-wa" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38a9.9 9.9 0 0 0 4.74 1.21c5.46 0 9.91-4.45 9.91-9.91S17.5 2 12.04 2Zm0 18.15c-1.48 0-2.93-.4-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.2 8.2 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.25-8.24 4.54 0 8.24 3.7 8.24 8.24 0 4.55-3.7 8.24-8.24 8.24Zm4.52-6.16c-.25-.12-1.47-.72-1.7-.81-.23-.08-.39-.12-.56.13-.17.25-.64.81-.78.97-.14.17-.29.19-.54.06-.25-.12-1.05-.39-1.99-1.23-.74-.66-1.23-1.47-1.38-1.72-.14-.25-.02-.38.11-.51.11-.11.25-.29.37-.43.13-.15.17-.25.25-.42.08-.17.04-.31-.02-.43-.06-.12-.56-1.34-.76-1.84-.2-.48-.41-.42-.56-.43h-.48c-.17 0-.43.06-.66.31-.23.25-.86.85-.86 2.07 0 1.22.89 2.4 1.01 2.56.12.17 1.75 2.67 4.23 3.74.59.26 1.05.41 1.41.52.59.19 1.13.16 1.56.1.48-.07 1.47-.6 1.67-1.18.21-.58.21-1.08.14-1.18-.06-.11-.22-.17-.47-.29Z"/></svg><span class="nav-phone-num">079 839 69 00</span>
+        </a>
+        <button id="mobile-menu-open" class="hamburger-btn" aria-label="Apri menu" aria-controls="mobile-overlay" aria-expanded="false">
+          <span></span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Overlay Menu -->
+    <div id="mobile-overlay" class="mobile-overlay" aria-hidden="true">
+      <button id="mobile-menu-close" class="overlay-close-btn" aria-label="Chiudi menu">
+        <svg width="18" height="18" viewBox="0 0 8 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M1 1L7 7M7 1L1 7" stroke="white" stroke-width="1.2" stroke-linecap="round"/>
+        </svg>
+      </button>
+      <ul class="overlay-nav-list">
+        <li><a href="hub.html">Hub</a></li>
+        <li><a href="servizi.html">Servizi</a></li>
+        <li><a href="cosa-trattiamo.html" aria-current="page">Cosa trattiamo</a></li>
+        <li><a href="team.html">Il team</a></li>
+        <li><a href="insta.html">Insta</a></li>
+        <li><a href="contatti.html">Contatti</a></li>
+      </ul>
+      <a class="overlay-phone" href="https://wa.me/41798396900?text=Buongiorno,%20vorrei%20prenotare%20un%20appuntamento." target="_blank" rel="noopener"><svg class="icon-wa" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38a9.9 9.9 0 0 0 4.74 1.21c5.46 0 9.91-4.45 9.91-9.91S17.5 2 12.04 2Zm0 18.15c-1.48 0-2.93-.4-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.2 8.2 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.25-8.24 4.54 0 8.24 3.7 8.24 8.24 0 4.55-3.7 8.24-8.24 8.24Zm4.52-6.16c-.25-.12-1.47-.72-1.7-.81-.23-.08-.39-.12-.56.13-.17.25-.64.81-.78.97-.14.17-.29.19-.54.06-.25-.12-1.05-.39-1.99-1.23-.74-.66-1.23-1.47-1.38-1.72-.14-.25-.02-.38.11-.51.11-.11.25-.29.37-.43.13-.15.17-.25.25-.42.08-.17.04-.31-.02-.43-.06-.12-.56-1.34-.76-1.84-.2-.48-.41-.42-.56-.43h-.48c-.17 0-.43.06-.66.31-.23.25-.86.85-.86 2.07 0 1.22.89 2.4 1.01 2.56.12.17 1.75 2.67 4.23 3.74.59.26 1.05.41 1.41.52.59.19 1.13.16 1.56.1.48-.07 1.47-.6 1.67-1.18.21-.58.21-1.08.14-1.18-.06-.11-.22-.17-.47-.29Z"/></svg> 079 839 69 00</a>
+    </div>
+  </header>
+
+  <!-- Main Page Content -->
+  <main class="page-main">
+    <section class="page-hero">
+      <div class="container page-hero-inner fade-in-up">
+        <h1 class="section-title"><span class="accent-arrow">→</span> Cosa trattiamo</h1>
+        <p class="lead">Dal collo alla caviglia, dal dolore cronico all’infortunio sportivo: ecco come possiamo aiutarti.</p>
+        
+      </div>
+    </section>
+
+    <section class="band band-white">
+      <div class="container detail-list">
+        <article class="detail" id="collo-e-schiena">
+          <div class="detail-head">
+            <span class="card-num">01</span>
+            <h2>Collo e schiena</h2>
+          </div>
+          <div class="detail-body">
+            <p>Il dolore al collo e alla schiena è tra i motivi più frequenti per cui ci si rivolge al fisioterapista. Nella maggior parte dei casi non è legato a un danno grave, ma può limitare molto il lavoro, il sonno e lo sport.</p>
+            <p>Dopo una valutazione accurata, combiniamo terapia manuale, educazione e un programma di esercizi progressivo per ridurre il dolore e ritrovare fiducia nel movimento.</p>
+          </div>
+          <div class="detail-side">
+            <h3>Trattiamo ad esempio</h3>
+            <ul class="arrow-list">
+              <li><span class="accent-arrow">→</span> Cervicalgia e lombalgia, acuta o cronica</li>
+              <li><span class="accent-arrow">→</span> Ernia e protrusione discale</li>
+              <li><span class="accent-arrow">→</span> Sciatalgia e dolore irradiato al braccio o alla gamba</li>
+              <li><span class="accent-arrow">→</span> Colpo di frusta</li>
+              <li><span class="accent-arrow">→</span> Riabilitazione dopo intervento alla colonna</li>
+            </ul>
+          </div>
+        </article>
+        <article class="detail" id="spalla">
+          <div class="detail-head">
+            <span class="card-num">02</span>
+            <h2>Spalla</h2>
+          </div>
+          <div class="detail-body">
+            <p>Dolore quando alzi il braccio, di notte o durante lo sport? La spalla è un’articolazione molto mobile e per questo vulnerabile a sovraccarichi, traumi e rigidità.</p>
+            <p>Lavoriamo su mobilità, forza e controllo della scapola e della cuffia dei rotatori, con un percorso graduale che ti riporta ai gesti quotidiani e sportivi.</p>
+          </div>
+          <div class="detail-side">
+            <h3>Trattiamo ad esempio</h3>
+            <ul class="arrow-list">
+              <li><span class="accent-arrow">→</span> Lesioni e tendinopatie della cuffia dei rotatori</li>
+              <li><span class="accent-arrow">→</span> Spalla congelata (capsulite adesiva)</li>
+              <li><span class="accent-arrow">→</span> Instabilità e lussazione</li>
+              <li><span class="accent-arrow">→</span> Dolore da conflitto subacromiale</li>
+              <li><span class="accent-arrow">→</span> Riabilitazione dopo intervento alla spalla</li>
+            </ul>
+          </div>
+        </article>
+        <article class="detail" id="ginocchio">
+          <div class="detail-head">
+            <span class="card-num">03</span>
+            <h2>Ginocchio</h2>
+          </div>
+          <div class="detail-body">
+            <p>Il ginocchio è una delle articolazioni più sollecitate nello sport e nella vita quotidiana. Trattiamo sia gli infortuni acuti sia i dolori da sovraccarico e le problematiche degenerative.</p>
+            <p>Con esercizi mirati, misure di forza oggettive e test funzionali seguiamo ogni fase, dal recupero della mobilità fino al ritorno alla corsa e allo sport.</p>
+          </div>
+          <div class="detail-side">
+            <h3>Trattiamo ad esempio</h3>
+            <ul class="arrow-list">
+              <li><span class="accent-arrow">→</span> Lesione del legamento crociato anteriore (LCA)</li>
+              <li><span class="accent-arrow">→</span> Lesioni meniscali</li>
+              <li><span class="accent-arrow">→</span> Dolore femoro-rotuleo</li>
+              <li><span class="accent-arrow">→</span> Tendinopatia rotulea</li>
+              <li><span class="accent-arrow">→</span> Artrosi e protesi di ginocchio</li>
+            </ul>
+          </div>
+        </article>
+        <article class="detail" id="caviglia-e-piede">
+          <div class="detail-head">
+            <span class="card-num">04</span>
+            <h2>Caviglia e piede</h2>
+          </div>
+          <div class="detail-body">
+            <p>Una distorsione di caviglia trattata male può diventare un problema ricorrente. Così come il dolore al tallone o al tendine d’Achille può impedire di camminare e correre senza fastidio.</p>
+            <p>Lavoriamo su forza, equilibrio e propriocezione per recuperare stabilità e ridurre il rischio di nuovi infortuni.</p>
+          </div>
+          <div class="detail-side">
+            <h3>Trattiamo ad esempio</h3>
+            <ul class="arrow-list">
+              <li><span class="accent-arrow">→</span> Distorsione e instabilità di caviglia</li>
+              <li><span class="accent-arrow">→</span> Fascite plantare</li>
+              <li><span class="accent-arrow">→</span> Tendinopatia d’Achille</li>
+              <li><span class="accent-arrow">→</span> Recupero dopo fratture e immobilizzazione</li>
+            </ul>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="banner banner-rose" id="operato">
+      <div class="container banner-inner">
+        <div>
+          <p class="banner-kicker">Riabilitazione post-operatoria</p>
+          <h2>Ti hanno operato?</h2>
+          <p>Protesi d’anca o di ginocchio, ricostruzione del LCA, cuffia dei rotatori, colonna vertebrale: ti seguiamo in tutte le fasi, dalla gestione del dolore e del gonfiore fino al ritorno alle tue attività. Con criocompressione, NMES e BFR fin dalle prime settimane, e a domicilio se serve.</p>
+        </div>
+        <div class="banner-actions"><a class="btn btn-navy" href="contatti.html">→ Prenota appuntamento</a></div>
+      </div>
+    </section>
+
+    <section class="banner banner-navy">
+      <div class="container banner-inner">
+        <div>
+          <p class="banner-kicker">Dentro la sala operatoria</p>
+          <h2>Sappiamo cosa succede in sala operatoria.</h2>
+          <p>Per tre anni, alla Dolomiti Sportclinic di Ortisei, Simone ha collaborato con i chirurghi direttamente in sala operatoria, seguendo poi il recupero di atleti di alto livello. Conoscere l’intervento dall’interno ci permette di costruire una riabilitazione coerente con il lavoro del chirurgo.</p>
+        </div>
+        <div class="banner-actions"><a class="btn btn-outline-light" href="team.html#simone-vaccani">→ Conosci Simone</a></div>
+      </div>
+    </section>
+
+    <section class="band band-white">
+      <div class="container detail-list">
+        <article class="detail" id="anca-e-inguine">
+          <div class="detail-head">
+            <span class="card-num">05</span>
+            <h2>Anca e inguine</h2>
+          </div>
+          <div class="detail-body">
+            <p>Il dolore all’anca e all’inguine è frequente negli sportivi che corrono, calciano e cambiano direzione, ma anche in chi soffre di artrosi o è stato operato.</p>
+            <p>Una valutazione precisa permette di capire da dove nasce il dolore e di costruire un programma di carico progressivo per anca, muscoli adduttori e glutei.</p>
+          </div>
+          <div class="detail-side">
+            <h3>Trattiamo ad esempio</h3>
+            <ul class="arrow-list">
+              <li><span class="accent-arrow">→</span> Pubalgia e dolore inguinale dell’atleta</li>
+              <li><span class="accent-arrow">→</span> Conflitto femoro-acetabolare (FAI)</li>
+              <li><span class="accent-arrow">→</span> Tendinopatia glutea</li>
+              <li><span class="accent-arrow">→</span> Artrosi e protesi d’anca</li>
+            </ul>
+          </div>
+        </article>
+        <article class="detail" id="atm">
+          <div class="detail-head">
+            <span class="card-num">06</span>
+            <h2>ATM</h2>
+          </div>
+          <div class="detail-body">
+            <p>L’articolazione temporo-mandibolare (ATM) collega la mandibola al cranio. Dolore alla mascella, click, difficoltà ad aprire la bocca, bruxismo o mal di testa possono essere legati a un suo disturbo.</p>
+            <p>Interveniamo con terapia manuale, esercizi specifici ed educazione, quando necessario in collaborazione con il dentista o l’ortodontista.</p>
+          </div>
+          <div class="detail-side">
+            <h3>Trattiamo ad esempio</h3>
+            <ul class="arrow-list">
+              <li><span class="accent-arrow">→</span> Dolore alla mandibola e ai muscoli masticatori</li>
+              <li><span class="accent-arrow">→</span> Click o blocchi articolari</li>
+              <li><span class="accent-arrow">→</span> Limitazione nell’apertura della bocca</li>
+              <li><span class="accent-arrow">→</span> Bruxismo e cefalea associata</li>
+            </ul>
+          </div>
+        </article>
+        <article class="detail" id="dolore-cronico">
+          <div class="detail-head">
+            <span class="card-num">07</span>
+            <h2>Dolore cronico</h2>
+          </div>
+          <div class="detail-body">
+            <p>Le patologie reumatiche e il dolore cronico richiedono un approccio delicato e continuo, mirato a migliorare la qualità della vita e ridurre la disabilità.</p>
+            <p>Il trattamento combina movimento controllato, terapia manuale ed educazione sul dolore e sullo stile di vita. L’obiettivo è aiutarti a gestire il dolore, ritrovando equilibrio e autonomia nelle attività quotidiane.</p>
+          </div>
+          <div class="detail-side">
+            <h3>Trattiamo ad esempio</h3>
+            <ul class="arrow-list">
+              <li><span class="accent-arrow">→</span> Fibromialgia</li>
+              <li><span class="accent-arrow">→</span> Cervicalgie e lombalgie croniche</li>
+              <li><span class="accent-arrow">→</span> Dolore articolare cronico e artrosi</li>
+              <li><span class="accent-arrow">→</span> Artrite reumatoide</li>
+            </ul>
+          </div>
+        </article>
+        <article class="detail" id="infortuni-sportivi">
+          <div class="detail-head">
+            <span class="card-num">08</span>
+            <h2>Infortuni sportivi</h2>
+          </div>
+          <div class="detail-body">
+            <p>Siamo sportivi anche noi, e sappiamo quanto conta tornare in campo, in pista o in montagna nel minor tempo possibile, ma senza rischi.</p>
+            <p>Ogni percorso termina con una fase di return to sport basata su test funzionali e misure oggettive di forza, per decidere con dati reali quando sei pronto.</p>
+          </div>
+          <div class="detail-side">
+            <h3>Trattiamo ad esempio</h3>
+            <ul class="arrow-list">
+              <li><span class="accent-arrow">→</span> Lesioni muscolari (stiramenti, strappi)</li>
+              <li><span class="accent-arrow">→</span> Distorsioni e lesioni legamentose</li>
+              <li><span class="accent-arrow">→</span> Tendinopatie da sovraccarico</li>
+              <li><span class="accent-arrow">→</span> Infortuni da corsa</li>
+            </ul>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="banner banner-teal">
+      <div class="container banner-inner">
+        <h2>Non trovi il tuo problema? Scrivici.</h2>
+        <div class="banner-actions"><a class="btn btn-outline-light" href="https://wa.me/41798396900?text=Buongiorno,%20vorrei%20prenotare%20un%20appuntamento." target="_blank" rel="noopener">→ WhatsApp</a> <a class="btn btn-navy" href="contatti.html">→ Prenota appuntamento</a></div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Shared Footer -->
+  <footer class="site-footer">
+    <div class="footer-grid">
+      <div class="footer-col">
+        <p>
+          <span class="footer-brand">FisioHub SA</span><br>
+          Via Carlo Maderno, 26<br>
+          6900 Lugano
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>
+          <a href="tel:+41798396900">079 839 69 00</a><br>
+          <a href="mailto:info@fisiohub.ch">info@fisiohub.ch</a>
+        </p>
+      </div>
+      <div class="footer-col footer-cta">
+        <a class="btn btn-navy" href="contatti.html">→ Prenota appuntamento</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Floating WhatsApp button -->
+  <a class="wa-float" href="https://wa.me/41798396900?text=Buongiorno,%20vorrei%20prenotare%20un%20appuntamento." target="_blank" rel="noopener" aria-label="Scrivici su WhatsApp">
+    <img src="assets/images/whatsapp.png" alt="">
+  </a>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
