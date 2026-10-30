@@ -1,6 +1,6 @@
 /**
  * Fisio Hub Lugano — Main Frontend Script
- * Mobile menu toggle, keyboard navigation and header state on scroll.
+ * Mobile menu toggle, keyboard navigation, language switch and header state on scroll.
  */
 document.addEventListener("DOMContentLoaded", () => {
   const openBtn = document.getElementById("mobile-menu-open");
@@ -27,6 +27,13 @@ document.addEventListener("DOMContentLoaded", () => {
   document.addEventListener("keydown", (e) => {
     if (e.key === "Escape") setMenu(false);
   });
+
+  // Language switch: stay on the same section (#anchor) when changing language
+  document.querySelectorAll(".lang-switch a").forEach((a) =>
+    a.addEventListener("click", () => {
+      if (window.location.hash) a.hash = window.location.hash;
+    })
+  );
 
   // Solid header once the page has scrolled
   const onScroll = () => {

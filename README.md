@@ -2,6 +2,10 @@
 
 This is a clean, dependency-free static reproduction of [fisiohub.ch](https://fisiohub.ch/), converted from WordPress + Semplice 7 into pure semantic **HTML5 + Vanilla CSS + Vanilla JS**, paired with a lightweight zero-dependency Python generator ([`build.py`](build.py)) so shared headers, footers, team profiles, and therapy pages can be maintained in one place.
 
+> **Prototype:** this site currently lives at **https://fisiohub.github.io/**. It will replace
+> fisiohub.ch only after company approval. When it moves to the real domain, change
+> `site_url` in `SITE_CONFIG` (`build.py`) to `https://fisiohub.ch/` and run `python3 build.py`.
+
 ---
 
 ## Project Structure
@@ -18,11 +22,31 @@ fisiohub-web/
 ├── contatti.html         # Mappa, WhatsApp/email cliccabili, banner fisioterapia a domicilio
 ├── terapie.html, dove.html, <team>.html, project/*.html
 │                         # Redirect pages from the old URLs (keep links/SEO working)
+├── en/                   # English version of the 7 pages above (same file names)
 ├── css/styles.css
-├── js/main.js            # Mobile menu + solid header on scroll
+├── js/main.js            # Mobile menu, language switch, solid header on scroll
 ├── assets/
-└── build.py              # Generator: all content and settings live here
+├── content/
+│   ├── it/               # Italian text (original)
+│   └── en/               # English translation, same structure
+│       ├── ui.py         #   menu, buttons, headings, banners, page titles
+│       ├── hub.py        #   HUB text + approach
+│       ├── services.py   #   services
+│       ├── conditions.py #   conditions we treat
+│       ├── tools.py      #   equipment
+│       └── team.py       #   bios, credentials glossary, team banner
+├── check_parity.py       # Checks an English file matches its Italian one
+└── build.py              # Generator: layout, settings and page templates
 ```
+
+---
+
+## Italian / English
+
+The site is bilingual. Italian pages live at the root, English pages in `en/`
+with the same file names. The **IT / EN** switch in the header links each page
+to its counterpart in the other language (keeping the current `#section`).
+Each page also declares its other-language version with `hreflang` links.
 
 ---
 
@@ -42,18 +66,24 @@ Then open `http://martinsevilla.c.googlers.com:8080` in your browser.
 
 Instead of editing 24 separate HTML files when changing a phone number, email address, menu link, team member, or therapy description:
 
-1. Edit [`build.py`]:
-   - **`SITE_CONFIG`**: phone, WhatsApp number, email, address, navigation, and
+1. Edit [`build.py`] for settings shared by both languages:
+   - **`SITE_CONFIG`**: phone, WhatsApp number, email, address, menu order, and
      **`booking_url`** (currently `contatti.html`; swap in the online booking link when ready).
    - **`STUDIO_PHOTOS`**: paths of the studio photos (placeholders are shown while empty).
-   - **`HUB_PARAGRAPHS`, `APPROACH_*`, `SERVICES`, `CONDITIONS`, `TOOLS`**: page content.
-   - **`TEAM_MEMBERS`, `CREDENTIALS_GLOSSARY`**: bios, credentials, areas, glossary.
    - **`REDIRECTS`**: old URL → new URL map.
+
+   Edit the text in `content/it/` **and** the same entry in `content/en/`:
+   - **`ui.py`**: menu labels, WhatsApp message, buttons, headings, banners, page titles.
+   - **`hub.py`, `services.py`, `conditions.py`, `tools.py`**: page content.
+   - **`team.py`**: bios, credentials, areas, glossary.
+
+   After changing a translation, `python3 check_parity.py team` (or `ui`, `hub`, …)
+   confirms the English file still has the same entries, ids and HTML as the Italian one.
 2. Run:
    ```bash
    python3 build.py
    ```
-   All pages and redirects will regenerate in under 0.1 seconds.
+   All pages (both languages) and redirects will regenerate in under 0.1 seconds.
 
 ---
 

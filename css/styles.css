@@ -72,6 +72,7 @@
   --hero-image: none;
   --hero-color: var(--color-navy);
   --nav-text-color: var(--color-white);
+  --nav-contrast-color: var(--color-navy);
   --nav-hover-color: var(--color-rose);
   --nav-arrow-color: var(--color-rose);
   --accent-color: var(--color-rose);
@@ -80,6 +81,7 @@
 
 body.theme-home {
   --nav-text-color: var(--color-navy);
+  --nav-contrast-color: var(--color-white);
   --hamburger-color: var(--color-navy);
 }
 
@@ -308,11 +310,41 @@ body.theme-home:not(.is-scrolled) .nav-logo {
   color: var(--color-white);
 }
 
+/* Language switch (IT / EN) */
+.lang-switch {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px;
+  border: 1px solid var(--nav-text-color);
+  border-radius: 999px;
+  color: var(--nav-text-color);
+  font-size: 0.72222rem;
+  letter-spacing: 0.06em;
+  line-height: 1;
+}
+
+.lang-switch a {
+  color: inherit;
+  padding: 0.38rem 0.6rem 0.34rem;
+  border-radius: 999px;
+  opacity: 0.75;
+}
+
+.lang-switch a:hover,
+.lang-switch a:focus-visible { opacity: 1; }
+
+.lang-switch a[aria-current] {
+  background-color: var(--nav-text-color);
+  color: var(--nav-contrast-color);
+  opacity: 1;
+}
+
 /* Scrolled state: solid white bar, navy text */
 body.is-scrolled .site-header {
   background-color: rgba(255, 255, 255, 0.97);
   box-shadow: 0 1px 0 rgba(26, 66, 138, 0.1);
   --nav-text-color: var(--color-navy);
+  --nav-contrast-color: var(--color-white);
   --hamburger-color: var(--color-navy);
 }
 
@@ -994,6 +1026,7 @@ body.theme-servizi .footer-cta .btn-navy:hover { background: var(--color-white);
   .nav-phone-num { display: none; }
   .nav-phone { padding: 0.55rem; }
   .nav-phone .icon-wa { width: 1.25rem; height: 1.25rem; }
+  .nav-actions { gap: 0.9rem; }
 }
 
 @media screen and (max-width: 991.98px) {
