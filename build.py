@@ -519,7 +519,10 @@ def build_home() -> str:
 
   return f"""    <section class="hero-cover">
       <div class="hero-video-wrapper">
-        <video autoplay playsinline loop muted>
+        <video class="hero-video" autoplay muted loop playsinline webkit-playsinline preload="auto"
+               poster="{asset('assets/images/hero-poster.jpg')}"
+               disablepictureinpicture disableremoteplayback aria-hidden="true" tabindex="-1">
+          <source src="{asset('assets/video/Comp-1_12_mute-720.mp4')}" type="video/mp4" media="(max-width: 900px)">
           <source src="{asset('assets/video/Comp-1_12_mute.mp4')}" type="video/mp4">
         </video>
       </div>

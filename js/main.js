@@ -35,6 +35,32 @@ document.addEventListener("DOMContentLoaded", () => {
     })
   );
 
+  // Hero video: make sure it is muted and try to start it. Some phones block
+  // autoplay (e.g. iPhone Low Power Mode); then the poster image stays visible
+  // and we retry on the first touch / scroll, which counts as a user gesture.
+  document.querySelectorAll(".hero-video").forEach((video) => {
+    video.muted = true;
+    video.defaultMuted = true;
+    video.setAttribute("muted", "");
+    const tryPlay = () => {
+      const p = video.play();
+      if (p && typeof p.catch === "function") p.catch(() => {});
+    };
+    tryPlay();
+    const onGesture = () => {
+      if (video.paused) tryPlay();
+      ["touchstart", "click", "scroll"].forEach((ev) =>
+        window.removeEventListener(ev, onGesture)
+      );
+    };
+    ["touchstart", "click", "scroll"].forEach((ev) =>
+      window.addEventListener(ev, onGesture, { passive: true })
+    );
+    document.addEventListener("visibilitychange", () => {
+      if (!document.hidden && video.paused) tryPlay();
+    });
+  });
+
   // Solid header once the page has scrolled
   const onScroll = () => {
     document.body.classList.toggle("is-scrolled", window.scrollY > 40);

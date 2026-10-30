@@ -648,6 +648,21 @@ body.is-scrolled .nav-list li::before { color: var(--color-rose); }
   object-fit: cover;
 }
 
+/* Never show the browser's native play button / controls over the hero video
+   (iOS Low Power Mode or Android data saver can block autoplay; the poster is shown instead) */
+.hero-video-wrapper video {
+  pointer-events: none;
+  background: var(--color-cream) url("../assets/images/hero-poster.jpg") center / cover no-repeat;
+}
+.hero-video-wrapper video::-webkit-media-controls,
+.hero-video-wrapper video::-webkit-media-controls-panel,
+.hero-video-wrapper video::-webkit-media-controls-overlay-play-button,
+.hero-video-wrapper video::-webkit-media-controls-start-playback-button {
+  display: none !important;
+  -webkit-appearance: none;
+  opacity: 0 !important;
+}
+
 .hero-grid {
   position: relative;
   z-index: 1;
