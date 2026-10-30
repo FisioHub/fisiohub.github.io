@@ -36,7 +36,7 @@ SITE_CONFIG = {
     # International format, digits only (no "+", no leading 0 of the Swiss
     # number): used for tel: and WhatsApp links.
     "phone_intl": "41798396900",
-    "email": "info@fisiohub.ch",
+    "email": "fisiohub@hin.ch",
     "whatsapp_text": "Buongiorno, vorrei prenotare un appuntamento.",
     # Where every "Prenota appuntamento" button points. For now it is the
     # contact page; replace with the online booking URL once it is live.
@@ -55,7 +55,7 @@ SITE_CONFIG = {
         ("Servizi", "servizi.html"),
         ("Cosa trattiamo", "cosa-trattiamo.html"),
         ("Il team", "team.html"),
-        ("Insta", "insta.html"),
+        ("Social", "insta.html"),
         ("Contatti", "contatti.html"),
     ],
 }
@@ -68,6 +68,7 @@ STUDIO_PHOTOS = {
     "gallery_1": None,
     "gallery_2": None,
     "gallery_3": None,
+    "sala_operatoria": None,  # Cosa trattiamo: banner "Dentro la sala operatoria"
 }
 
 # ==============================================================================
@@ -323,21 +324,19 @@ CONDITIONS = [
         "short": "Cuffia dei rotatori, instabilità, spalla congelata.",
         "paragraphs": [
             (
-                "Dolore quando alzi il braccio, di notte o durante lo sport? La"
-                " spalla è un’articolazione molto mobile e per questo"
-                " vulnerabile a sovraccarichi, traumi e rigidità."
+                "Dolore quando muovi il braccio o durante lo sport? La spalla è"
+                " un’articolazione molto mobile e per questo vulnerabile a"
+                " sovraccarichi, traumi e rigidità."
             ),
             (
-                "Lavoriamo su mobilità, forza e controllo della scapola e della"
-                " cuffia dei rotatori, con un percorso graduale che ti riporta"
-                " ai gesti quotidiani e sportivi."
+                "Lavoriamo su mobilità, forza e controllo con un percorso"
+                " graduale che ti riporta ai gesti quotidiani e sportivi."
             ),
         ],
         "examples": [
             "Lesioni e tendinopatie della cuffia dei rotatori",
             "Spalla congelata (capsulite adesiva)",
             "Instabilità e lussazione",
-            "Dolore da conflitto subacromiale",
             "Riabilitazione dopo intervento alla spalla",
         ],
     },
@@ -374,12 +373,13 @@ CONDITIONS = [
             (
                 "Una distorsione di caviglia trattata male può diventare un"
                 " problema ricorrente. Così come il dolore al tallone o al"
-                " tendine d’Achille può impedire di camminare e correre senza"
-                " fastidio."
+                " tendine d’Achille possono impedire di camminare e correre"
+                " senza fastidio."
             ),
             (
-                "Lavoriamo su forza, equilibrio e propriocezione per recuperare"
-                " stabilità e ridurre il rischio di nuovi infortuni."
+                "Lavoriamo con strumenti tecnologici e con esercizi di forza,"
+                " equilibrio e propriocezione per diminuire il dolore,"
+                " recuperare stabilità e ridurre il rischio di nuovi infortuni."
             ),
         ],
         "examples": [
@@ -492,7 +492,10 @@ TOOLS = [
     {
         "id": "tecar",
         "title": "Tecar",
-        "short": "Energia a radiofrequenza per ridurre dolore e infiammazione.",
+        "short": (
+            "Energia a radiofrequenza per aiutare la riduzione di dolore e"
+            " infiammazione."
+        ),
         "text": (
             "La Tecarterapia utilizza energia elettromagnetica a"
             " radiofrequenza che stimola i tessuti dall’interno, migliorando la"
@@ -504,12 +507,17 @@ TOOLS = [
     {
         "id": "onde-d-urto",
         "title": "Onde d’urto",
-        "short": "Impulsi acustici per le tendinopatie più ostinate.",
+        "short": (
+            "Terapia a onde d’urto extracorporee (ESWT) per favorire i"
+            " processi di neovascolarizzazione e rigenerazione tissutale."
+        ),
         "text": (
-            "Le onde d’urto sono impulsi acustici ad alta energia trasmessi ai"
-            " tessuti. Sono indicate soprattutto nelle tendinopatie croniche,"
-            " come fascite plantare, epicondilite o tendinopatia d’Achille, dove"
-            " stimolano i processi di riparazione e riducono il dolore."
+            "Le onde d’urto sono impulsi acustici ad alta energia che stimolano"
+            " i processi di riparazione tissutale e la neo-angiogenesi. Sono"
+            " utili nel trattamento dell’edema osseo e di alcune patologie"
+            " tendinee croniche (come la fascite plantare e la tendinopatia"
+            " calcifica della spalla), riducendo efficacemente il dolore e"
+            " accelerando la guarigione."
         ),
     },
     {
@@ -518,7 +526,7 @@ TOOLS = [
         "short": "Blood Flow Restriction: forza anche con carichi leggeri.",
         "text": (
             "La Blood Flow Restriction Therapy consiste nell’eseguire esercizi"
-            " a bassa intensità con un parziale blocco del flusso sanguigno,"
+            " con un parziale blocco del flusso sanguigno,"
             " ottenuto con un bracciale a pressione controllata. Stimola la"
             " crescita muscolare e la forza anche con carichi ridotti,"
             " riducendo lo stress articolare: ideale nelle prime fasi della"
@@ -562,7 +570,11 @@ TOOLS = [
     {
         "id": "nmes",
         "title": "NMES",
-        "short": "Elettrostimolazione per riattivare i muscoli.",
+        "short": (
+            "Elettrostimolazione neuro-muscolare per il reclutamento motorio,"
+            " la prevenzione dell’ipotrofia e il recupero della forza"
+            " muscolare."
+        ),
         "text": (
             "L’elettrostimolazione neuromuscolare (NMES) utilizza impulsi"
             " elettrici per attivare la contrazione dei muscoli, aiutando a"
@@ -628,8 +640,7 @@ CREDENTIALS_GLOSSARY = [
         "Master",
         "Master universitario post-laurea",
         "Formazione universitaria avanzata dopo la laurea in fisioterapia: nel"
-        " nostro team in fisioterapia sportiva, linfodrenaggio e biomeccanica"
-        " clinica e sportiva.",
+        " nostro team in linfodrenaggio e in biomeccanica clinica e sportiva.",
     ),
 ]
 
@@ -644,7 +655,7 @@ TEAM_MEMBERS = [
         "name": "Luca Gilardoni",
         "photo": "assets/images/LUCA_GILARDONI.jpg",
         "credentials": ['OMPT', 'CAS SUPSI'],
-        "areas": ['Spalla', 'Ginocchio', 'Collo', 'Corsa in montagna'],
+        "areas": ['Spalla', 'Rachide cervicale', 'ATM'],
         "paragraphs": [
             (
                 "Luca, nato a Sorengo nel 1991 e cresciuto a Valsolda sul lago"
@@ -701,8 +712,8 @@ TEAM_MEMBERS = [
         "slug": "simone-vaccani",
         "name": "Simone Vaccani",
         "photo": "assets/images/SIMONE_VACCANI.jpg",
-        "credentials": ['Maitland', 'Running Injury Specialist', 'Master Fisioterapia Sportiva'],
-        "areas": ['Anca', 'Ginocchio', 'Infortuni da corsa', 'Post-operatorio'],
+        "credentials": ['Maitland', 'Running Injury Specialist', 'Certificate Fisioterapia Sportiva'],
+        "areas": ['Anca', 'Ginocchio', 'Piede e caviglia'],
         "paragraphs": [
             (
                 "Simone, nato a Busto Arsizio (VA) nel 1981, è appassionato di"
@@ -810,7 +821,7 @@ TEAM_MEMBERS = [
         "name": "Federico Monzoni",
         "photo": "assets/images/Federico-Monzoni.jpg",
         "credentials": ['Master Biomeccanica Clinica e Sportiva'],
-        "areas": ['Biomeccanica e analisi del movimento', 'Arto inferiore', 'Infortuni sportivi'],
+        "areas": ['Analisi biomeccanica e riatletizzazione', 'Running specialist', 'Rachide lombare'],
         "paragraphs": [
             (
                 "Federico, nato nelle Marche nel 1999, è da sempre appassionato"
@@ -988,7 +999,7 @@ def page_hero(title: str, lead: str, extra_html: str = "") -> str:
   return f"""    <section class="page-hero">
       <div class="container page-hero-inner fade-in-up">
         {section_title(title, "h1")}
-        <p class="lead">{lead}</p>
+        {f'<p class="lead">{lead}</p>' if lead else ""}
         {extra_html}
       </div>
     </section>"""
@@ -1007,8 +1018,10 @@ def tools_grid(detailed: bool) -> str:
   return f'<div class="{cls}">\n' + "\n".join(cards) + "\n        </div>"
 
 
-def tools_band(detailed: bool, intro: str, cta: str = "") -> str:
-  return f"""    <section class="band band-orange" id="strumenti">
+def tools_band(detailed: bool, intro: str, cta: str = "",
+               color: str = "orange") -> str:
+  """color: "orange", "teal" (white text, orange details) or "rose"."""
+  return f"""    <section class="band band-{color} tools-band" id="strumenti">
       <div class="container">
         <div class="section-head">
           {section_title("Cosa c’è in studio")}
@@ -1241,7 +1254,7 @@ def build_home() -> str:
             <span class="text-navy">IL PUNTO D’INCONTRO<br>TRA SCIENZA, ASCOLTO<br>E MOVIMENTO</span>
           </h1>
           <p class="hero-lead fade-in-up">
-            Fisioterapia e fitness premium nel cuore di Lugano.<br>
+            Fisioterapia e fitness di qualità nel cuore di Lugano.<br>
             Riconosciuti da tutte le casse malati, senza bisogno di prescrizione medica.
           </p>
           <div class="hero-buttons fade-in-left">
@@ -1278,7 +1291,7 @@ def build_home() -> str:
       </div>
     </section>
 
-    <section class="band band-white" id="cosa-trattiamo">
+    <section class="band band-navy" id="cosa-trattiamo">
       <div class="container">
         <div class="section-head">
           {section_title("Come possiamo aiutarti?")}
@@ -1290,13 +1303,13 @@ def build_home() -> str:
       </div>
     </section>
 
-{tools_band(False, "Tecnologie di ultima generazione al servizio dell’esercizio e della terapia manuale.", btn("servizi.html#strumenti", "Gli strumenti spiegati", "outline-light"))}
+{tools_band(False, "Tecnologie di ultima generazione per un percorso riabilitativo avanzato.", btn("servizi.html#strumenti", "Gli strumenti spiegati", "outline-light"), "teal")}
 
     <section class="band band-rose" id="team">
       <div class="container">
         <div class="section-head">
-          {section_title("Esperti in fisioterapia")}
-          <p class="section-intro">Quattro fisioterapisti, formazione universitaria avanzata e un’esperienza costruita nello sport.</p>
+          {section_title("I tuoi esperti")}
+          <p class="section-intro">Quattro fisioterapisti con una formazione universitaria avanzata e un’esperienza costruita nello sport.</p>
         </div>
         <div class="team-grid">
 {team_cards}
@@ -1360,14 +1373,7 @@ def build_hub() -> str:
       </div>
     </section>
 
-{tools_band(True, "Gli strumenti che usiamo ogni giorno, spiegati in breve. Sempre integrati con l’esercizio e la terapia manuale.")}
-
-    <section class="banner banner-rose">
-      <div class="container banner-inner">
-        <h2>Vuoi conoscerci di persona?</h2>
-        <div class="banner-actions">{book_btn("navy")}</div>
-      </div>
-    </section>"""
+{tools_band(True, "Gli strumenti che usiamo ogni giorno, spiegati in breve. Sempre integrati con l’esercizio e la terapia manuale.", color="rose")}"""
 
 
 def build_servizi() -> str:
@@ -1387,7 +1393,7 @@ def build_servizi() -> str:
             {btn(SITE_CONFIG["booking_url"], "Prenota", "teal")}
           </div>
         </article>""")
-  return f"""{page_hero("Servizi", "Fisioterapia, sport, prevenzione e trattamenti manuali, in studio o a casa tua.")}
+  return f"""{page_hero("Servizi", "")}
 
     <section class="band band-white">
       <div class="container detail-list">
@@ -1395,7 +1401,7 @@ def build_servizi() -> str:
       </div>
     </section>
 
-{tools_band(True, "Gli strumenti che usiamo ogni giorno, spiegati in breve. Sempre integrati con l’esercizio e la terapia manuale.")}"""
+{tools_band(True, "Gli strumenti che usiamo ogni giorno, spiegati in breve. Sempre integrati con l’esercizio e la terapia manuale.", color="teal")}"""
 
 
 def build_cosa_trattiamo() -> str:
@@ -1432,14 +1438,15 @@ def build_cosa_trattiamo() -> str:
       </div>
     </section>
 
-    <section class="banner banner-navy">
-      <div class="container banner-inner">
+    <section class="banner banner-navy" id="sala-operatoria">
+      <div class="container banner-inner banner-inner--media">
         <div>
           <p class="banner-kicker">Dentro la sala operatoria</p>
           <h2>Sappiamo cosa succede in sala operatoria.</h2>
-          <p>Per tre anni, alla Dolomiti Sportclinic di Ortisei, Simone ha collaborato con i chirurghi direttamente in sala operatoria, seguendo poi il recupero di atleti di alto livello. Conoscere l’intervento dall’interno ci permette di costruire una riabilitazione coerente con il lavoro del chirurgo.</p>
+          <p>I nostri fisioterapisti vanno spesso in sala operatoria, collaborando con i chirurghi per costruire una riabilitazione coerente con il loro lavoro e accompagnare il paziente con una fisioterapia di qualità.</p>
+          {btn("team.html", "Conosci il team", "outline-light")}
         </div>
-        <div class="banner-actions">{btn("team.html#simone-vaccani", "Conosci Simone", "outline-light")}</div>
+        {photo(STUDIO_PHOTOS['sala_operatoria'], "I fisioterapisti di FisioHub in sala operatoria", "Foto in sala operatoria", "banner-photo")}
       </div>
     </section>
 
@@ -1474,7 +1481,7 @@ def build_team() -> str:
           <div class="bio-text">
             <h2><span class="accent-arrow">→</span> {m['name']}</h2>
             {chips(m['credentials'])}
-            <p class="bio-areas"><strong>Aree di riferimento:</strong> {", ".join(m['areas'])}</p>
+            <p class="bio-areas"><strong>Aree di riferimento:</strong> {" · ".join(m['areas'])}</p>
 {paragraphs(first)}
             <details class="bio-more">
               <summary>Leggi tutta la biografia</summary>
@@ -1519,7 +1526,7 @@ def build_team() -> str:
       </div>
     </section>
 
-    <section class="banner banner-orange" id="formazione">
+    <section class="banner banner-rose" id="formazione">
       <div class="container">
         <h2 class="banner-title">Formazione, insegnamento e sport</h2>
         <div class="banner-cols">
@@ -1562,7 +1569,7 @@ def build_contatti() -> str:
 
 
 def build_insta() -> str:
-  return f"""{page_hero("Insta", "Seguici su Instagram per consigli, esercizi e la vita in studio.")}
+  return f"""{page_hero("Social", "Seguici su Instagram per sbirciare la vita in studio e trovare consigli per la tua riabilitazione.")}
 
     <section class="band band-white">
       <div class="container">
@@ -1576,7 +1583,7 @@ def build_all() -> None:
   pages = [
       ("index.html", "Home",
        "FisioHub Lugano: il punto d’incontro tra scienza, ascolto e movimento."
-       " Fisioterapia e fitness premium nel cuore di Lugano.",
+       " Fisioterapia e fitness di qualità nel cuore di Lugano.",
        "theme-home", "FisioHub_blu.svg", build_home(), ""),
       ("hub.html", "Hub",
        "Lo studio FisioHub a Lugano: il nostro approccio e gli strumenti che"
@@ -1595,8 +1602,8 @@ def build_all() -> None:
        "Il team di FisioHub Lugano: Luca Gilardoni, Simone Vaccani, Carola"
        " Isella e Federico Monzoni.",
        "theme-team", "FisioHub_BLuw.svg", build_team(), "Il team"),
-      ("insta.html", "Insta", "Segui FisioHub Lugano su Instagram.",
-       "theme-insta", "FisioHub.svg", build_insta(), "Insta"),
+      ("insta.html", "Social", "Segui FisioHub Lugano su Instagram.",
+       "theme-insta", "FisioHub.svg", build_insta(), "Social"),
       ("contatti.html", "Contatti",
        "Contatti e indirizzo di FisioHub SA, Via Carlo Maderno 26, 6900"
        " Lugano. WhatsApp, telefono ed email.",

@@ -97,7 +97,7 @@ body.theme-servizi {
 }
 
 body.theme-trattiamo {
-  --hero-image: url("../assets/images/TERAPIA-1-scaled.jpg");
+  --hero-image: url("../assets/images/cosa-trattiamo-hero.jpg");
   --hero-color: var(--color-orange-bg);
   --nav-hover-color: var(--color-teal);
   --nav-arrow-color: var(--color-teal);
@@ -442,7 +442,7 @@ body.is-scrolled .nav-list li::before { color: var(--color-rose); }
 
 .band-white { background: var(--color-white); color: var(--color-navy); }
 .band-cream { background: var(--color-cream); color: var(--color-navy); }
-.band-navy  { background: var(--color-navy); color: var(--color-white); }
+.band-navy  { background: var(--color-navy); color: var(--color-white); --accent-color: var(--color-rose); }
 .band-teal  { background: var(--color-teal); color: var(--color-white); --accent-color: var(--color-amber); }
 .band-orange { background: var(--color-orange-bg); color: var(--color-white); --accent-color: var(--color-navy); }
 .band-rose  { background: var(--color-rose); color: var(--color-navy); --accent-color: var(--color-white); }
@@ -557,7 +557,8 @@ body.is-scrolled .nav-list li::before { color: var(--color-rose); }
 .btn-action.btn-rose {
   background-color: var(--color-rose);
   color: var(--color-navy);
-  padding: 1.22222rem 0.55556rem 0.55556rem 3.61111rem;
+  padding: 0.8rem 1.8rem 0.7rem;
+  border-radius: 999px;
 }
 
 .btn-action.btn-rose:hover {
@@ -654,7 +655,7 @@ body.is-scrolled .nav-list li::before { color: var(--color-rose); }
   gap: 0.66667rem;
 }
 
-.hero-buttons .btn-action { min-width: 19rem; text-align: right; }
+.hero-buttons .btn-action { min-width: 19rem; text-align: center; }
 
 /* --------------------------------------------------------------------------
    8. Inner-page Hero
@@ -737,6 +738,14 @@ body.theme-team .page-hero .accent-arrow { color: var(--color-navy); }
 .tile:hover { background: var(--color-rose-light); }
 .tile:hover .tile-arrow { transform: translateX(6px); }
 
+.band-navy .tile-grid {
+  background: rgba(255, 255, 255, 0.25);
+  border-color: rgba(255, 255, 255, 0.25);
+}
+.band-navy .tile { background: var(--color-navy); color: var(--color-white); }
+.band-navy .tile p { opacity: 0.9; }
+.band-navy .tile:hover { background: var(--color-navy-deep); }
+
 /* --------------------------------------------------------------------------
    11. Tools ("Cosa c'è in studio")
    -------------------------------------------------------------------------- */
@@ -764,6 +773,12 @@ body.theme-team .page-hero .accent-arrow { color: var(--color-navy); }
 .tool-card p { font-size: 0.83333rem; margin: 0; }
 
 .tool-grid--detailed { grid-template-columns: repeat(2, 1fr); gap: 2.5rem 4rem; }
+
+/* Green version (homepage + servizi): white text, orange details */
+.band-teal .tool-card .card-num { color: var(--color-amber); opacity: 1; }
+/* Pink version (HUB page): blue text, white details */
+.band-rose .tool-card { border-top-color: var(--color-white); }
+.band-rose .tool-card .card-num { color: var(--color-white); opacity: 1; }
 .tool-grid--detailed .tool-card p { font-size: 0.88889rem; }
 
 /* --------------------------------------------------------------------------
@@ -892,6 +907,9 @@ body.theme-trattiamo .detail-side h3 { color: var(--color-orange-bg); }
 }
 
 .banner-inner p:last-child { margin-bottom: 0; }
+.banner-inner--media { grid-template-columns: 1.4fr 1fr; gap: 4rem; }
+.banner-inner--media .btn { margin-top: 1.5rem; }
+.banner-photo { aspect-ratio: 4 / 3; }
 .banner h2, .banner-title { font-size: 2.5rem; line-height: 1.1; text-transform: uppercase; margin-bottom: 1rem; }
 .banner p { font-size: 1rem; line-height: 1.5; max-width: 42rem; }
 .banner-kicker { font-size: 0.77778rem !important; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.6rem !important; opacity: 0.85; }
@@ -949,6 +967,11 @@ body.theme-trattiamo .detail-side h3 { color: var(--color-orange-bg); }
 .footer-col a:hover { opacity: 0.7; }
 .footer-cta { display: flex; justify-content: flex-end; padding-right: 4.5rem; }
 .footer-cta .btn { margin: 0; }
+
+body.theme-servizi .footer-col p { color: var(--color-teal); }
+body.theme-servizi .footer-brand { color: var(--color-amber); }
+body.theme-servizi .footer-cta .btn-navy { background: var(--color-teal); color: var(--color-white); }
+body.theme-servizi .footer-cta .btn-navy:hover { background: var(--color-white); color: var(--color-teal); border-color: var(--color-teal); }
 
 .wa-float {
   position: fixed;
