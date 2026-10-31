@@ -37,7 +37,7 @@ UI = {
     "book_short": "Book",
     "phone_label": "Phone",
     "map_title": "FisioHub Lugano map",
-    "tools_title": "What’s in the studio",
+    "tools_title": "What our studio offers",
     "tools_intro_short": (
         "State-of-the-art technology for an advanced rehabilitation"
         " journey."

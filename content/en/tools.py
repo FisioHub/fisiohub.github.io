@@ -1,4 +1,4 @@
-"""Equipment: "What’s in the studio" on homepage, HUB page and servizi.html (English)."""
+"""Equipment: "What our studio offers" on homepage, HUB page and servizi.html (English)."""
 
 TOOLS = [
     {

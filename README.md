@@ -13,7 +13,7 @@ This is a clean, dependency-free static reproduction of [fisiohub.ch](https://fi
 ```text
 fisiohub-web/
 ├── index.html            # Homepage: hero + Hub, Servizi, Come possiamo aiutarti,
-│                         #   Cosa c'è in studio, Esperti in fisioterapia, Dove siamo
+│                         #   Cosa offre il nostro studio, Esperti in fisioterapia, Dove siamo
 ├── hub.html              # Lo studio (+ foto), il nostro approccio, strumenti spiegati
 ├── servizi.html          # I 5 servizi spiegati + strumenti spiegati
 ├── cosa-trattiamo.html   # 8 casi + banner "Ti hanno operato?" / "Dentro la sala operatoria"

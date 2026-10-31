@@ -1,4 +1,4 @@
-"""Equipment: "Cosa c'è in studio" on homepage, HUB page and servizi.html (Italian)."""
+"""Equipment: "Cosa offre il nostro studio" on homepage, HUB page and servizi.html (Italian)."""
 
 TOOLS = [
     {

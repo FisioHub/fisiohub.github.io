@@ -37,7 +37,7 @@ UI = {
     "book_short": "Prenota",
     "phone_label": "Telefono",
     "map_title": "Mappa FisioHub Lugano",
-    "tools_title": "Cosa c’è in studio",
+    "tools_title": "Cosa offre il nostro studio",
     "tools_intro_short": (
         "Tecnologie di ultima generazione per un percorso riabilitativo"
         " avanzato."
