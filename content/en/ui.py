@@ -58,8 +58,7 @@ UI = {
     "home_hero_title": "THE MEETING POINT<br>BETWEEN SCIENCE, LISTENING<br>AND MOVEMENT",
     "home_hero_lead": (
         "Quality physiotherapy and fitness in the heart of Lugano.<br>\n"
-        "            Recognised by all health insurers, no doctor’s referral"
-        " needed."
+        "            Recognised by all health insurers."
     ),
     "home_btn_book": "BOOK AN APPOINTMENT",
     "home_btn_approach": "DISCOVER OUR APPROACH",

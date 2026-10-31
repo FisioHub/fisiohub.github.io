@@ -58,8 +58,7 @@ UI = {
     "home_hero_title": "IL PUNTO D’INCONTRO<br>TRA SCIENZA, ASCOLTO<br>E MOVIMENTO",
     "home_hero_lead": (
         "Fisioterapia e fitness di qualità nel cuore di Lugano.<br>\n"
-        "            Riconosciuti da tutte le casse malati, senza bisogno di"
-        " prescrizione medica."
+        "            Riconosciuti da tutte le casse malati."
     ),
     "home_btn_book": "PRENOTA APPUNTAMENTO",
     "home_btn_approach": "SCOPRI IL NOSTRO APPROCCIO",
