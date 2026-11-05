@@ -43,7 +43,9 @@ CREDENTIALS_GLOSSARY = [
         "Master",
         "Master universitario post-laurea",
         "Formazione universitaria avanzata dopo la laurea in fisioterapia: nel"
-        " nostro team in linfodrenaggio e in biomeccanica clinica e sportiva.",
+        " nostro team i fisioterapisti hanno master in ambito"
+        " muscolo-scheletrico, in linfodrenaggio e in biomeccanica clinica e"
+        " sportiva.",
     ),
 ]
 
@@ -52,7 +54,7 @@ TEAM_MEMBERS = [
         "slug": "luca-gilardoni",
         "name": "Luca Gilardoni",
         "photo": "assets/images/LUCA_GILARDONI.jpg",
-        "credentials": ['OMPT', 'CAS SUPSI'],
+        "credentials": ['Master OMPT', 'CAS Muscolo-scheletrico'],
         "areas": ['Spalla', 'Rachide cervicale', 'ATM'],
         "paragraphs": [
             (

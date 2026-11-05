@@ -42,8 +42,10 @@ CREDENTIALS_GLOSSARY = [
     (
         "Master",
         "Postgraduate university master’s degree",
-        "Advanced university training after a physiotherapy degree: in our team, in"
-        " lymphatic drainage and in clinical and sports biomechanics.",
+        "Advanced university training after a physiotherapy degree: our"
+        " physiotherapists hold master’s degrees in musculoskeletal"
+        " physiotherapy, lymphatic drainage, and clinical and sports"
+        " biomechanics.",
     ),
 ]
 
@@ -52,7 +54,7 @@ TEAM_MEMBERS = [
         "slug": "luca-gilardoni",
         "name": "Luca Gilardoni",
         "photo": "assets/images/LUCA_GILARDONI.jpg",
-        "credentials": ['OMPT', 'CAS SUPSI'],
+        "credentials": ['Master OMPT', 'CAS Musculoskeletal'],
         "areas": ['Shoulder', 'Cervical spine', 'TMJ'],
         "paragraphs": [
             (
