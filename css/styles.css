@@ -601,6 +601,7 @@ body.is-scrolled .nav-list li::before { color: var(--color-rose); }
 .btn {
   padding: 0.85rem 1.3rem 0.75rem;
   border: 1px solid transparent;
+  border-radius: 999px;
   margin-top: 0.5rem;
 }
 
